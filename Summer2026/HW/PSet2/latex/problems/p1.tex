@@ -1,0 +1,52 @@
+\section{Halfspace}
+
+% We want to describe the set
+% \[
+%     \{x \mid \|x-a\| \leq \|x-b\|\}
+% \]
+% as a halfspace. Since both sides are nonnegative, we can square the
+% inequality without changing it:
+\begin{align*}
+    \|x-a\|^2 &\leq \|x-b\|^2 \\
+    (x-a)^T(x-a) &\leq (x-b)^T(x-b) \\
+    x^T x - 2a^T x + a^T a
+        &\leq x^T x - 2b^T x + b^T b
+\end{align*}
+
+Canceling \(x^T x\) and rearranging gives
+\begin{align*}
+    2(b-a)^T x &\leq b^T b - a^T a \\
+    (b-a)^T x &\leq \frac{\|b\|^2-\|a\|^2}{2}
+\end{align*}
+
+So $c = b-a$ and $d = \frac{\|b\|^2-\|a\|^2}{2}$.
+% If \(a=b\), then the original set is all of \(\mathbf{R}^n\), and the
+% same formula gives \(c=0\), \(d=0\).
+The boundary hyperplane is perpendicular to the segment from \(a\) to \(b\) and passes through $m = \frac{a+b}{2}$.
+
+The halfspace \(c^T x \leq d\) is the left side containing \(a\)
+
+\[
+\setlength{\unitlength}{1mm}
+\begin{picture}(90,45)
+    \put(10,8){\vector(1,0){72}}
+    \put(10,8){\vector(0,1){32}}
+
+    \put(28,20){\circle*{2.4}}
+    \put(25,14){\(a\)}
+
+    \put(64,20){\circle*{2.4}}
+    \put(62,14){\(b\)}
+
+    \put(46,20){\circle*{2.0}}
+    \put(43,14){\(m\)}
+
+    \put(46,5){\line(0,1){34}}
+    \put(49,35){\(c^T x=d\)}
+
+    \put(28,20){\vector(1,0){36}}
+    % \put(44,23){\(c=b-a\)}
+
+    \put(16,34){\(\{x\mid c^T x\le d\}\)}
+\end{picture}
+\]

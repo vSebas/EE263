@@ -1,0 +1,87 @@
+\section{Proof of Cauchy-Schwarz Inequality}
+
+\textbf{(a)}
+
+We need to check that its minimum value is also nonnegative.
+The quadratic is minimized at
+\[
+    \lambda^\star = -\frac{b}{c}
+\]
+Substituting gives
+\[
+    a + 2b\left(-\frac{b}{c}\right)
+        + c\left(-\frac{b}{c}\right)^2
+    =
+    a - \frac{b^2}{c} \geq 0 \quad \implies b^2 \leq ac \quad \implies |b| \leq \sqrt{ac}
+\]
+
+\textbf{(b)}
+
+%For any \(v,w \in \mathbf{R}^n\) and any \(\lambda \in \mathbf{R}\), the
+%vector \(v+\lambda w\) is in \(\mathbf{R}^n\).
+The inner product of any vector with itself is the sum of the squares of its entries, so it is
+always nonnegative:
+\[
+    (v+\lambda w)^T(v+\lambda w)
+    =
+    \|v+\lambda w\|^2
+    \geq 0
+\]
+
+\textbf{(c)}
+\begin{align*}
+    (v+\lambda w)^T(v+\lambda w)
+    &=
+    v^T v + 2(v^T w)\lambda + (w^T w)\lambda^2
+\end{align*}
+
+This has the same form as part (a), with
+\[
+    a = v^T v,
+    \qquad
+    b = v^T w,
+    \qquad
+    c = w^T w
+\]
+
+So
+\[
+    |v^T w|
+    \leq
+    \sqrt{(v^T v)(w^T w)}
+    =
+    \sqrt{v^T v}\sqrt{w^T w}
+\]
+
+\textbf{(d)}
+
+Equality holds iff \(v\) and \(w\) are linearly dependent
+
+For example, with $v = [1 \quad 0]^\top$ and $v = [2 \quad 0]^\top$:
+\begin{align*}
+    |v^T w|
+    &=
+    \sqrt{v^T v}\sqrt{w^T w} \\
+    2 &= 1 \cdot 2 = 2
+\end{align*}
+
+% To see this, if \(w \neq 0\), equality in part (a) means the quadratic
+% \[
+%     \|v+\lambda w\|^2
+% \]
+% has minimum value zero. Hence there is some \(\lambda\) such that
+% \[
+%     v+\lambda w = 0,
+% \]
+% so \(v\) is a scalar multiple of \(w\). Conversely, if \(v=\alpha w\),
+% then
+% \[
+%     |v^T w|
+%     =
+%     |\alpha|\, w^T w
+%     =
+%     \sqrt{\alpha^2 w^T w}\sqrt{w^T w}
+%     =
+%     \sqrt{v^T v}\sqrt{w^T w},
+% \]
+% so equality holds.

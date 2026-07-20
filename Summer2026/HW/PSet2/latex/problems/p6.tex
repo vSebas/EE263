@@ -1,0 +1,131 @@
+\section{Some True/False Questions}
+
+\textbf{(a) False.}
+Let
+\[
+    A =
+    \begin{bmatrix}1&0\\0&1\end{bmatrix},
+    \qquad
+    B =
+    \begin{bmatrix}0&1\\1&0\end{bmatrix}.
+\]
+Both have nonnegative entries and both are onto, but
+\[
+    A+B =
+    \begin{bmatrix}1&1\\1&1\end{bmatrix}
+\]
+has rank one, so it is not onto.
+
+\textbf{(b) True.}
+If
+\[
+    Ax=0,\qquad (A+B)x=0,\qquad (A+B+C)x=0,
+\]
+then \(Bx=0\) follows from the first two equations, and \(Cx=0\)
+follows from all three. Thus \(x\in\operatorname{null}(A)\cap
+\operatorname{null}(B)\cap\operatorname{null}(C)\).% The reverse
+%containment is immediate.
+
+\textbf{(c) False.}
+As a counterexample, taake \(A=0\), \(B=1\), and \(C=1\). Then
+\[
+    \operatorname{null}
+    \left(
+    \begin{bmatrix}
+        A\\ AB\\ ABC
+    \end{bmatrix}
+    \right)
+    =
+    \mathbf{R},
+\]
+but
+\[
+    \operatorname{null}(A)\cap\operatorname{null}(B)\cap
+    \operatorname{null}(C)
+    =
+    \{0\}.
+\]
+
+\textbf{(d) True.}
+For any \(x\),
+\[
+    x^T(B^T A^T A B+B^T B)x
+    =
+    \|ABx\|^2+\|Bx\|^2.
+\]
+This is zero if and only if \(Bx=0\). Hence the nullspace is
+\(\operatorname{null}(B)\).
+
+\textbf{(e) True.}
+The rank of a block diagonal matrix is the sum of the ranks of its
+diagonal blocks:
+\[
+    \operatorname{rank}
+    \begin{bmatrix}
+        A&0\\0&B
+    \end{bmatrix}
+    =
+    \operatorname{rank}(A)+\operatorname{rank}(B).
+\]
+If the block diagonal matrix is full rank, then neither diagonal block
+can be rank deficient. Therefore both \(A\) and \(B\) are full rank.
+
+\textbf{(f) True.}
+The matrix \(\begin{bmatrix} A&0\end{bmatrix}\) has the same column space
+as \(A\). If \(\begin{bmatrix} A&0\end{bmatrix}\) is onto, then \(A\) is
+onto, so \(A\) is full rank.
+
+\textbf{(g) True.}
+Since \(A^2\) is defined, \(A\) is square. If \(A^2\) is onto, then for
+every \(y\) there is some \(x\) such that
+\[
+    A^2x = y.
+\]
+Let \(z=Ax\). Then
+\[
+    Az = y.
+\]
+So every \(y\) is in the range of \(A\), which means \(A\) is onto.
+
+\textbf{(h) False.}
+Let
+\[
+    A =
+    \begin{bmatrix}
+        1\\0
+    \end{bmatrix}.
+\]
+Then \(A^T A = [1]\), which is onto as a map \(\mathbf{R}\to\mathbf{R}\).
+But \(A:\mathbf{R}\to\mathbf{R}^2\) is not onto.
+
+\textbf{(i) True.}
+Suppose \(\alpha_i\geq 0\) and
+\[
+    \sum_{i=1}^k \alpha_i u_i=0.
+\]
+Then
+\[
+    0 =
+    \left\|\sum_{i=1}^k \alpha_i u_i\right\|^2
+    =
+    \sum_{i=1}^k\sum_{j=1}^k
+    \alpha_i\alpha_j u_i^T u_j.
+\]
+Every term is nonnegative, and the diagonal terms are
+\(\alpha_i^2\|u_i\|^2\). Since each \(u_i\neq 0\), all \(\alpha_i\) must
+be zero.
+
+\textbf{(j) True.}
+If
+\[
+    Ax+By=0,
+\]
+then \(Ax=-By\). The vector \(Ax\) lies in the column space of \(A\), and
+\(By\) lies in the column space of \(B\). Since \(A^T B=0\), these two
+column spaces are orthogonal. Hence
+\[
+    0=\|Ax+By\|^2=\|Ax\|^2+\|By\|^2,
+\]
+so \(Ax=0\) and \(By=0\). Because \(A\) and \(B\) are skinny and full
+rank, \(x=0\) and \(y=0\). Therefore \([A\ B]\) has independent columns,
+so it is skinny and full rank.

@@ -1,0 +1,579 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.18in]{geometry}
+\usepackage{multicol,amsmath,amssymb,mathtools,enumitem,booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.25pt}
+\setlength{\columnsep}{0.12in}
+\setlist[itemize]{leftmargin=*,nosep,topsep=0pt}
+\setlist[enumerate]{leftmargin=*,nosep,topsep=0pt}
+\newcommand{\sect}[1]{\vspace{0.9pt}{\fontsize{7.2}{7.5}\selectfont\textbf{#1}}\vspace{0.25pt}\hrule\vspace{0.8pt}}
+\newcommand{\sub}[1]{\textbf{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\range}{\operatorname{range}}
+\newcommand{\nullsp}{\operatorname{null}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\one}{\mathbf{1}}
+\begin{document}
+\fontsize{6.35}{6.75}\selectfont
+\begin{multicols*}{3}
+
+\sect{Core Notation / Linear Maps}
+\sub{Linear map:} $f:\R^n\to\R^m$ linear iff $f(u+v)=f(u)+f(v)$ and $f(\alpha u)=\alpha f(u)$; equivalently $f(\alpha u+\beta v)=\alpha f(u)+\beta f(v)$. Necessary quick check: \(f(0)=0\). Every linear map is uniquely $f(x)=Ax$ with columns $Ae_i=f(e_i)$. Matrix entries: $A_{ij}$ is gain from input $j$ to output $i$; row $i$ controls output $i$, column $j$ is effect of input $j$.
+
+\sub{Affine map:} $f(\alpha u+\beta v)=\alpha f(u)+\beta f(v)$ for $\alpha+\beta=1$ iff $f(x)=Ax+b$. Let $g(x)=f(x)-f(0)$; then $g$ is linear and $b=f(0)$.
+
+\sub{Linearization:} for differentiable $f:\R^n\to\R^m$ near $x_0$,
+\[
+f(x_0+\delta x)\approx f(x_0)+Df(x_0)\delta x,\quad
+Df_{ij}=\frac{\partial f_i}{\partial x_j}(x_0).
+\]
+Deviations obey $\delta y\approx Df(x_0)\delta x$.
+
+\sub{Gradients:} first order Taylor $f(z)\approx f(x)+\nabla f(x)^T(z-x)$. $\nabla(a^Tx+b)=a$. $\nabla(x^TAx)=(A+A^T)x$; if $A=A^T$, $2Ax$.
+
+\sect{Engineering Linear Models}
+\sub{Elastic structure:} $y=Cx$, $x_j$ force at node/direction $j$, $y_i$ deflection $i$; $C_{ij}$ compliance in m/N. Column $j$ is displacement pattern due to unit force $j$.
+
+\sub{Static circuits:} $y=Ax$ for independent source values $x$ and circuit variables $y$; if $x$ currents and $y$ voltages, $A$ is impedance/resistance matrix. Dependent sources can still yield a linear map.
+
+\sub{Mass with forces:} unit mass, piecewise constant forces. Final velocity is integral of force; final position weights earlier forces more because they act longer. Force constraints plus desired final state $\Rightarrow$ linear equations/inequalities in force vector.
+
+\sub{Thermal system:} $y=Ax$, $x_j$ heater powers, $y_i$ steady-state temperature changes. $A_{ij}$ is degrees C per watt from heater $j$ to location $i$; row = heater effects at one location, column = spatial heating pattern.
+
+\sect{Interpretations}
+
+\sub{Composition/product view:} \(AB\) means applying \(B\) first, then
+\(A\). Column \(j\) of \(AB\) is \(A\) times column \(j\) of \(B\);
+row \(i\) of \(AB\) is row \(i\) of \(A\) acting on \(B\). Entries of
+\(AB\) are inner products of rows of \(A\) with columns of \(B\).
+
+\sub{Mixture of columns:} write \(A=[a_1\ a_2\ \cdots\ a_n]\). Then
+\[
+    Ax=x_1a_1+x_2a_2+\cdots+x_na_n.
+\]
+Thus \(y=Ax\) is a mixture of the columns of \(A\), with mixture
+coefficients \(x_j\). In control/design, column \(a_j\) is the response
+to unit input \(j\), and \(x_j\) says how much of that actuator/response
+is used.
+
+\sub{Inner product with rows:} write the rows of \(A\) as
+\(
+    A= \left[
+    \begin{matrix}
+        \tilde a_1^T \quad
+        \dots \quad
+        \tilde a_m^T
+    \end{matrix}
+    \right]^T
+\). Then
+\(
+    y_i=\tilde a_i^Tx,\qquad i=1,\ldots,m.
+\)
+
+Each output is an inner product of \(x\) with one row of \(A\). In
+estimation, row \(i\) is sensor \(i\)'s sensitivity pattern; the
+measurement is large when \(x\) aligns with that row.
+
+\sub{Useful identities:} $(AB)^T=B^TA^T$, $(A^{-1})^T=(A^T)^{-1}$, $(A^TA)^T=A^TA$, $\tr(AB)=\tr(BA)$ when products make sense, $\diag(x)u=x\odot u$.
+
+\sub{Block/structured matrices:} diagonal: outputs depend only on matching inputs. Lower triangular: output $i$ depends only on inputs $1,\ldots,i$. Permutations: $W=VP$ permutes columns of $V$; $W=PV$ permutes rows.
+
+\sub{Permutation matrices:} each row/column has one $1$. $P^{-1}=P^T$. They preserve norms, rank, independence, and orthogonality. Use them to reorder variables/columns without changing the underlying subspace.
+
+\sub{Interpretations of \(Ax=y\):} estimation/inversion: $y$ measurements, $x$ unknown parameters, rows are sensors. Control/design: $x$ inputs, $y$ outcomes, columns are actuators/responses. Mapping/encoding: $A$ transforms $x$ to code/output $y$; decoding asks whether preimage is unique.
+
+\sect{Linear Algebra Review}
+\sub{Norms:} $\|x\|\ge0$, equality iff $x=0$; $\|\alpha x\|=|\alpha|\|x\|$; $\|u+v\|\le\|u\|+\|v\|$. Common norms: \(\|x\|_2=(x^Tx)^{1/2}\), \(\|x\|_1=\sum_i|x_i|\), \(\|x\|_p=(\sum_i |x_i|^p)^{1/p}\), \(\|x\|_\infty=\max_i|x_i|\).
+
+\sub{Unit balls / losses:} unit ball \(B=\{x\mid \|x\|\le1\}\). In
+\(\R^2\), \(\ell_1\) ball is a diamond, \(\ell_2\) is round,
+\(\ell_\infty\) is a square. Least-squares/MSE uses \(\ell_2^2\);
+least-absolute-error uses \(\ell_1\). Ridge uses \(\ell_2^2\)
+regularization; lasso uses \(\ell_1\), whose corners tend to give sparse
+solutions.
+
+\sub{Inner product:} standard $\langle u,v\rangle=u^Tv$; weighted $\langle u,v\rangle_W=u^TWv$ for $W=W^T\succ0$. Properties: symmetry \(\langle u,v\rangle=\langle v,u\rangle\); linearity \(\langle \alpha u+\beta z,v\rangle=\alpha\langle u,v\rangle+\beta\langle z,v\rangle\); positive definite \(\langle u,u\rangle\ge0\), equality iff \(u=0\). Induced norm $\|u\|=\sqrt{\langle u,u\rangle}$. Orthogonal iff $u^Tv=0$. Pythagoras: if $u^Tv=0$, then $\|u+v\|^2=\|u\|^2+\|v\|^2$.
+
+\sub{Cauchy-Schwarz / angles:} \( |u^Tv|\le\|u\|_2\|v\|_2 \), equality iff \(u,v\) linearly dependent. \(\cos\theta=u^Tv/(\|u\|\|v\|)\). Inner products give norms and angles; not every norm comes from an inner product (e.g. \(\ell_1\)). For unit-norm embeddings, cosine similarity is \(u^Tv\).
+
+\sub{Linear functionals / hyperplanes:} a linear functional \(f:\R^n\to\R\) has form \(f(x)=c^Tx\). Hyperplane \(H=\{x\mid c^Tx=d\}\) has normal \(c\) and dimension \(n-1\) if \(c\ne0\). If \(d=0\), it passes through the origin; same normal \(\Rightarrow\) parallel. Linear classifier: \(\operatorname{sign}(c^Tx-d)\); normal points toward positive side.
+
+\sub{Halfspaces / closeness:} a halfspace is one side of a hyperplane:
+\(H_-=\{x\mid c^Tx\le d\}\), \(H_+=\{x\mid c^Tx\ge d\}\); the boundary is included in both closed halfspaces. Points closer to \(a\) than \(b\): \(\|x-a\|\le\|x-b\|\iff (b-a)^Tx\le(\|b\|^2-\|a\|^2)/2\). Boundary is perpendicular bisector through $(a+b)/2$. Angle view:
+\(c^Tx<0\) means obtuse \((90^\circ<\theta\le180^\circ)\),
+\(c^Tx=0\) means right \((\theta=90^\circ)\), and
+\(c^Tx>0\) means acute \((0^\circ\le\theta<90^\circ)\).
+
+\sub{Subspaces / spans:} \(S\subseteq\R^n\) is a subspace iff \(0\in S\)
+and \(\alpha u+\beta v\in S\) for all \(u,v\in S\). Examples:
+\(\R^n\), \(\{0\}\), and \(\operatorname{span}(v_1,\ldots,v_k)\).
+\(\operatorname{span}(v_1,\ldots,v_k)=\{\alpha_1v_1+\cdots+\alpha_kv_k\}\).
+Sum \(U+V=\{u+v\mid u\in U,\ v\in V\}\) is a subspace. Orthogonal
+subspaces: \(u^Tv=0\) for every \(u\in U,v\in V\). Orthogonal complement
+\(S^\perp=\{x\mid x^Ts=0\ \forall s\in S\}\).
+
+\sub{Independence:} \(v_1,\ldots,v_k\) independent iff
+\(\sum_i\alpha_i v_i=0\Rightarrow \alpha_i=0\) for all \(i\);
+equivalently no \(v_i\) lies in the span of the others.
+
+\sub{Basis:} a basis is a nonredundant set of directions that generates
+the whole subspace: \(v_1,\ldots,v_d\) is a basis of \(S\) iff it spans
+\(S\) and is independent. Every \(x\in S\) has a unique expansion
+\(x=\sum_i\alpha_i v_i\); the coefficients \(\alpha_i\) are its
+coordinates in that basis. Bases are not unique; coordinates depend on
+the chosen basis. Standard basis of \(\R^n\): \(e_1,\ldots,e_n\). If
+\(\dim S=d\), then \(d\) independent vectors in \(S\) form a basis; \(d\)
+spanning vectors are automatically independent.
+
+\sub{Dimension:} \(\dim S=\#\) vectors in any basis. In a
+\(d\)-dimensional subspace, independent sets have at most \(d\) vectors
+and spanning sets have at least \(d\).
+
+\sub{Invertibility:} square \(A\) invertible iff columns are independent
+iff columns form a basis of \(\R^n\) iff \(Ax=b\) has a unique solution
+for every \(b\). \(A^{-1}\) undoes \(A\): \(A^{-1}Ax=x\) and
+\(AA^{-1}w=w\). Proof snippets: if \(A\) invertible and \(Ac=0\), then
+\(c=A^{-1}0=0\), so columns are independent. Conversely, if square
+\(A\)'s columns are independent, they form a basis of \(\R^n\); solve
+\(Ax=e_i\) for each \(i\), stack solutions as \(B\), then \(AB=I\).
+
+\sub{Change of coordinates / basis change:} standard basis vectors are
+\(e_1,\ldots,e_n\), and \(x=\sum_i x_i e_i\); the \(x_i\)'s are the
+coordinates of \(x\) in the standard basis. If \(B=[b_1\cdots b_n]\) is
+another basis, \(x=Bz=\sum_i z_i b_i\), and \(z=B^{-1}x\) are the
+coordinates of \(x\) in the basis \(B\). \(B\) maps \(B\)-coordinates
+to standard coordinates; \(B^{-1}\) maps standard coordinates to
+\(B\)-coordinates.
+
+\sub{Similarity transformation:} for linear transformation \(y=Ax\), if
+\(x=B\tilde x\) and \(y=B\tilde y\), then
+\(\tilde y=B^{-1}AB\tilde x\). \(B^{-1}AB\) expresses the same linear
+transformation in \(B\)-coordinates.
+
+\sub{Optimization geometry:} minimizing distance to a subspace gives residual orthogonal to the subspace. If $z$ is closest point to $x$ in $V$, then $(x-z)^Tv=0$ for all $v\in V$.
+
+\sect{Range and Nullspace}
+\sub{Nullspace:} for \(A\in\R^{m\times n}\) with rows
+\(r_i^T\), \(\nullsp(A)=\{x\in\R^n\mid Ax=0\}
+=\{x\mid r_i^Tx=0,\ i=1,\ldots,m\}\). Thus \(\nullsp(A)\) is orthogonal
+to every row. It is a set of directions/perturbations mapped to zero;
+also called the kernel.
+
+\sub{Ambiguity from nullspace:} if \(y=Ax\) is a
+measurement of \(x\), then \(z\in\nullsp(A)\) is undetectable from the
+sensors: \(A(x+z)=Ax=y\). Thus \(x\) and \(x+z\) are indistinguishable
+from the measurement \(y\); \(\nullsp(A)\) characterizes ambiguity in
+\(x\) given \(y\). Control version: \(z\in\nullsp(A)\) is an input with
+no result, so it gives freedom among inputs with the same output.
+
+\sub{Zero nullspace / one-to-one / left inverse:} for
+\(A\in\R^{m\times n}\), these are equivalent:
+\(\nullsp(A)=\{0\}\); \(A\) is one-to-one; columns are independent;
+there exists \(L\in\R^{n\times m}\) with \(LA=I_n\). Meaning: no
+nonzero input is crushed to zero, so the map loses no information. 
+
+Proof of one-to-one: \(Ax_1=Ax_2\Rightarrow
+A(x_1-x_2)=0\Rightarrow x_1=x_2\); converse:
+\(Az=0=A0\Rightarrow z=0\).
+
+Proof of left inverse: if
+\(\nullsp(A)=\{0\}\), then \(A^TA\in\R^{n\times n}\) is invertible since
+\(A^TAc=0\Rightarrow c^TA^TAc=\|Ac\|^2=0\Rightarrow Ac=0\Rightarrow c=0\).
+Thus \(L=(A^TA)^{-1}A^T\). Converse: \(LA=I,\ Ax=0\Rightarrow x=LAx=0\).
+
+Also \(\nullsp(A^TA)=\nullsp(A)\): if \(c\in\nullsp(A)\), then
+\(Ac=0\Rightarrow A^TAc=0\), so \(c\in\nullsp(A^TA)\); if
+\(c\in\nullsp(A^TA)\), then \(A^TAc=0\Rightarrow
+\|Ac\|^2=0\Rightarrow Ac=0\), so \(c\in\nullsp(A)\). Left inverses need
+not be unique unless \(A\) is square invertible.
+
+\sub{Range / consistency:} for \(A=[a_1\cdots a_n]\),
+\(\range(A)=\{Ax\mid x\in\R^n\}=\operatorname{span}(a_1,\ldots,a_n)
+\subseteq\R^m\). It is the set of vectors hit by the map \(x\mapsto Ax\).
+\(b\in\range(A)\iff Ax=b\) is solvable. Estimation: possible/consistent
+sensor signals; \(b\notin\range(A)\) suggests sensor failure or model
+mismatch. Control/design: possible results or achievable outputs.
+
+\sub{Onto / right inverse:} for \(A\in\R^{m\times n}\), onto means every
+desired output is hit: \(\range(A)=\R^m\), equivalently \(Ax=b\) is
+solvable for every \(b\in\R^m\). Equivalent conditions: columns span
+\(\R^m\); rows are independent; \(\nullsp(A^T)=\{0\}\); there exists
+\(R\in\R^{n\times m}\) with \(AR=I_m\). Onto \(\Rightarrow\) right
+inverse: solve \(Ax_i=e_i\) for each standard basis vector of \(\R^m\),
+then \(R=[x_1\cdots x_m]\) gives \(AR=I_m\). Formula proof: if rows are
+independent, \(AA^T\) is invertible since
+\(\nullsp(AA^T)=\nullsp(A^T)\), so \(R=A^T(AA^T)^{-1}\) gives
+\(AR=I_m\). Converse: if \(AR=I_m\), then \(x=Rb\) solves \(Ax=b\) for
+every \(b\). Control: choose \(x=Rb_{\rm des}\Rightarrow Ax=b_{\rm des}\).
+Right inverses need not be unique unless \(A\) is square invertible.
+\(A\) right invertible iff \(A^T\) is left invertible.
+
+\sect{Rank}
+\sub{Definition / basic facts:} \(\rank(A)=\dim\range(A)\). Nontrivial
+facts: \(\rank(A)=\rank(A^T)\), and rank equals the maximum number of
+independent columns or rows. Hence \(0\le\rank(A)\le\min(m,n)\). Column
+view: if a column is in the span of the others, remove it; repeat until
+the remaining columns are a basis for \(\range(A)\).
+
+\sub{Conservation of dimension:} rank-nullity:
+\(\rank(A)+\dim\nullsp(A)=n\). Input dimensions are either hit in the
+output \((\rank A)\) or crushed to zero \((\dim\nullsp A)\). Roughly:
+\(n\) input degrees of freedom = output degrees of freedom + lost
+degrees of freedom.
+
+\sub{Coding interpretation:} rank is the minimum code size needed to
+faithfully reconstruct \(y=Ax\). If \(A=BC\) with
+\(C\in\R^{r\times n}\), \(B\in\R^{m\times r}\), then
+\(\rank(A)\le r\). Conversely, if \(\rank(A)=r\), then \(A\) factors
+through \(\R^r\): encode \(x\) as \(z=Cx\in\R^r\), decode \(y=Bz\).
+The \(r\) numbers in \(z\) mediate every input-output pair.
+
+\sub{Product rank facts:} \(\rank(BC)\le\rank(B)\) since
+\(\range(BC)\subseteq\range(B)\). Also
+\(\rank(BC)=\rank((BC)^T)=\rank(C^TB^T)\le\rank(C^T)=\rank(C)\). Thus
+\(\rank(BC)\le\min(\rank B,\rank C)\). Invertible pre/post
+multiplication preserves rank.
+
+\sub{Low-rank computation / storage:} store a rank-\(r\) factorization
+using \(r(m+n)\) numbers instead of \(mn\). Direct \(Ax\) costs about
+\(mn\); factored \(B(Cx)\) costs about \(rn+mr\), useful when
+\(r\ll\min(m,n)\).
+
+\sub{Latent factors / compression:} ratings \(\approx UV^T\): rows of
+\(U\) are user tastes, rows of \(V\) are item/movie factors; hidden
+factors fill missing ratings. LoRA freezes large \(W\) and learns a
+low-rank update \(BA\). Rank measures redundancy; rank-\(r\)
+approximation of images/tables needs about \(r(m+n)\) numbers (best via
+SVD later).
+
+\sub{Full rank by shape:} full rank means \(\rank(A)=\min(m,n)\).
+Skinny/tall \(m\ge n\): columns independent, one-to-one, left invertible.
+Fat/wide \(m\le n\): rows independent, onto, right invertible. Square:
+full rank \(\Leftrightarrow\) invertible \(\Leftrightarrow\) one-to-one
+\(\Leftrightarrow\) onto.
+
+\sub{Rank dimensions / four spaces:} with \(r=\rank(A)\):
+\[
+\begin{array}{c|c|c}
+\range(A)&\R^m&r\\ \nullsp(A^T)&\R^m&m-r\\
+\range(A^T)&\R^n&r\\ \nullsp(A)&\R^n&n-r
+\end{array}
+\]
+\(\range(A)^\perp=\nullsp(A^T)\), \(\range(A^T)^\perp=\nullsp(A)\);
+\(\R^m=\range(A)\oplus\nullsp(A^T)\), \(\R^n=\range(A^T)\oplus\nullsp(A)\).
+
+\sub{Useful identities:}
+\(\rank([A\ B])=\rank(B)\iff\range(A)\subseteq\range(B)\).
+\(\nullsp([A;B])=\nullsp(A)\cap\nullsp(B)\);
+\(\rank(\operatorname{diag}(A,B))=\rank(A)+\rank(B)\). If
+\(M=N^TN\), then \(x^TMx=\|Nx\|^2\) and \(\nullsp(M)=\nullsp(N)\).
+
+\sect{Orthogonality}
+\sub{Orthonormal set:} normalized means \(\|u_i\|=1\); orthogonal means
+\(u_i^Tu_j=0\) for \(i\ne j\); orthonormal means both, so
+\(u_i^Tu_j=\delta_{ij}\). For \(U=[u_1\cdots u_k]\), orthonormal columns
+mean \(U^TU=I_k\). Orthonormality is a property of a set, not one vector.
+Orthonormal sets are independent: multiply \(\sum_i\alpha_iu_i=0\) by
+\(u_j^T\) to get \(\alpha_j=0\). They form an orthonormal basis for
+\(\operatorname{span}(u_1,\ldots,u_k)=\range(U)\).
+
+\sub{Orthogonal matrices / warning:} square \(U\) is orthogonal if
+\(U^TU=I\); then also \(UU^T=I\), and columns/rows are orthonormal bases
+for \(\R^n\). Thus \(U^{-1}=U^T\). If \(U\in\R^{m\times k}\) is tall
+with \(U^TU=I_k\), do not assume \(UU^T=I_m\); \(UU^T\) projects onto
+\(\range(U)\) and has rank at most \(k\).
+
+\sub{Expansion / coordinates:} if square \(U\) is orthogonal, then
+\(U^Tx\) gives components in the \(u_i\) directions and
+\[
+\begin{gathered}
+x=U(U^Tx)=\sum_i(u_i^Tx)u_i,\\
+\|x\|^2=\sum_i(u_i^Tx)^2 \quad \text{(Parseval)}.
+\end{gathered}
+\]
+No inverse is needed; \(U^T\) resolves \(x\) into components and \(U\)
+reconstitutes it. In an orthonormal basis, coordinates are inner
+products. Energy is preserved, and large coefficients reveal dominant
+directions; drop small ones for compression/denoising. Common bases:
+Fourier/DCT, wavelets, PCA.
+
+\sub{Complementary subspaces:} if \(U=[U_1\ U_2]\) is orthogonal, then
+\(\range(U_1)\) and \(\range(U_2)\) are complementary orthogonal
+subspaces. They are orthogonal: every vector in one is orthogonal to
+every vector in the other. Every \(x\in\R^n\) is a sum of one vector from
+each subspace:
+\[
+x=U_1U_1^Tx+U_2U_2^Tx.
+\]
+Each subspace is the orthogonal complement of the other:
+\(\range(U_1)^\perp=\range(U_2)\) and
+\(\range(U_2)^\perp=\range(U_1)\). Proof idea: \(U_1^TU_2=0\); if
+\(w\perp\range(U_1)\), then \(U_1^Tw=0\), so
+\(w=U_2U_2^Tw\in\range(U_2)\).
+
+\sub{Geometry preservation:} if \(U^TU=I\), then
+\((Ua)^T(Ub)=a^Tb\), \(\|Ua\|=\|a\|\), and distances/angles are
+preserved; \(U\) is isometric. Square orthogonal maps are
+rotations/reflections. Uses: stable orthogonal initialization, RoPE-style
+rotations that preserve query/key norms, and random projections.
+
+\sub{Projection principle:} the closest point \(z\in V\) to \(x\) is
+characterized by \(x-z\in V^\perp\). Projection onto nonzero \(q\):
+\(\proj_qx=(q^Tx/q^Tq)q\), or \((q^Tx)q\) if \(\|q\|=1\). For full
+column rank \(A\), projection onto \(\range(A)\) is
+\(P=A(A^TA)^{-1}A^T\), with \(P^2=P\), \(P^T=P\).
+
+\sub{Near orthogonality:} random unit vectors in high dimension usually
+have small inner product. High-dimensional representations can store many
+more than \(n\) nearly-orthogonal features; they barely interfere, so each
+can be read out almost independently. Random projections can cut
+dimension while approximately preserving distances (Johnson--Lindenstrauss
+intuition).
+
+\sect{QR Factorization}
+\sub{Gram-Schmidt procedure:} start with independent
+\(a_1,\ldots,a_n\). G-S constructs orthonormal \(q_i\)'s with the same
+progressive spans:
+\(\operatorname{span}(q_1,\ldots,q_k)=
+\operatorname{span}(a_1,\ldots,a_k)\). At step \(j\), remove the part of
+\(a_j\) already in previous \(q_i\) directions, then normalize:
+\[
+\tilde q_j=a_j-\sum_{i<j}(q_i^Ta_j)q_i,\qquad
+q_j=\tilde q_j/\|\tilde q_j\|.
+\]
+If the \(a_i\)'s are independent, \(\tilde q_j\ne0\) at every step.
+
+\sub{Matrix form:} with \(A=[a_1\cdots a_n]\), \(Q=[q_1\cdots q_n]\),
+\[
+A=QR,\quad Q\in\R^{m\times n},\quad Q^TQ=I,\quad
+R\in\R^{n\times n}
+\]
+where \(R\) is upper triangular and invertible. Entries satisfy
+\(r_{ij}=q_i^Ta_j\) for \(i<j\), \(r_{jj}=\|\tilde q_j\|\), and
+\(r_{ij}=0\) for \(i>j\). Thus \(a_j=r_{1j}q_1+\cdots+r_{jj}q_j\).
+Columns of \(Q\) are an orthonormal basis for \(\range(A)\). Usually QR
+is computed with modified G-S or Householder, which is less sensitive to
+rounding than classical G-S.
+
+\sub{General G-S / staircase:} if the columns are dependent, some
+\(\tilde q_j=0\); then \(a_j\) is a linear combination of previously
+generated \(q_i\)'s, so skip it. On exit, \(Q\in\R^{m\times r}\), where
+\(r=\rank(A)\), is an orthonormal basis for \(\range(A)\), and
+\(A=QR\) with \(R\) in upper staircase form. Nonzero corner entries are
+exactly the columns that generated a new \(q_i\); their count is the rank.
+One G-S run also gives QR factorizations for all leading column blocks.
+
+\sub{Applications in lecture:} QR directly gives an orthonormal basis for
+\(\range(A)\) and shows which columns were dependent on earlier ones. To
+remove a direction, \(x_\perp=x-(q^Tx)q=(I-qq^T)x\); with subspace basis
+\(Q\), the removed component is \(QQ^Tx\) and the remainder is
+\((I-QQ^T)x\). G-S on data columns decorrelates features; nearly dependent
+features make fitting ill-conditioned. At scale, randomized SVD sketches
+\(Y=A\Omega\), then QR-factorizes \(Y\). Orthogonal initialization uses
+\(Q\) from QR of a random matrix.
+
+\sub{Full QR:} if \(A=Q_1R\) is thin QR, extend \(Q_1\) to a full
+orthogonal basis \(Q=[Q_1\ Q_2]\) by applying general G-S to
+\([Q_1\ B]\) where \([Q_1\ B]\) has full rank. Then
+\[
+A=[Q_1\ Q_2]\begin{bmatrix}R\\0\end{bmatrix},\qquad
+\range(Q_2)=\range(Q_1)^\perp .
+\]
+This is the lecture statement that any orthonormal set can be extended to
+an orthonormal basis for \(\R^m\).
+
+\sub{Pivoted QR:} a permutation matrix \(P\) can move useful columns to
+the front:
+\[
+AP=QR .
+\]
+The pivoted columns are the ones that generate new \(q_i\)'s. This makes
+the staircase pattern/rank easier to read and is rank-revealing.
+
+\sub{Orthogonal decomposition induced by \(A\):} apply full QR to
+\(A^T\). If \(A\in\R^{m\times n}\) and
+\(A^T=[Q_1\ Q_2]\begin{bmatrix}R\\0\end{bmatrix}\), then
+\(\range(Q_1)=\range(A^T)\). Also \(AQ_2=0\), so
+\(\range(Q_2)=\nullsp(A)\). Hence
+\[
+\R^n=\range(A^T)\oplus\nullsp(A),\qquad
+x=Q_1Q_1^Tx+Q_2Q_2^Tx
+\]
+uniquely. This gives \(\nullsp(A)=\range(A^T)^\perp\),
+\(\dim\range(A^T)+\dim\nullsp(A)=n\), and \(\rank(A)=\rank(A^T)\).
+
+\sub{Projection/solve via QR:} if \(A=QR\) full column rank, projection
+onto \(\range(A)\) is \(QQ^T\). Exact \(Ax=b\) becomes \(QRx=b\); if
+consistent, \(Rx=Q^Tb\). Least-squares later also solves \(Rx=Q^Tb\)
+without forming \(A^TA\).
+
+\sect{Linear Equations / Consistency Tricks}
+\sub{Solving $Ax=b$:} exact solution exists iff $b\in\range(A)$ iff $\rank(A)=\rank([A\ b])$. If $A$ full column rank: at most one solution. If $A$ full row rank: at least one solution for every $b$. General solution when consistent:
+\[
+x=x_p+z,\quad z\in\nullsp(A).
+\]
+
+\sub{Solution count:} no solution if inconsistent. Unique solution iff consistent and $\nullsp(A)=\{0\}$. Infinitely many iff consistent and $\dim\nullsp(A)>0$. For wide $m<n$, if consistent then infinitely many.
+
+\sub{Rank tests to memorize:} columns independent $\Leftrightarrow\rank(A)=n$. Rows independent $\Leftrightarrow\rank(A)=m$. Columns span $\R^m\Leftrightarrow\rank(A)=m$. Rows span $\R^n\Leftrightarrow\rank(A)=n$.
+
+\sub{Homogeneous systems:} $Ax=0$ always has $x=0$. Nonzero solution iff columns dependent iff $\rank(A)<n$. Wide $m<n$ always has nontrivial nullspace.
+
+\sub{Independence:} columns independent iff $Ax=0\Rightarrow x=0$. Nonnegative independence: if $u_i^Tu_j\ge0$ for all $i,j$, then $\sum_i\alpha_i u_i=0$, $\alpha_i\ge0$ implies all $\alpha_i=0$ because norm squared is sum of nonnegative terms.
+
+\sub{Orthogonal ranges:} if $A^TB=0$ and $A,B$ are skinny full rank, then $[A\ B]$ is full rank: $Au+Bv=0\Rightarrow \|Au\|^2+\|Bv\|^2=0$.
+
+\sub{Rank-one matrix:} $uv^T$ has rank $1$ if $u,v\ne0$. Trace $\tr(uv^T)=u^Tv$. Column space is span$(u)$; row space is span$(v)$.
+
+\sub{PSD/null trick:} if $M=N^TN$, then $x^TMx=\|Nx\|^2$ and $\nullsp(M)=\nullsp(N)$. For sums $M=N_1^TN_1+N_2^TN_2$, $x^TMx=\|N_1x\|^2+\|N_2x\|^2$.
+
+\sub{Augmented systems:} if $A$ is $m\times n$, $[A\ b]$ adds one column. Consistency is unchanged by elementary row operations. If inconsistent, least-squares later solves closest point in $\range(A)$.
+
+\sub{How to prove subspace:} show $0$ is in the set, then closure under $\alpha u+\beta v$. For sets defined by homogeneous linear equations, e.g. $Ax=0$, this is immediate. Nonhomogeneous sets $Ax=b$, $b\ne0$, are affine, not subspaces.
+
+\sect{HW1 Patterns}
+\sub{Testing linearity from probes:} check $f(0)=0$, additivity $f(u+v)=f(u)+f(v)$, homogeneity $f(\alpha u)=\alpha f(u)$. To identify a linear $f:\R^2\to\R^2$, probe $e_1,e_2$; matrix columns are $f(e_1),f(e_2)$.
+
+\sub{Signal-flow graphs:} entry $A_{ij}$ equals sum over all directed paths from input $j$ to output $i$ of product of edge gains. Cascaded identical systems: if $u=Ax$ and $z=Au$, then $z=A^2x$.
+
+\sub{Path-count proof:} $(A^2)_{ij}=\sum_kA_{ik}A_{kj}$ counts length-2 walks through intermediate node $k$. Inductively, $(A^k)_{ij}$ counts length-$k$ walks. For undirected graphs $A=A^T$.
+
+\sub{Matrix language examples:}
+\begin{itemize}
+\item Columns of $C$ are combos of columns of $B$: $C=BF$.
+\item Rows of $Z$ from rows of $Y$: $Z=FY$ with row-combination matrix $F$.
+\item Column $p_i$ acute with $q_j$: $P^TQ$ has positive entries; corresponding columns acute: $\diag(P^TQ)>0$.
+\item First $k$ columns of $A$ orthogonal to rest: if $A=[A_1\ A_2]$, then $A_1^TA_2=0$.
+\end{itemize}
+
+\sub{Graph powers:} for undirected adjacency $A$, $(A^k)_{ij}$ counts walks of length $k$ from node $i$ to node $j$.
+
+\sub{Signal processing matrices:} upsample/interpolate/downsample are linear; each output row contains the coefficients of the relevant samples. Downsample $y_i=x_{2i}$: row $i$ has a $1$ in column $2i$. Average pairs: row $i$ has $1/2$ in columns $2i-1,2i$.
+
+\sub{2x interpolation pattern:} $y_{2k-1}=x_k$ and $y_{2k}=(x_k+x_{k+1})/2$. Matrix has alternating rows: standard basis rows, then adjacent averaging rows.
+
+\sub{Affine proof pattern:} $f(x)=Ax+b$ is affine because $\alpha+\beta=1$ preserves offset. Converse: $g(x)=f(x)-f(0)$; show $g(\alpha u+\beta v)=\alpha g(u)+\beta g(v)$ and set $A=[g(e_1)\cdots g(e_n)]$.
+
+\sub{HW1 gradients:} for scalar $f$, gradient is column vector satisfying $df\approx\nabla f^Tdx$. For $f=x^TAx$, use scalar expansion:
+\[
+d f=(dx)^TAx+x^TA\,dx=x^T(A^T+A)dx.
+\]
+So $\nabla f=(A+A^T)x$.
+
+\sect{HW2 Patterns}
+\sub{Cauchy-Schwarz proof trick:} $\|v+\lambda w\|^2=v^Tv+2(v^Tw)\lambda+w^Tw\lambda^2\ge0$. Nonnegative quadratic $\forall\lambda$ gives $|v^Tw|\le\sqrt{v^Tv}\sqrt{w^Tw}$.
+
+\sub{Right inverse example method:} solve $Az=y$ symbolically; use free variables to enforce row/triangular constraints. If $AB=I$ then $B$ has trivial nullspace: $Bx=0\Rightarrow x=ABx=0$. A zero column of $B$ would force zero column of $AB$, impossible.
+
+\sub{HW2 P5 template:} for
+\[
+A=\begin{bmatrix}-1&0&0&-1&1\\0&1&1&0&0\\1&0&0&1&0\end{bmatrix},
+\]
+all right inverses have
+\[
+B=\begin{bmatrix}
+s_1&s_2&s_3\\ t_1&t_2&t_3\\ -t_1&1-t_2&-t_3\\
+-s_1&-s_2&1-s_3\\ 1&0&1
+\end{bmatrix}.
+\]
+Feasible cases: (a) row 2 zero, (d) rows 2 and 3 equal, (f) lower triangular. Impossible: nullity one, zero third column, upper triangular.
+
+\sub{True/false traps:} nonnegative entries + onto is not preserved by addition. $\nullsp([A;A+B;A+B+C])=\nullsp(A)\cap\nullsp(B)\cap\nullsp(C)$. $\nullsp([A;AB;ABC])$ is not generally intersection of three nullspaces.
+
+\sub{More TF traps:} If $A^TA$ onto, then columns of $A$ independent, but $A$ need not be onto when tall. If $\begin{bmatrix}A&0\\0&B\end{bmatrix}$ full rank, both blocks full rank. If $A^2$ onto, $A$ onto.
+
+\sub{HW2 TF answer pattern:} (a) false via $I+\begin{bmatrix}0&1\\1&0\end{bmatrix}$; (b) true by subtracting equations; (c) false with scalars; (d) true by PSD/null trick; (e)(f)(g) true; (h) false with tall vector; (i)(j) true.
+
+\sub{Wireless SINR:} with $D=\diag(G_{ii})$, $K=G-D$,
+\[
+D p=S(\sigma\one+Kp)\Rightarrow (D-SK)p=S\sigma\one.
+\]
+Assuming invertible, candidate $p=(D-SK)^{-1}S\sigma\one$; feasible iff $0\le p_i\le P^{\max}$. For HW2 data largest $S\in\{2,\ldots,4\}$ is $3.8$ with $p\approx(0.0948,0.0474,0.0547)$.
+
+\sub{SINR derivation detail:} equation per receiver:
+\[
+G_{ii}p_i=S\left(\sigma+\sum_{j\ne i}G_{ij}p_j\right).
+\]
+No optimization needed: for fixed $S$ the full-rank assumption gives one candidate $p$, then just check bounds.
+
+\sub{Rational interpolation:}
+\[
+f(x)=\frac{a_0+a_1x+\cdots+a_mx^m}{1+b_1x+\cdots+b_mx^m}.
+\]
+For each datum:
+\[
+a_0+\cdots+a_mx_i^m-y_ib_1x_i-\cdots-y_ib_mx_i^m=y_i.
+\]
+Linear in unknowns $(a_0,\ldots,a_m,b_1,\ldots,b_m)$. Increase $m$ until consistent. HW2 data: $m=5$.
+
+\sub{Interpolation matrix row:} row $i$ for degree $m$ is
+\[
+\begin{bmatrix}1&x_i&\cdots&x_i^m&-y_ix_i&\cdots&-y_ix_i^m\end{bmatrix}.
+\]
+Check residual $\|A\theta-y\|_\infty$ and final interpolation error $\max_i|f(x_i)-y_i|$.
+
+\sub{Rational caveat:} after solving, denominator $1+b_1x+\cdots+b_mx^m$ must be nonzero at sample points; otherwise original equation is not valid as a finite function value.
+
+\sect{HW3 Patterns}
+\sub{Orthogonal complement facts:} $V^\perp$ is a subspace. If $V=\operatorname{span}(v_i)=\range(\mathcal V)$, then $V^\perp=\nullsp(\mathcal V^T)$. Every $x$ decomposes uniquely as $v+v^\perp$.
+
+\sub{Unique decomposition proof:} if $v_1+w_1=v_2+w_2$ with $v_i\in V$, $w_i\in V^\perp$, then $v_1-v_2=w_2-w_1\in V\cap V^\perp$. Its norm squared is zero, so both parts are equal.
+
+\sub{Robot coin collector:} $y(t)=t$. With piecewise constant forces $f_j$ on $[2j-2,2j)$ and mass $1$,
+\[
+x(t)=\sum_{j=1}^n a_{tj}f_j
+\]
+\[
+a_{tj}=
+\begin{cases}
+0, & t\le2j-2\\
+\frac12(t-2j+2)^2, & 2j-2<t<2j\\
+2(t-2j+1), & t\ge2j .
+\end{cases}
+\]
+Collecting specified coins is linear system $Af=x_{\rm coin}$. All coins possible iff consistent. All but one: delete each row and test consistency. HW3: miss coin $7$; $f=(1,-4,7,-10,20,-35)$.
+
+\sub{Robot coefficients intuition:} if force interval is already finished at time $t$, contribution is velocity impulse $2f_j$ times remaining travel plus within-interval displacement, giving $2(t-2j+1)f_j$.
+
+\sub{Layered medium:} choose $x_1=1$. Unknowns $x_2,\ldots,x_n,y_1,\ldots,y_n$. Equations:
+\[
+x_{i+1}=t_ix_i+r_iy_{i+1},\quad y_i=r_ix_i+t_iy_{i+1},\quad y_n=x_n.
+\]
+Solve linear system; $S=y_1/x_1=y_1$. Nominal $n=20$, $t=.96$, $r=.02$: $S\approx0.49818$. Fault scan: set one $(t_k,r_k)=(.02,.96)$, compare $|S_k-S_{\rm fault}|$; for $S_{\rm fault}=0.70$, best $k=9$.
+
+\sub{Layered system setup:} unknown vector can be ordered as $(x_2,\ldots,x_n,y_1,\ldots,y_n)$. There are $2(n-1)$ interface equations plus final equation $y_n=x_n$, total $2n-1$ equations.
+
+\sub{Fault location logic:} measured $S$ is one scalar, but finite candidate faults make brute force possible: compute $S_k$ for each interface and choose smallest absolute error. Last interface excluded because it is already fully reflective.
+
+\sect{Practice Midterm Fast Checks}
+\sub{Answer patterns:} implication questions: prove by definitions or give
+small counterexample. Common answers from practice: \(A\Leftrightarrow B\),
+neither, \(A\Rightarrow B\). For true/false, test \(0\), \(I\), \(2I\),
+rank-one \(uv^T\), tall/skinny, wide/fat, and two lines in \(\R^2\).
+
+\sub{Fast traps:} \(A^TA\) is PSD and \(A^TA=0\Rightarrow A=0\); if
+\(A^TA\) is diagonal, columns are orthogonal, not necessarily unit. Wide
+\(A\in\R^{m\times n}\), \(m<n\): either no solution or infinitely many.
+\(\range(A)\subseteq\range(B)\iff\rank([A\ B])=\rank(B)\). Infinitely
+many solutions imply \(\nullsp(A)\ne\{0\}\); converse needs consistency.
+
+\sub{Orthogonal/rank checks:} if \(U^TU=I\), then \(UU^T\) projects onto
+\(\range(U)\), so \(\{x\mid UU^Tx=x\}=\range(U)\). For \(A=uv^T\), all
+nonzero columns are scalar multiples of \(u\); G-S returns
+\(\pm u/\|u\|\). \(\rank(FG)\le\rank(F),\rank(G)\); full-rank square
+factors preserve rank. A nonzero nilpotent can have \(F^2=0\).
+
+\sub{Counterexamples:} union not subspace: two lines through origin.
+Halfspace not span: lacks negatives/origin. Null product trap: \(Bx\) can
+land in \(\nullsp(A)\). \(A^TA\) diagonal but not orthogonal: \(A=2I\).
+Nonnegative onto sum can fail:
+\(I+\begin{bmatrix}0&1\\1&0\end{bmatrix}\) has rank \(1\).
+
+\end{multicols*}
+\end{document}

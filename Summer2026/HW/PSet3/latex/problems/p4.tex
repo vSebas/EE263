@@ -1,0 +1,155 @@
+\section{Last Year's Midterm}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item
+    \begin{enumerate}[label=(\alph*)]
+        \item True. Since \(x^TA^TAx=\|Ax\|^2\), if \(A^TA=0\), every
+        column of \(A\) has zero norm.
+        \item True. \(A^TA\) is symmetric. A symmetric upper triangular
+        matrix must be diagonal.
+        \item False. For example, \(A=2I\) gives \(A^TA=4I\), which is
+        diagonal, but \(A\) is not orthogonal.
+        \item False. For example,
+        \[
+            A^TA=
+            \begin{bmatrix}
+                1&-1\\
+                -1&1
+            \end{bmatrix}
+        \]
+        is possible and has all off-diagonal entries negative.
+    \end{enumerate}
+
+    \item \(S=\operatorname{range}(U)\). Since \(U^TU=I\), \(UU^T\) is
+    the orthogonal projector onto \(\operatorname{range}(U)\).
+
+    \item \(S\cup T\) is a subspace only if \(S\cap T=S\). A union of two
+    subspaces is a subspace only when one subspace is contained in the
+    other; since \(\dim(S)<\dim(T)\), this means \(S\subseteq T\).
+
+    \item True. If \(ABx=0\), then \(Bx\in\operatorname{null}(A)\), so
+    \(Bx=0\). Since \(\operatorname{null}(B)=\{0\}\), \(x=0\).
+
+    \item False. Let
+    \[
+        A=\begin{bmatrix}1&0\end{bmatrix},
+        \qquad
+        B=\begin{bmatrix}0&0\\0&1\end{bmatrix}.
+    \]
+    Then \(\operatorname{null}(A)\cap\operatorname{null}(B)=\{0\}\), but
+    \(AB=0\).
+
+    \item False. Additivity alone does not imply homogeneity over all
+    real scalars for an arbitrary function.% Without an additional
+    % regularity assumption, additive non-linear functions can exist.
+
+    \item True. Take \(U\) to be rotation by angle \(2\pi/n\). Then
+    \(U^n=I\), and no smaller positive power is the identity.
+
+    \item False. The recursive construction is missing the factor
+    \(1/\sqrt{2}\) at each step. Without it, the block matrix has columns
+    with norm \(\sqrt{2}\), not \(1\).
+
+    \item
+    \begin{enumerate}[label=(\alph*)]
+        \item False. For example, \(u=v=e_1\) gives
+        \(A=e_1e_1^T\), which is upper triangular.
+        \item True. The sum of the diagonal entries is
+        \(
+            \operatorname{trace}(uv^T)=v^Tu=u^Tv.
+        \)
+        \item \(Q\) and \(u\) are parallel but may point in opposite
+        directions. Each nonzero column of \(A\) is a scalar multiple of
+        \(u\), and the sign depends on the scalar from \(v\).
+    \end{enumerate}
+
+    \item True. \(n-1\) independent vectors in \(\mathbb{R}^n\) span an
+    \((n-1)\)-dimensional subspace, which is a hyperplane.
+
+    \item False. The set is the points closer to \(b\) than to the
+    origin:
+    \[
+        \|x-b\|_2\leq \|x\|_2
+        \Longleftrightarrow
+        b^Tx\geq \frac{1}{2}\|b\|_2^2
+    \]
+    This is a halfspace. If \(b\neq 0\), the origin is not in the set,
+    since \(b^T0=0<\frac{1}{2}\|b\|_2^2\). Therefore the set is not a
+    subspace.
+
+    \item True. If a solution exists, then there are infinitely many,
+    since \(\dim\operatorname{null}(A)\geq n-m>0\). Otherwise there are
+    no solutions.
+
+    \item
+    \begin{enumerate}[label=(\alph*)]
+        \item \(A\Leftrightarrow B\). The rank of \(\begin{bmatrix}A&B\end{bmatrix}\)
+        equals the rank of \(B\) exactly when the columns of \(A\) lie in
+        \(\operatorname{range}(B)\).
+        \item \(A\not\Leftrightarrow B\). A vector outside
+        \(\operatorname{range}(A)\) need not be orthogonal to the range,
+        and \(y=0\) is in \(\operatorname{range}(A)^\perp\) but also in
+        \(\operatorname{range}(A)\).
+        \item \(A\Rightarrow B\). Infinitely many solutions imply a
+        nonzero nullspace direction. The converse can fail if \(y\) is
+        not in \(\operatorname{range}(A)\).
+    \end{enumerate}
+
+    \item Interpret \(T(h)\) as the dimension of the span of the range
+    of \(h\). Since \(f\) and \(g\) are linear maps, this is the rank of
+    the corresponding matrix.
+    \begin{enumerate}[label=(\alph*)]
+        \item False. For example, take
+        \[
+            F=
+            \begin{bmatrix}
+                0&0\\
+                0&1
+            \end{bmatrix},
+            \qquad
+            G=
+            \begin{bmatrix}
+                0&0\\
+                1&0
+            \end{bmatrix}
+        \]
+        Then
+        \[
+            FG=
+            \begin{bmatrix}
+                0&0\\
+                1&0
+            \end{bmatrix},
+            \qquad
+            GF=
+            \begin{bmatrix}
+                0&0\\
+                0&0
+            \end{bmatrix}
+        \]
+        so \(\operatorname{rank}(FG)=1\), but
+        \(\operatorname{rank}(GF)=0\).
+        \item True. \(\operatorname{rank}(F^2)\leq\operatorname{rank}(F)\),
+        and \(\operatorname{rank}(F+F)=\operatorname{rank}(2F)=\operatorname{rank}(F)\).
+        \item False. \(\operatorname{rank}(FG)\leq\operatorname{rank}(G)\).
+        \item True. Choose \(g\) to be the identity map. Then
+        \(f\circ g=g\circ f=f\).
+        \item False. If \(f=0\), then \(T(f\circ g)=0\), so it cannot
+        equal \(T(g)>0\).
+        \item False. The same
+        \(G=\begin{bmatrix}0&0\\1&0\end{bmatrix}\) is nonzero but
+        nilpotent:
+        \[
+            G^2=0
+        \]
+        \item True. If \(T(f)\geq T(g)\) for every \(g\), then \(f\) has
+        full rank and is invertible, so \(T(f\circ f)=T(f)\).
+        \item True. When \(m>n\), such an \(f\) has full column rank, so
+        it has a left inverse \(h\) with \(h(f(x))=x\).
+        \item False. A full-column-rank map \(f:\mathbb{R}^n\to
+        \mathbb{R}^m\) with \(m>n\) is not onto \(\mathbb{R}^m\), so it
+        cannot have a right inverse onto all of \(\mathbb{R}^m\).
+        \item False. If \(T(f)\leq T(g)\) for every \(g\), then \(f=0\).
+        Hence \(\|f(x)\|=0\), never greater than \(\|x\|\).
+    \end{enumerate}
+\end{enumerate}

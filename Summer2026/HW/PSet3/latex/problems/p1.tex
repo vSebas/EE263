@@ -1,0 +1,155 @@
+\section{Orthogonal Complement of a Subspace}
+
+\textbf{(a)}
+% Let
+% \[
+%     \mathcal{V}^\perp=\{x\in\mathbb{R}^n\mid \langle x,y\rangle=0,\ \forall y\in V\}.
+% \]
+\begin{itemize}
+    \item Zero in subset
+
+    \(\langle 0,y\rangle=0^{\top}y=0\), so \(0\in \mathcal{V}^\perp\)
+    \item Closure under addition
+    
+    Let \(x_1,x_2\in \mathcal{V}^\perp\), then for any \(y\in V\),
+\[
+\langle x_1, y \rangle = 0, \qquad 
+\langle x_2, y \rangle = 0
+\]
+
+    Then
+\[
+    \langle x_1 + x_2,y\rangle
+    =
+    \langle x_1,y\rangle+\langle x_2,y\rangle
+    =
+    0
+\]
+
+Therefore \(x_1+x_2\in \mathcal{V}^\perp\)
+    \item Closure under scalar multiplication
+    
+    Take any \(x\in \mathcal{V}^\perp\) and \(\alpha\in\mathbb{R}\)
+\[
+    \langle \alpha x,y\rangle
+    =
+    \alpha\langle x,y\rangle
+    =
+    \alpha x^{\top}y
+    =
+    0
+\]
+Therefore \(\alpha x \in \mathcal{V}^{\perp}\)
+
+\textbf{Hence \(\mathcal{V}^\perp\) is a subspace of \(\mathbb{R}^n\)}
+
+\end{itemize}
+
+\textbf{(b)}
+% Let
+% \[
+%     \mathcal{V}=
+%     \begin{bmatrix}
+%         v_1&v_2&\cdots&v_r
+%     \end{bmatrix}
+%     \in\mathbb{R}^{n\times r}.
+% \]
+% Then
+\[
+    \mathcal{V}=\operatorname{range}(V)
+\]
+% A vector \(x\) is in \(\mathcal{V}^\perp\) exactly when it is orthogonal to every
+% column of \(\mathcal{V}\), i.e.,
+% \[
+%     \mathcal{V}^{\top} x=0.
+% \]
+% Therefore
+\[
+    \mathcal{V}^\perp=\operatorname{null}(\mathcal{V}^{\top})
+\]
+
+\textbf{(c)}
+
+Let \(v\) be the orthogonal projection of \(x\) onto \(\mathcal{V}\), then
+\[
+    v^\perp=x-v
+\]
+
+By the definition of orthogonal projection, \(v\in \mathcal{V}\) and \(x-v\) is orthogonal to every vector in \(\mathcal{V}\).
+
+Therefore,
+\[
+    v^\perp\in \mathcal{V}^\perp
+\]
+
+and
+\[
+    x=v+v^\perp
+\]
+
+To prove uniqueness, suppose
+\[
+    x=v_1+w_1=v_2+w_2
+\]
+
+where \(v_1,v_2\in \mathcal{V}\) and \(w_1,w_2\in \mathcal{V}^\perp\). Then
+\(
+    v_1-v_2=w_2-w_1
+\)
+\newline
+
+The LHS belongs to \(\mathcal{V}\), while the RHS belongs to \(\mathcal{V}^\perp\). Hence this common vector belongs to
+both $\mathcal{V}$ and $\mathcal{V}^\perp$: \(\mathcal{V}\cap \mathcal{V}^\perp\).
+\newline
+
+The only vector in this intersection is zero. If
+\(z\in \mathcal{V}\cap \mathcal{V}^\perp\), then \(z\) is orthogonal to itself, so
+\[
+    z^\top z=\|z\|_2^2=0
+\]
+which implies \(z=0\). Therefore,
+\(
+    v_1=v_2
+    \text{ and }
+    w_1=w_2
+\)
+
+\textbf{So it is unique}.
+
+\textbf{(d)}
+
+Using \(V\) from part (b),
+\[
+    \dim \mathcal{V}=\operatorname{rank}(\mathcal{V}),
+    \qquad
+    \dim \mathcal{V}^\perp=\dim\operatorname{null}(\mathcal{V}^{\top}).
+\]
+
+By rank-nullity applied to \(\mathcal{V}^{\top}\),
+\[
+    \dim\operatorname{null}(\mathcal{V}^{\top})
+    +
+    \operatorname{rank}(\mathcal{V}^{\top})
+    =
+    n
+\]
+
+Since \(\operatorname{rank}(\mathcal{V}^{\top})=\operatorname{rank}(\mathcal{V})\),
+we get
+\[
+    \dim \mathcal{V}^\perp+\dim \mathcal{V}=n
+\]
+
+\textbf{(e)}
+
+Suppose \(\mathcal{V}\subseteq \mathcal{U}\), and let \(x\in \mathcal{U}^\perp\). Then \(x\) is
+orthogonal to every vector in \(\mathcal{U}\). Since every vector in \(\mathcal{V}\) is also
+in \(\mathcal{U}\), \(x\) is orthogonal to every vector in \(\mathcal{V}\). Thus
+\[
+    x\in \mathcal{V}^\perp
+\]
+
+Therefore
+\[
+    \mathcal{U}^\perp\subseteq \mathcal{V}^\perp
+\]

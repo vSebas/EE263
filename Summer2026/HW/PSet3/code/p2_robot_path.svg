@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="560" viewBox="0 0 760 560">
+<rect width="100%" height="100%" fill="white"/>
+<line x1="55" y1="505" x2="705" y2="505" stroke="#222" stroke-width="1"/>
+<line x1="55" y1="55" x2="55" y2="505" stroke="#222" stroke-width="1"/>
+<text x="380.0" y="545" text-anchor="middle" font-family="sans-serif" font-size="14">x</text>
+<text x="18" y="280.0" text-anchor="middle" font-family="sans-serif" font-size="14" transform="rotate(-90 18 280.0)">y / time</text>
+<polyline points="227.625529,473.965517 257.117362,438.699060 257.117362,403.432602 178.472474,368.166144 129.319419,332.899687 217.794918,297.633229 276.778584,262.366771 139.150030,227.100313 99.827586,191.833856 453.729583,156.567398 660.172414,121.300940 178.472474,86.034483 " fill="none" stroke="#1f77b4" stroke-width="2.5"/>
+<circle cx="227.625529" cy="473.965517" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="257.117362" cy="438.699060" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="257.117362" cy="403.432602" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="178.472474" cy="368.166144" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="129.319419" cy="332.899687" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="217.794918" cy="297.633229" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="473.390805" cy="262.366771" r="5.0" fill="#d62728" opacity="0.9"/>
+<circle cx="139.150030" cy="227.100313" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="99.827586" cy="191.833856" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="453.729583" cy="156.567398" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="660.172414" cy="121.300940" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="178.472474" cy="86.034483" r="4.0" fill="#2ca02c" opacity="0.9"/>
+<circle cx="227.625529" cy="473.965517" r="2.4" fill="#1f77b4"/>
+<circle cx="257.117362" cy="438.699060" r="2.4" fill="#1f77b4"/>
+<circle cx="257.117362" cy="403.432602" r="2.4" fill="#1f77b4"/>
+<circle cx="178.472474" cy="368.166144" r="2.4" fill="#1f77b4"/>
+<circle cx="129.319419" cy="332.899687" r="2.4" fill="#1f77b4"/>
+<circle cx="217.794918" cy="297.633229" r="2.4" fill="#1f77b4"/>
+<circle cx="276.778584" cy="262.366771" r="2.4" fill="#1f77b4"/>
+<circle cx="139.150030" cy="227.100313" r="2.4" fill="#1f77b4"/>
+<circle cx="99.827586" cy="191.833856" r="2.4" fill="#1f77b4"/>
+<circle cx="453.729583" cy="156.567398" r="2.4" fill="#1f77b4"/>
+<circle cx="660.172414" cy="121.300940" r="2.4" fill="#1f77b4"/>
+<circle cx="178.472474" cy="86.034483" r="2.4" fill="#1f77b4"/>
+<text x="705" y="33" text-anchor="end" font-family="sans-serif" font-size="14" fill="#1f77b4">robot path</text>
+<text x="705" y="51" text-anchor="end" font-family="sans-serif" font-size="14" fill="#2ca02c">collected coins</text>
+<text x="705" y="69" text-anchor="end" font-family="sans-serif" font-size="14" fill="#d62728">missed coin</text>
+</svg>
