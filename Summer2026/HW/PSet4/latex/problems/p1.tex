@@ -1,0 +1,58 @@
+\section{Orthogonal Matrices}
+
+\textbf{(a)}
+If \(U\) and \(V\) are orthogonal, then \(U^T U=I\) and \(V^T V=I\). Hence
+\[
+(UV)^T(UV)=V^T U^T U V=V^T V=I
+\]
+Thus \(UV\) has orthonormal columns. Since \(U\) and \(V\) are square, \(UV\) is square, so \(UV\) is orthogonal.
+
+\textbf{(b)}
+Since \(U\) is orthogonal,
+\[
+U^T U=I
+\]
+Therefore \(U^{-1}=U^T\), and also \(U U^T=I\). Then
+\[
+(U^{-1})^T U^{-1}=(U^T)^T U^T=U U^T=I
+\]
+Thus \(U^{-1}\) is orthogonal.
+
+\textbf{(c)}
+Let
+\[
+U=\begin{bmatrix}a&b\\c&d\end{bmatrix}
+\]
+The first column of \(U\) has norm one, so for some angle \(\theta\),
+\[
+\begin{bmatrix}a\\c\end{bmatrix}
+=
+\begin{bmatrix}\cos\theta\\ \sin\theta\end{bmatrix}
+\]
+The second column must be a unit vector orthogonal to the first column. In \(\mathbb{R}^2\), there are only two choices:
+\[
+\begin{bmatrix}-\sin\theta\\ \cos\theta\end{bmatrix},
+\qquad
+\begin{bmatrix}\sin\theta\\ -\cos\theta\end{bmatrix}
+\]
+Therefore every \(2\times 2\) orthogonal matrix has one of the two forms
+\[
+U=
+\begin{bmatrix}
+\cos\theta&-\sin\theta\\
+\sin\theta& \cos\theta
+\end{bmatrix}
+\]
+or
+\[
+U=
+\begin{bmatrix}
+\cos\theta& \sin\theta\\
+\sin\theta&-\cos\theta
+\end{bmatrix}
+\]
+The first matrix has determinant \(+1\) and is a rotation. The second matrix has determinant \(-1\) and is a reflection. Therefore, to decide which case a given orthogonal \(U\) is in, compute
+\[
+\det U
+\]
+If \(\det U=1\), it is a rotation. If \(\det U=-1\), it is a reflection.

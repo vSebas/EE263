@@ -1,0 +1,140 @@
+\section{Complex Linear Algebra and Least Squares}
+
+Write
+\[
+u=u_R+i u_I,\qquad v=v_R+i v_I,\qquad A=A_R+iA_I
+\]
+where all real and imaginary parts are real-valued. Then
+\[
+\tilde u=
+\begin{bmatrix}u_R\\u_I\end{bmatrix},
+\qquad
+\tilde A=
+\begin{bmatrix}
+A_R&-A_I\\
+A_I&A_R
+\end{bmatrix}
+\]
+
+\textbf{(a)}
+The complex inner product is
+\[
+\langle u,v\rangle
+=u^*v
+=(u_R^T v_R+u_I^T v_I)
++i(u_R^T v_I-u_I^T v_R)
+\]
+The real inner product of the stacked vectors is
+\[
+\langle \tilde u,\tilde v\rangle
+=u_R^T v_R+u_I^T v_I
+=\operatorname{Re}\langle u,v\rangle
+\]
+
+\textbf{(b)}
+The norms are the same:
+\[
+\|\tilde u\|^2
+=u_R^T u_R+u_I^T u_I
+=\sum_{i=1}^n |u_i|^2
+=\|u\|^2
+\]
+Thus
+\[
+\|\tilde u\|=\|u\|
+\]
+
+\textbf{(c)}
+Since
+\[
+Au=(A_Ru_R-A_Iu_I)+i(A_Iu_R+A_Ru_I)
+\]
+we have
+\[
+\widetilde{Au}
+=
+\begin{bmatrix}
+A_R&-A_I\\
+A_I&A_R
+\end{bmatrix}
+\begin{bmatrix}
+u_R\\u_I
+\end{bmatrix}
+=\tilde A\tilde u
+\]
+
+\textbf{(d)}
+The Hermitian conjugate is
+\[
+A^*=A_R^T-iA_I^T
+\]
+The real representation of \(A^*\) is
+\[
+\widetilde{A^*}
+=
+\begin{bmatrix}
+A_R^T&A_I^T\\
+-A_I^T&A_R^T
+\end{bmatrix}
+\]
+But
+\[
+\tilde A^T
+=
+\begin{bmatrix}
+A_R^T&A_I^T\\
+-A_I^T&A_R^T
+\end{bmatrix}
+\]
+Therefore
+\[
+\widetilde{A^*}=\tilde A^T
+\]
+
+\textbf{(e)}
+The complex least-squares problem
+\[
+\min_x \|Ax-y\|^2
+\]
+is equivalent to the real least-squares problem
+\[
+\min_{\tilde x}\|\tilde A\tilde x-\tilde y\|^2
+\]
+because \(\widetilde{Ax-y}=\tilde A\tilde x-\tilde y\) and the norm is preserved by the real representation.
+
+If \(A\) is full column rank, then \(\tilde A\) is also full column rank. The real least-squares solution is
+\[
+\tilde x_{\mathrm{ls}}
+=
+(\tilde A^T\tilde A)^{-1}\tilde A^T\tilde y
+\]
+Using the block real representation, this is
+\[
+\begin{bmatrix}
+\operatorname{Re}x_{\mathrm{ls}}\\
+\operatorname{Im}x_{\mathrm{ls}}
+\end{bmatrix}
+=
+\left(
+\begin{bmatrix}
+A_R&-A_I\\
+A_I&A_R
+\end{bmatrix}^T
+\begin{bmatrix}
+A_R&-A_I\\
+A_I&A_R
+\end{bmatrix}
+\right)^{-1}
+\begin{bmatrix}
+A_R&-A_I\\
+A_I&A_R
+\end{bmatrix}^T
+\begin{bmatrix}
+y_R\\y_I
+\end{bmatrix}
+\]
+This is the real representation of
+\[
+x_{\mathrm{ls}}=(A^*A)^{-1}A^*y=A^\dagger y
+\]
+so \(A^\dagger y\) solves the complex least-squares problem.
