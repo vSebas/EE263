@@ -1,0 +1,95 @@
+\section{More Facts About Singular Values}
+
+Recall the maximum- and minimum-gain definitions
+\[
+\sigma_{\max}(X)=\max_{\|z\|=1}\|Xz\|,
+\qquad
+\sigma_{\min}(X)=\min_{\|z\|=1}\|Xz\|
+\]
+
+\textbf{(a)}
+\textbf{True}.
+
+Let \(e_i\) be the \(i\)th standard basis vector. The norm of
+row \(i\) of \(X\) is
+\[
+\left(\sum_{j=1}^n |X_{ij}|^2\right)^{1/2}
+=\|X^Te_i\|
+\]
+Since \(\|e_i\|=1\) and \(X\) and \(X^T\) have the same singular values,
+\[
+\|X^Te_i\|\leq\sigma_{\max}(X^T)=\sigma_{\max}(X)
+\]
+Taking the maximum over \(i\) proves the statement.
+
+\textbf{(b)}
+\textbf{False}.
+
+If \(X\in\mathbb{R}^{n\times n}\) is rank deficient, then
+some unit vector \(z\) satisfies \(Xz=0\), so
+\[
+\sigma_{\min}(X)=0
+\]
+This can occur even when every row has positive norm. For example,
+\[
+X=
+\begin{bmatrix}
+1&0\\
+1&0
+\end{bmatrix}
+\]
+Both row norms equal \(1\), but \(X\) has rank one, so the claimed
+inequality would give \(0\geq1\).
+
+\textbf{(c)}
+\textbf{True}.
+
+We know that
+\[
+\|XY\|
+\leq\|X\|\|Y\|
+\]
+So for any \(z\),
+\[
+\|XYz\|
+\leq\sigma_{\max}(X)\|Yz\|
+\leq\sigma_{\max}(X)\sigma_{\max}(Y)\|z\|
+\]
+Maximizing over all unit vectors \(z\) gives
+\[
+\boxed{\sigma_{\max}(XY)
+\leq\sigma_{\max}(X)\sigma_{\max}(Y)}
+\]
+
+\textbf{(d)}
+\textbf{True}.
+
+For any \(z\),
+\[
+\|XYz\|
+\geq\sigma_{\min}(X)\|Yz\|
+\geq\sigma_{\min}(X)\sigma_{\min}(Y)\|z\|
+\]
+Then, minimizing over all unit vectors \(z\) gives
+\[
+\boxed{\sigma_{\min}(XY)
+\geq\sigma_{\min}(X)\sigma_{\min}(Y)}
+\]
+
+\textbf{(e)}
+\textbf{True}.
+
+For every unit vector \(z\), (reverse) triangle inequality
+gives
+\[
+\|(X+Y)z\|
+\;=\|Xz+Yz\|
+\geq\|Xz\|-\|Yz\|
+\geq\sigma_{\min}(X)-\sigma_{\max}(Y)
+\]
+
+So taking the minimum over \(z\) gives
+\[
+\boxed{\sigma_{\min}(X+Y)
+\geq\sigma_{\min}(X)-\sigma_{\max}(Y)}
+\]

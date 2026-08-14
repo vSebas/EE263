@@ -1,0 +1,78 @@
+\section{Spectral Mapping Theorem}
+
+Let
+\[
+f(u)=a_0+a_1u+a_2u^2+\cdots
+\]
+and
+\[
+f(A)=a_0I+a_1A+a_2A^2+\cdots
+\]
+Suppose
+\[
+Av=\lambda v,\qquad v\ne 0
+\]
+Then, for every integer \(k\ge 0\),
+\[
+A^k v=\lambda^k v
+\]
+This follows by induction. The case \(k=0\) gives \(Iv=v\), and the case \(k=1\) is the eigenvalue equation. If \(A^k v=\lambda^k v\), then
+\[
+A^{k+1}v=A(A^k v)=A(\lambda^k v)=\lambda^k Av=\lambda^{k+1}v
+\]
+Therefore
+\[
+f(A)v
+=
+\sum_{k=0}^{\infty} a_k A^k v
+=
+\sum_{k=0}^{\infty} a_k \lambda^k v
+=
+f(\lambda)v
+\]
+Thus if \(\lambda\) is an eigenvalue of \(A\), then \(f(\lambda)\) is an eigenvalue of \(f(A)\).
+
+For the numerical example, the function is
+\[
+f(u)=\frac{1+u}{1-u}
+\]
+because
+\[
+f(A)=(I+A)(I-A)^{-1}
+\]
+Using a random \(3\times 3\) matrix with seed \(263\), direct computation gives
+\[
+\mathrm{eig}((I+A)(I-A)^{-1})
+=
+\{-7.6866,\;-0.060950-0.561033\mathbf{i},\;-0.060950+0.561033\mathbf{i}\}
+\]
+The spectral mapping calculation gives
+\[
+\left\{\frac{1+\lambda_i(A)}{1-\lambda_i(A)}\right\}
+=
+\{-0.060950-0.561033\mathbf{i},\;-0.060950+0.561033\mathbf{i},\;-7.6866\}
+\]
+The values agree up to ordering and numerical round-off. Comparing each eigenvalue with
+the nearest eigenvalue in the other set in both directions gives a maximum discrepancy of
+\[
+6.217\times 10^{-15}
+\]
+
+\subsection{Code}
+\begin{lstlisting}[language={}]
+using LinearAlgebra
+using Random
+
+Random.seed!(263)
+
+A = randn(3, 3)
+M = (I + A) * inv(I - A)
+
+direct = eigvals(M)
+mapped = (1 .+ eigvals(A)) ./ (1 .- eigvals(A))
+
+max_eigenvalue_error = max(
+    maximum(minimum(abs.(direct .- z)) for z in mapped),
+    maximum(minimum(abs.(mapped .- z)) for z in direct),
+)
+\end{lstlisting}

@@ -1,0 +1,118 @@
+\section{Invertibility of the KKT Matrix}
+
+Let
+\[
+K=
+\begin{bmatrix}
+A^TA&C^T\\
+C&0
+\end{bmatrix},
+\qquad
+S=
+\begin{bmatrix}
+A\\C
+\end{bmatrix}
+\]
+
+\textbf{(a)}
+For any \(u\),
+\[
+Su=0
+\]
+if and only if
+\[
+Au=0,\qquad Cu=0
+\]
+Therefore
+\[
+\mathrm{null}(S)=\mathrm{null}(A)\cap\mathrm{null}(C)
+\]
+The matrix \(S\) has linearly independent columns if and only if \(\mathrm{null}(S)=\{0\}\). Hence \(S\) has linearly independent columns if and only if
+\[
+\mathrm{null}(A)\cap\mathrm{null}(C)=\{0\}
+\]
+
+\textbf{(b)}
+If \(C\) does not have linearly independent rows, then there is a nonzero \(\lambda\) such that
+\[
+C^T\lambda=0
+\]
+Then
+\[
+K
+\begin{bmatrix}
+0\\ \lambda
+\end{bmatrix}
+=
+\begin{bmatrix}
+C^T\lambda\\0
+\end{bmatrix}
+=0
+\]
+The vector \([0\;\lambda]^T\) is nonzero, so \(K\) has a nonzero null vector and is singular.
+
+\textbf{(c)}
+Suppose there exists a nonzero vector \(u\in\mathrm{null}(A)\cap\mathrm{null}(C)\). Then
+\[
+Au=0,\qquad Cu=0
+\]
+and
+\[
+K
+\begin{bmatrix}
+u\\0
+\end{bmatrix}
+=
+\begin{bmatrix}
+A^TAu\\Cu
+\end{bmatrix}
+=0
+\]
+The vector \([u\;0]^T\) is nonzero, so \(K\) is singular.
+
+\textbf{(d)}
+Assume \(K\) is singular. Then there exists a nonzero pair \((u,\lambda)\) such that
+\[
+\begin{bmatrix}
+A^TA&C^T\\
+C&0
+\end{bmatrix}
+\begin{bmatrix}
+u\\\lambda
+\end{bmatrix}
+=0
+\]
+This means
+\[
+A^TAu+C^T\lambda=0,
+\qquad
+Cu=0
+\]
+Multiply the first equation on the left by \(u^T\):
+\[
+u^TA^TAu+u^TC^T\lambda=0
+\]
+Since \(Cu=0\),
+\[
+u^TC^T\lambda=(Cu)^T\lambda=0
+\]
+so
+\[
+\|Au\|_2^2=0
+\]
+and therefore
+\[
+Au=0
+\]
+Thus \(u\in\mathrm{null}(A)\cap\mathrm{null}(C)\). If \(u\ne 0\), then there is a nonzero vector in this intersection.
+
+If \(u=0\), then the pair \((u,\lambda)\) is nonzero only if \(\lambda\ne 0\). The first KKT equation becomes
+\[
+C^T\lambda=0
+\]
+with \(\lambda\ne 0\), so the rows of \(C\) are linearly dependent.
+
+Therefore, if \(K\) is singular, then either \(C\) does not have linearly independent rows, or there exists a nonzero vector
+\[
+u\in\mathrm{null}(A)\cap\mathrm{null}(C)
+\]

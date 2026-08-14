@@ -1,0 +1,154 @@
+\section{Properties of Symmetric Matrices}
+
+% In each part \(P\) and \(Q\) are symmetric.
+
+\textbf{(a)}
+\textbf{True}. If \(P\ge 0\), then
+\[
+(P+Q)-Q=P\ge 0
+\]
+Therefore
+\[
+P+Q\ge Q
+\]
+
+\textbf{(b)}
+\textbf{True}. If \(P\ge Q\), then simply multiply both sides by $-1$
+\[
+-P\le -Q
+\]
+
+% \[
+% P-Q\ge 0
+% \]
+% But
+% \[
+% (-Q)-(-P)=P-Q
+% \]
+% so
+% \[
+% -Q\ge -P
+% \]
+% which is the same as
+% \[
+% -P\le -Q
+% \]
+
+\textbf{(c)}
+\textbf{True}. Let \(P>0\), and let \(x\ne 0\). Since \(P\) is invertible, \(y=P^{-1}x\) is also nonzero. Then
+\[
+x^T P^{-1}x
+=
+(Py)^T P^{-1}(Py)
+=
+y^T P y
+>0
+\]
+so
+\[
+P^{-1}>0
+\]
+
+
+%  \[
+%   P=Q\Lambda Q^T,\qquad \lambda_i(P)>0
+%   \]
+
+%   Therefore,
+
+%   \[
+%   P^{-1}=Q\Lambda^{-1}Q^T
+%   \]
+
+%   so the eigenvalues of $(P^{-1})$ are
+
+%   \[
+%   \lambda_i(P^{-1})=\frac{1}{\lambda_i(P)}>0
+%   \]
+
+%   Hence (P^{-1}>0).
+
+\textbf{(d)}
+\textbf{True}. Assume
+\[
+P\ge Q>0
+\]
+Define
+\[
+Z=Q^{-1/2}P Q^{-1/2}
+\]
+Then
+\[
+Z-I=Q^{-1/2}(P-Q)Q^{-1/2}\ge 0
+\]
+so
+\[
+Z\ge I
+\]
+The eigenvalues of \(Z\) are at least one, so the eigenvalues of \(Z^{-1}\) are at most one. Therefore
+\[
+Z^{-1}\le I
+\]
+Now
+\[
+P^{-1}=Q^{-1/2}Z^{-1}Q^{-1/2},
+\qquad
+Q^{-1}=Q^{-1/2}IQ^{-1/2}
+\]
+and hence
+\[
+Q^{-1}-P^{-1}
+=
+Q^{-1/2}(I-Z^{-1})Q^{-1/2}\ge 0
+\]
+so
+\[
+P^{-1}\le Q^{-1}
+\]
+
+\textbf{(e)}
+\textbf{False}. Take
+\[
+P=
+\begin{bmatrix}
+1&0\\
+0&1
+\end{bmatrix},
+\qquad
+Q=
+\begin{bmatrix}
+-2&0\\
+0&0
+\end{bmatrix}
+\]
+Then
+\[
+P-Q=
+\begin{bmatrix}
+3&0\\
+0&1
+\end{bmatrix}\ge 0
+\]
+so \(P\ge Q\). But
+\[
+P^2-Q^2
+=
+\begin{bmatrix}
+1&0\\
+0&1
+\end{bmatrix}
+-
+\begin{bmatrix}
+4&0\\
+0&0
+\end{bmatrix}
+=
+\begin{bmatrix}
+-3&0\\
+0&1
+\end{bmatrix}
+\]
+which is not positive semidefinite. Therefore
+\[
+P^2\not\ge Q^2
+\]

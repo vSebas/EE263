@@ -1,0 +1,1356 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.18in]{geometry}
+\usepackage{multicol,amsmath,amssymb,mathtools,enumitem,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.25pt}
+\setlength{\columnsep}{0.12in}
+\setlength{\multicolsep}{0pt}
+\setlist[itemize]{leftmargin=*,nosep,topsep=0pt}
+\newcommand{\sect}[1]{\vspace{0.9pt}{\fontsize{7.2}{7.5}\selectfont\textbf{#1}}\vspace{0.25pt}\hrule\vspace{0.8pt}}
+\newcommand{\sub}[1]{\textbf{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\range}{\operatorname{range}}
+\newcommand{\nullsp}{\operatorname{null}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\one}{\mathbf{1}}
+\begin{document}
+\fontsize{6.25}{6.63}\selectfont
+\begin{multicols*}{3}
+
+\sect{Linear Maps and Models (Lectures 1--4)}
+\sub{Matrix map:} \(A\in\R^{m\times n}\) maps inputs \(x\in\R^n\) to
+outputs \(y=Ax\in\R^m\). With columns \(a_j\) and rows \(r_i^T\),
+\[
+y=\sum_{j=1}^n x_ja_j,\qquad y_i=r_i^Tx,\qquad A_{ij}=e_i^TAe_j
+\]
+Column \(j\) is the response to unit input \(e_j\); row \(i\) is the
+sensitivity pattern for output/sensor \(i\).
+
+\sub{Products / composition:} \(ABx=A(Bx)\), so \(B\) acts first.
+Column \(j\) of \(AB\) is \(A\) times column \(j\) of \(B\); row \(i\) of
+\(AB\) is row \(i\) of \(A\) times \(B\); and
+\[
+(AB)_{ij}=r_i^Tb_j
+\]
+where \(b_j\) is column \(j\) of \(B\). \((AB)^T=B^TA^T\). Left
+multiplication mixes rows; right multiplication
+mixes columns. A permutation matrix has one \(1\) per row/column,
+\(P^{-1}=P^T\), and reorders rows or columns.
+
+\sub{Linear map:} \(f:\R^n\to\R^m\) is linear iff
+\[
+f(\alpha u+\beta v)=\alpha f(u)+\beta f(v)
+\]
+for all scalars. Necessarily \(f(0)=0\), and every linear map has a unique
+matrix \(A=[f(e_1)\cdots f(e_n)]\). To disprove linearity, one failed test
+at \(0\), additivity, or homogeneity suffices.
+
+\sub{Affine map:} \(f(x)=Ax+b\) iff it preserves affine combinations
+\(\alpha+\beta=1\):
+\[
+f(\alpha u+\beta v)=\alpha f(u)+\beta f(v)
+\]
+Subtract the offset: \(g(x)=f(x)-f(0)\) is linear and \(b=f(0)\).
+
+\sub{Linearization:} for differentiable \(f:\R^n\to\R^m\),
+\[
+f(x_0+\delta x)\approx f(x_0)+Df(x_0)\delta x,\qquad
+(Df)_{ij}=\frac{\partial f_i}{\partial x_j}(x_0)
+\]
+Thus small deviations satisfy \(\delta y\approx Df(x_0)\delta x\).
+For scalar \(f\), \(df\approx\nabla f(x)^Tdx\), and
+\[
+\nabla(x^TAx)=(A+A^T)x
+\]
+
+\sub{Building engineering models:} write one output equation per row and
+one unknown/input per column. Check dimensions and units. In estimation,
+rows are sensors and columns are parameter signatures; in control, columns
+are actuator responses and \(\range(A)\) is the set of achievable outputs.
+
+\sub{Signal-flow / graph matrices:} in a directed linear signal graph,
+\(A_{ij}\) is the sum of products of edge gains over all paths from input
+\(j\) to output \(i\). Cascading the same map gives \(A^2,A^3,\ldots\).
+For adjacency matrix \(G\),
+\[
+(G^k)_{ij}=\#\{\text{walks of length }k\text{ from }j\text{ to }i\}
+\]
+with the orientation determined by the chosen adjacency convention.
+
+\sect{Linear Algebra (Lecture 5)}
+\sub{Norms:}
+\[
+\|x\|_p=\left(\sum_i|x_i|^p\right)^{1/p},\qquad
+\|x\|_\infty=\max_i|x_i|
+\]
+\(\|x\|\) means \(\|x\|_2\). It is nonnegative with equality iff \(x=0\),
+\(\|\alpha x\|=|\alpha|\|x\|\), and
+\(\|x+y\|\le\|x\|+\|y\|\).
+
+\sub{Inner product:} \(\langle u,v\rangle=u^Tv\), or
+\(u^TWv\) for \(W=W^T\succ0\). It is symmetric, linear in each real
+argument, and positive definite. Its induced norm is
+\(\|u\|=\sqrt{\langle u,u\rangle}\). Key identities:
+\[
+|u^Tv|\le\|u\|\|v\|,\qquad
+u^Tv=0\Rightarrow\|u+v\|^2=\|u\|^2+\|v\|^2
+\]
+\[
+\cos\theta=\frac{u^Tv}{\|u\|\|v\|}
+\]
+Positive inner product means acute (\(<90^\circ\)); zero means right;
+negative means obtuse (\(>90^\circ\)).
+
+\sub{Hyperplane / halfspace:}
+\[
+H=\{x:c^Tx=d\},\qquad
+H_\pm=\{x:c^Tx\gtreqless d\}
+\]
+\(c\ne0\) is normal to the hyperplane, whose dimension is \(n-1\).
+Points closer to \(a\) than \(b\) form the halfspace
+\[
+\|x-a\|\le\|x-b\|
+\iff
+(b-a)^Tx\le\frac{\|b\|^2-\|a\|^2}{2}
+\]
+with perpendicular-bisector boundary through \((a+b)/2\).
+
+\sub{Subspace / span:} \(S\subseteq\R^n\) is a subspace iff \(0\in S\)
+and \(\alpha u+\beta v\in S\) for all \(u,v\in S\). The span is
+\[
+\spn(v_1,\ldots,v_k)=\left\{\sum_i\alpha_iv_i\right\}
+\]
+Sums and intersections of subspaces are subspaces. \(S\cup T\) is a
+subspace iff \(S\subseteq T\) or \(T\subseteq S\).
+
+\sub{Independence / basis / dimension:}
+\[
+\sum_i\alpha_iv_i=0\Rightarrow\alpha_i=0
+\]
+defines independence. A basis of \(S\) is an independent set that spans
+\(S\); every \(x\in S\) then has unique coordinates. \(\dim S\) is the
+number of vectors in any basis. In a \(d\)-dimensional space, \(d\)
+independent vectors automatically form a basis, as do \(d\) spanning
+vectors.
+
+\sub{Coordinates / similarity:} for basis matrix
+\(B=[b_1\cdots b_n]\),
+\[
+x=B\tilde x,\qquad \tilde x=B^{-1}x
+\]
+If \(y=Ax\), its matrix in \(B\)-coordinates is
+\[
+\tilde A=B^{-1}AB
+\]
+Similar matrices describe the same map in different coordinates and have
+the same rank, determinant, trace, and eigenvalues.
+
+\sub{Invertibility:} for square \(A\), the following are equivalent:
+columns independent; columns span \(\R^n\); \(\nullsp(A)=\{0\}\);
+\(\range(A)=\R^n\); every \(Ax=b\) has one solution; \(\det(A)\ne0\);
+\(A^{-1}\) exists. Equivalently, \(\det(A)=0\) iff \(A\) is singular.
+Useful rules:
+\[
+(AB)^{-1}=B^{-1}A^{-1},\qquad (A^T)^{-1}=(A^{-1})^T
+\]
+
+\sect{Range and Nullspace (Lecture 6)}
+\sub{Definitions:}
+\[
+\range(A)=\{Ax:x\in\R^n\}=\spn\{\text{columns of }A\}
+\]
+\[
+\nullsp(A)=\{x:Ax=0\}
+\]
+\(Ax=b\) is consistent iff \(b\in\range(A)\). If \(z\in\nullsp(A)\),
+then \(A(x+z)=Ax\): nullspace directions are input ambiguity or control
+freedom.
+
+\sub{One-to-one / left inverse:} the following are equivalent:
+\[
+\begin{aligned}
+\nullsp(A)=\{0\}&\iff A\text{ is one-to-one}\\
+&\iff\text{columns independent}\\
+&\iff\exists L:\ LA=I
+\end{aligned}
+\]
+For \(A\in\R^{m\times n}\) with independent columns,
+\[
+L=(A^TA)^{-1}A^T
+\]
+because \(\nullsp(A^TA)=\nullsp(A)\). Conversely,
+\(LA=I,\ Ax=0\Rightarrow x=LAx=0\).
+
+\sub{Onto / right inverse:} the following are equivalent:
+\[
+\begin{aligned}
+\range(A)=\R^m&\iff A\text{ is onto}\\
+&\iff\text{rows independent}\\
+&\iff\exists R:\ AR=I
+\end{aligned}
+\]
+For independent rows,
+\[
+R=A^T(AA^T)^{-1}
+\]
+Conversely \(AR=I\) means \(x=Rb\) reaches every \(b\).
+
+\sub{Exact solution set:} if \(Ax=b\) is consistent,
+\[
+x=x_p+z,\qquad z\in\nullsp(A)
+\]
+It is unique iff \(\nullsp(A)=\{0\}\), otherwise infinite. A wide matrix
+has nonzero nullspace, so any consistent system has infinitely many
+solutions. A tall full-column-rank matrix has at most one solution, but
+some \(b\) are unattainable.
+
+\sub{Fundamental orthogonality:}
+\[
+\range(A)^\perp=\nullsp(A^T),\qquad
+\range(A^T)^\perp=\nullsp(A)
+\]
+\[
+\begin{gathered}
+\R^m=\range(A)\oplus\nullsp(A^T),\\
+\R^n=\range(A^T)\oplus\nullsp(A)
+\end{gathered}
+\]
+
+\sect{Rank (Lecture 7)}
+\sub{Definition / rank-nullity:}
+\[
+\begin{gathered}
+\rank(A)=\dim\range(A)=\rank(A^T),\\
+\rank(A)+\dim\nullsp(A)=n
+\end{gathered}
+\]
+Rank is the maximum number of independent columns or rows and the minimum
+intermediate dimension in a factorization \(A=BC\). Full rank means
+\(\rank(A)=\min(m,n)\).
+
+\sub{Shape consequences:} tall full rank means independent columns,
+one-to-one, left invertible. Wide full rank means independent rows, onto,
+right invertible. Square full rank means invertible.
+
+\sub{Product bounds:} if \(B\in\R^{m\times p}\),
+\(C\in\R^{p\times n}\),
+\[
+\begin{gathered}
+\rank(B)+\rank(C)-p\le\rank(BC),\\
+\rank(BC)\le\min\{\rank(B),\rank(C)\}
+\end{gathered}
+\]
+Invertible pre/post multiplication preserves rank.
+
+\sub{Block identities:}
+\[
+\rank([A\ B])=\dim(\range(A)+\range(B))
+\]
+\[
+\nullsp\!\begin{bmatrix}A\\B\end{bmatrix}
+=\nullsp(A)\cap\nullsp(B)
+\]
+\[
+\rank\diag(A,B)=\rank(A)+\rank(B)
+\]
+\(\rank([A\ B])=\rank(B)\) iff
+\(\range(A)\subseteq\range(B)\).
+
+\sub{Range intersection:} if
+\(Z=[Z_A^T\ Z_B^T]^T\) spans \(\nullsp([A\ {-B}])\), then
+\(\range(AZ_A)=\range(A)\cap\range(B)\). Retain independent columns of
+\(AZ_A\), e.g. by QR.
+
+\sub{Dimension identities:}
+\[
+\dim(S+T)=\dim S+\dim T-\dim(S\cap T)
+\]
+\[
+(S+T)^\perp=S^\perp\cap T^\perp,\qquad
+(S\cap T)^\perp=S^\perp+T^\perp
+\]
+\(S\oplus T\) means \(S+T\) with unique decomposition, equivalently
+\(S\cap T=\{0\}\).
+
+\sect{Orthogonality and QR (Lectures 8--9)}
+\sub{Orthonormal columns:} \(U=[u_1\cdots u_k]\) has orthonormal columns
+iff \(U^TU=I_k\). Then
+\[
+\|Ux\|=\|x\|,\qquad U^Ty=(u_1^Ty,\ldots,u_k^Ty)
+\]
+If \(U\) is square, \(UU^T=I\) and \(U^{-1}=U^T\). If \(U\) is tall,
+\(UU^T\ne I\) in general.
+
+\sub{\(2\times2\) orthogonal maps:} \(\det U=+1\) means a rotation;
+\(\det U=-1\) means a reflection. Orthogonal products and inverses are
+orthogonal.
+
+\sub{Projection:} \(P=UU^T\) projects orthogonally onto \(\range(U)\):
+\[
+\begin{gathered}
+P=P^T=P^2,\qquad y=Py+(I-P)y,\\
+Py\perp(I-P)y
+\end{gathered}
+\]
+\[
+\range(I-P)=\nullsp(P)=\range(P)^\perp
+\]
+\(\|Py\|\le\|y\|\), with equality iff \(y\in\range(P)\). If orthogonal
+projectors \(P,Q\) commute, \(PQ\) projects onto
+\(\range(P)\cap\range(Q)\).
+
+\sub{Gram--Schmidt:} for independent columns \(a_j\),
+\[
+\tilde q_j=a_j-\sum_{i<j}(q_i^Ta_j)q_i,\qquad
+q_j=\tilde q_j/\|\tilde q_j\|
+\]
+This preserves every leading span:
+\[
+\spn(q_1,\ldots,q_j)=\spn(a_1,\ldots,a_j)
+\]
+
+\sub{Thin QR:}
+\[
+A=QR,\qquad Q^TQ=I,\qquad R\text{ upper triangular}
+\]
+\[
+r_{ij}=q_i^Ta_j\ (i<j),\qquad r_{jj}=\|\tilde q_j\|
+\]
+For independent columns \(R\) is invertible and
+\(\range(Q)=\range(A)\). If a residual is zero, skip that dependent
+column; the number of generated \(q_i\)'s is \(\rank(A)\).
+
+\sub{Full / pivoted QR:}
+\[
+A=[Q_1\ Q_2]\begin{bmatrix}R\\0\end{bmatrix},\qquad
+\range(Q_2)=\range(A)^\perp
+\]
+Pivoted QR uses \(AP=QR\) to move independent/informative columns first.
+Gram--Schmidt depends on column order. Replacing \(a_j\) by cumulative
+sums preserves leading spans and \(Q\) up to signs, but changes \(R\).
+
+\sub{QR solves:} for full-column-rank \(A=QR\),
+\[
+Ax=b\text{ consistent}\Rightarrow Rx=Q^Tb,\qquad
+P_{\range(A)}=QQ^T
+\]
+The same triangular equation gives least squares when \(b\) is
+inconsistent.
+
+\sect{Homework 1--3 Patterns}
+\sub{Matrix construction:} translate each output formula into one row.
+Downsample \(y_i=x_{2i}\) uses row \(e_{2i}^T\); pair averaging uses
+\(\tfrac12(e_{2i-1}+e_{2i})^T\). For path systems, multiply gains along a
+path and add gains across parallel paths.
+
+\sub{PSD/null trick:} if \(M=N^TN\),
+\[
+x^TMx=\|Nx\|^2,\qquad \nullsp(M)=\nullsp(N)
+\]
+For a sum \(\sum_iN_i^TN_i\), its nullspace is
+\(\bigcap_i\nullsp(N_i)\). This proves invertibility by showing the only
+vector annihilated by every term is zero.
+
+\sub{Nonnegative-independence trick:} if every \(u_i\ne0\) and
+\(u_i^Tu_j\ge0\), then
+\[
+\sum_i\alpha_iu_i=0,\quad\alpha_i\ge0
+\quad\Rightarrow\quad \alpha_i=0\ \forall i
+\]
+because the squared norm is a sum of nonnegative terms and includes
+\(\alpha_i^2\|u_i\|^2\).
+
+\sub{Rational interpolation:}
+\[
+f(t)=\frac{a_0+\cdots+a_mt^m}{1+b_1t+\cdots+b_mt^m}
+\]
+Each sample \((t_i,y_i)\) gives the linear row
+\[
+\begin{bmatrix}
+1&t_i&\cdots&t_i^m&-y_it_i&\cdots&-y_it_i^m
+\end{bmatrix}\theta=y_i
+\]
+Increase \(m\) until consistent; then verify residual, actual interpolation
+error, and nonzero denominators at all samples.
+
+\sub{Wireless feasibility:} with desired common SINR \(S\), direct gains
+\(D=\diag(G_{ii})\), interference \(K=G-D\), and noise \(\sigma\one\),
+\[
+(D-SK)p=S\sigma\one
+\]
+For each \(S\), solve once and check \(0\le p_i\le p_i^{\max}\); this is a
+feasibility test, not an optimization problem.
+
+\sub{Dynamics / coin collection:} piecewise-constant forces give linear
+positions \(x(t)=\sum_j a_{tj}f_j\). Collecting selected targets is
+\(Af=x_{\rm target}\); consistency decides feasibility. To identify one
+target that must be missed, delete each target row and test the remaining
+system.
+
+\sub{Finite fault search:} when each candidate fault determines a model
+matrix, solve the linear system for every candidate and compare its
+predicted scalar measurement with the observed one. Finite model choices
+can be identified even from one scalar when their predictions differ.
+
+\sect{Least Squares (Lecture 10)}
+\sub{Problem / residual:} for \(A\in\R^{m\times n}\), usually \(m>n\),
+\[
+x_{\rm ls}=\argmin_x\|Ax-y\|^2,\qquad r_{\rm ls}=Ax_{\rm ls}-y
+\]
+Geometrically, \(Ax_{\rm ls}\) is the closest point in \(\range(A)\) to
+\(y\). Exact fit occurs iff \(y\in\range(A)\).
+
+\sub{Normal equations:} differentiating gives
+\[
+A^T(Ax_{\rm ls}-y)=0,\qquad A^TAx_{\rm ls}=A^Ty
+\]
+Thus \(r_{\rm ls}\perp\range(A)\). If \(A\) has independent columns,
+\[
+x_{\rm ls}=(A^TA)^{-1}A^Ty=A^\dagger y
+\]
+The minimizer is unique iff \(\nullsp(A)=\{0\}\). If \(A\) is rank
+deficient, the fitted vector \(Ax_{\rm ls}\) is still unique, but the
+coefficient vector need not be.
+
+\sub{Projection:} for full column rank \(A\),
+\[
+P_A=A(A^TA)^{-1}A^T,\qquad \hat y=P_Ay,\qquad r=(P_A-I)y
+\]
+\(P_A=P_A^T=P_A^2\), \(\range(P_A)=\range(A)\), and
+\(\nullsp(P_A)=\nullsp(A^T)\). Also
+\[
+y=P_Ay+(I-P_A)y,\qquad P_Ay\perp(I-P_A)y
+\]
+
+\sub{Completion of squares:} for any \(x\),
+\[
+\|Ax-y\|^2=\|r_{\rm ls}\|^2+\|A(x-x_{\rm ls})\|^2
+\]
+because \(r_{\rm ls}\perp A(x-x_{\rm ls})\). This proves optimality and,
+when \(A\) has zero nullspace, uniqueness.
+
+\sub{QR solution:} if \(A=QR\) is thin QR with \(Q^TQ=I\) and invertible
+\(R\),
+\[
+x_{\rm ls}=R^{-1}Q^Ty,\qquad \hat y=QQ^Ty,\qquad r=(QQ^T-I)y
+\]
+Solve \(Rx=Q^Ty\); do not explicitly form \(R^{-1}\) or \(A^TA\).
+
+\sub{Least-squares estimation / BLUE:} in \(y=Ax+v\), a linear estimate
+\(\hat x=By\) is unbiased in the noise-free case iff \(BA=I\). Then
+\(x-\hat x=-Bv\). For full-column-rank \(A\), \(A^\dagger\) is the
+smallest left inverse in Frobenius norm:
+\[
+BA=I\quad\Longrightarrow\quad \|B\|_F^2\ge\|A^\dagger\|_F^2
+\]
+With equal, uncorrelated sensor noise this is the best linear unbiased
+estimator.
+
+\sub{Weighted least squares:} for positive definite weight \(W\),
+\[
+\min_x(Ax-y)^TW(Ax-y)
+\quad\Rightarrow\quad
+x=(A^TWA)^{-1}A^TWy
+\]
+when \(A^TWA\) is invertible. Equivalently apply ordinary LS to
+\(W^{1/2}A,W^{1/2}y\).
+
+\sub{Unknown interference:} for \(y=Ax+Bv+w\), set
+\(P^\perp=I-BB^\dagger\). Joint LS over \(x,v\) eliminates \(v\):
+\[
+\hat x=(P^\perp A)^\dagger P^\perp y
+\]
+It is identifiable noise-free iff \(P^\perp A\) has independent columns;
+for full-column-rank \(A\), iff \(\range(A)\cap\range(B)=\{0\}\).
+
+\sect{Multiobjective LS (Lecture 11)}
+\sub{Two objectives:} with
+\[
+J_1(x)=\|Ax-y\|^2,\qquad J_2(x)=\|Fx-g\|^2
+\]
+the weighted objective is ordinary least squares:
+\[
+J_1+\mu J_2=
+\left\|
+\begin{bmatrix}A\\\sqrt\mu F\end{bmatrix}x-
+\begin{bmatrix}y\\\sqrt\mu g\end{bmatrix}
+\right\|^2,\qquad \mu\ge0
+\]
+If \(A^TA+\mu F^TF\) is invertible,
+\[
+x_\mu=(A^TA+\mu F^TF)^{-1}(A^Ty+\mu F^Tg)
+\]
+The stacked matrix has independent columns iff
+\(\nullsp(A)\cap\nullsp(F)=\{0\}\) for \(\mu>0\).
+
+\sub{Tradeoff curve:} \(x\) is Pareto optimal if no other point improves
+one objective without worsening the other. On a plot with horizontal
+\(J_2\) and vertical \(J_1\), \(J_1+\mu J_2=\alpha\) has slope \(-\mu\).
+\(\mu=0\) prioritizes \(J_1\); \(\mu\to\infty\) prioritizes \(J_2\), then
+\(J_1\) among minimizers of \(J_2\).
+
+\sub{Tikhonov / ridge:} with \(F=I,g=0\),
+\[
+x_\mu=(A^TA+\mu I)^{-1}A^Ty,\qquad \mu>0
+\]
+\(A^TA+\mu I\succ0\) for every \(A\), since
+\[
+z^T(A^TA+\mu I)z=\|Az\|^2+\mu\|z\|^2>0\quad(z\ne0)
+\]
+Large \(\mu\) favors small \(x\); small \(\mu\) favors data fit.
+
+\sub{Push-through identity:}
+\[
+(A^TA+\mu I)^{-1}A^T=A^T(AA^T+\mu I)^{-1}
+\]
+It follows by first observing
+\((A^TA+\mu I)A^T=A^T(AA^T+\mu I)\). This lets you invert the smaller
+matrix.
+
+\sect{Least-Norm Solutions (Lecture 12)}
+\sub{Underdetermined equations:} let \(A\in\R^{m\times n}\), \(m<n\),
+have full row rank. Every \(y\) is attainable and all solutions are
+\[
+x=x_p+z,\qquad z\in\nullsp(A)
+\]
+The unique least-norm solution is
+\[
+x_{\rm ln}=A^T(AA^T)^{-1}y=A^\dagger y
+\]
+
+\sub{Orthogonality proof:} \(x_{\rm ln}\in\range(A^T)=\nullsp(A)^\perp\).
+For any solution \(x=x_{\rm ln}+z\), \(z\in\nullsp(A)\), so
+\[
+\|x\|^2=\|x_{\rm ln}\|^2+\|z\|^2\ge\|x_{\rm ln}\|^2
+\]
+Also \(A^\dagger\) is a right inverse and
+\[
+\begin{gathered}
+A^\dagger A\text{ projects onto }\range(A^T),\\
+I-A^\dagger A\text{ projects onto }\nullsp(A)
+\end{gathered}
+\]
+
+\sub{Lagrange derivation:} for
+\(\min\frac12\|x\|^2\) subject to \(Ax=y\), use
+\[
+\mathcal L(x,\lambda)=\tfrac12x^Tx+\lambda^T(Ax-y)
+\]
+Stationarity gives \(x=-A^T\lambda\); feasibility gives
+\(\lambda=-(AA^T)^{-1}y\).
+
+\sub{Equality-constrained least squares:}
+\[
+\min_x\tfrac12\|Ax-b\|^2\quad\text{subject to }Cx=d
+\]
+has KKT equations
+\[
+\begin{bmatrix}A^TA&C^T\\C&0\end{bmatrix}
+\begin{bmatrix}x\\\lambda\end{bmatrix}
+=
+\begin{bmatrix}A^Tb\\d\end{bmatrix}
+\]
+The KKT matrix is invertible iff \(C\) has independent rows and
+\(\nullsp(A)\cap\nullsp(C)=\{0\}\). Proof: multiply the first homogeneous
+KKT equation by \(x^T\) and use \(Cx=0\) to obtain \(\|Ax\|^2=0\).
+
+\sub{Explicit constrained correction:} if \(H=A^TA\succ0\), let
+\(x_{\rm ls}=H^{-1}A^Tb\). Then
+\[
+x^\star=x_{\rm ls}+H^{-1}C^T(CH^{-1}C^T)^{-1}(d-Cx_{\rm ls})
+\]
+It is the smallest \(H\)-metric correction that enforces \(Cx=d\).
+
+\sect{Homework 4--5 Patterns}
+\sub{Matrix system identification:} with samples as columns,
+\(X=[x^{(1)}\cdots x^{(N)}]\), \(Y=[y^{(1)}\cdots y^{(N)}]\),
+\[
+\min_A\|AX-Y\|_F^2,\qquad
+\hat A=YX^T(XX^T)^{-1}
+\]
+when \(X\) has full row rank. Each row of \(A\) is an independent LS fit.
+
+\sub{Multiplicative model:} for
+\(\hat L=\alpha\prod_j z_j^{\beta_j}\), take logs:
+\[
+\log\hat L=\log\alpha+\sum_j\beta_j\log z_j
+\]
+Fit \((\log\alpha,\beta_j)\) by LS, then exponentiate. This minimizes
+squared log error, approximately relative error for a good fit.
+
+\sub{Tomography / inverse problems:} line integral \(j\) is
+\(y_j=\sum_i\ell_{ij}x_i+v_j\), so \(A_{ji}=\ell_{ij}\) and
+\(\hat x=A^\dagger y\). Always check residual scale and reshape using the
+given pixel ordering.
+
+\sub{Curve smoothing:} second-difference matrix
+\[
+(Dg)_i=\frac{g_{i+2}-2g_{i+1}+g_i}{h^2}
+\]
+penalizes curvature. For
+\[
+\frac1n\|f-g\|^2+\frac{\mu}{n-2}\|Dg\|^2
+\]
+the solution satisfies
+\[
+\left(\frac1nI+\frac{\mu}{n-2}D^TD\right)g=\frac1n f
+\]
+\(\mu=0\Rightarrow g=f\); \(\mu\to\infty\Rightarrow Dg=0\), so \(g\) is
+the best affine fit to \(f\).
+
+\sub{Interpolation basis:} if \(B\in\R^{n\times m}\) has independent
+columns, select \(m\) independent rows to form invertible \(Z\), then
+\[
+V=BZ^{-1}
+\]
+has the same range and identity rows at the selected sample indices.
+Consequently every \(y\in\range(B)\) is reconstructed directly from those
+\(m\) sampled entries.
+
+\sub{Minimum-energy flow/control:} encode conservation or endpoint
+requirements as \(Cf=d\). The minimum-energy input is
+\[
+f^\star=C^T(CC^T)^{-1}d
+\]
+for independent constraints. Incidence matrices turn node conservation
+into \(Af=-s\).
+
+\sub{Conservation-law correction:} to minimally adjust \(y\) so
+\(A^Tx=b\), solve \(A^Tc=b-A^Ty\):
+\[
+y_{\rm adj}=y+A(A^TA)^{-1}(b-A^Ty)
+\]
+This is orthogonal projection onto the affine set \(\{x:A^Tx=b\}\).
+
+\sect{Complex Numbers / Complex Linear Algebra}
+\sub{Arithmetic:} \(i^2=-1\), \(z=a+ib\), \(\bar z=a-ib\),
+\[
+|z|=\sqrt{a^2+b^2}=\sqrt{\bar z z},\qquad
+z^{-1}=\bar z/|z|^2\quad(z\ne0)
+\]
+Real-coefficient polynomials, and therefore real matrices, have nonreal
+roots/eigenvalues in conjugate pairs.
+
+\sub{Polar form / Euler:}
+\[
+z=re^{i\theta}=r(\cos\theta+i\sin\theta),\quad
+r=|z|,\quad\theta=\arg z
+\]
+Multiplication multiplies moduli and adds angles:
+\[
+z_1z_2=r_1r_2e^{i(\theta_1+\theta_2)},\qquad
+z^k=r^ke^{ik\theta}
+\]
+\(|z|<1\) gives decay, \(|z|>1\) growth, and \(|z|=1\) constant magnitude
+with rotation/oscillation.
+
+\sub{Complex vectors:} \(u^*=\bar u^T\),
+\[
+\langle u,v\rangle=u^*v,\qquad \|u\|^2=u^*u
+\]
+Use Hermitian transpose \(^*\), not plain transpose, in orthogonality,
+least squares, and unitary matrices. Complex LS is
+\[
+x_{\rm ls}=(A^*A)^{-1}A^*y
+\]
+for full column rank.
+
+\sub{Real representation:} for \(A=A_R+iA_I\), \(x=x_R+ix_I\),
+\[
+\widetilde A=
+\begin{bmatrix}A_R&-A_I\\A_I&A_R\end{bmatrix},\qquad
+\widetilde x=\begin{bmatrix}x_R\\x_I\end{bmatrix}
+\]
+Then \(\widetilde{Ax}=\widetilde A\widetilde x\),
+\(\|\widetilde x\|=\|x\|\), and
+\(\widetilde{A^*}=\widetilde A^T\).
+
+\sect{Eigenvalues / Diagonalization (Lecture 13)}
+\sub{Definitions:}
+\[
+\begin{gathered}
+Av=\lambda v,\quad v\ne0
+\quad\Longleftrightarrow\quad (A-\lambda I)v=0,\\
+\det(\lambda I-A)=0
+\end{gathered}
+\]
+\(v\) is a right eigenvector. A left eigenvector satisfies
+\(w^*A=\lambda w^*\). Eigenvectors may be scaled by any nonzero scalar.
+
+\sub{Action / dynamics:} along \(v\), \(A\) only scales by \(\lambda\).
+For \(x_{k+1}=Ax_k\), the mode \(v\) evolves as \(\lambda^kv\). If
+\(\lambda=re^{i\theta}\), \(r\) controls growth/decay and \(\theta\)
+controls rotation/oscillation.
+
+\sub{Diagonalization:} \(A\in\C^{n\times n}\) is diagonalizable iff it has
+\(n\) independent eigenvectors. With
+\[
+V=[v_1\ \cdots\ v_n],\qquad \Lambda=\diag(\lambda_1,\ldots,\lambda_n)
+\]
+\[
+AV=V\Lambda,\qquad A=V\Lambda V^{-1}
+\]
+Distinct eigenvalues imply independent eigenvectors and diagonalizability;
+the converse is false. A matrix lacking a full eigenbasis is defective.
+Rows of \(V^{-1}\) are dual left eigenvectors:
+\(w_i^*v_j=\delta_{ij}\).
+
+\sub{Useful consequences:}
+\[
+A^k=V\Lambda^kV^{-1},\quad
+A^{-1}=V\Lambda^{-1}V^{-1}\ (\lambda_i\ne0)
+\]
+\[
+f(A)=V\,\diag(f(\lambda_i))\,V^{-1}
+\]
+for a polynomial/power-series \(f\). Spectral mapping:
+\[
+Av=\lambda v\quad\Rightarrow\quad f(A)v=f(\lambda)v
+\]
+Also \(\tr A=\sum_i\lambda_i\), \(\det A=\prod_i\lambda_i\), counting
+algebraic multiplicity.
+
+\(AB\) and \(BA\) have the same nonzero eigenvalues:
+\(ABv=\lambda v,\lambda\ne0\Rightarrow Bv\ne0\) and
+\(BA(Bv)=\lambda Bv\).
+
+\sub{Matrix roots / logarithms:} for diagonalizable
+\(A=V\Lambda V^{-1}\), choose scalar values \(\mu_i^2=\lambda_i\) or
+\(e^{\nu_i}=\lambda_i\):
+\[
+A^{1/2}=V\diag(\mu_i)V^{-1},\qquad
+\log A=V\diag(\nu_i)V^{-1}
+\]
+The logarithm requires \(A\) invertible. Branches make these nonunique.
+A real diagonalizable matrix has a real
+root/log only when choices can be paired conjugately; each distinct
+negative real eigenvalue must have even multiplicity.
+
+\sect{Symmetric Matrices (Lecture 14)}
+\sub{Spectral theorem:} if \(A=A^T\in\R^{n\times n}\), all eigenvalues are
+real and an orthonormal eigenbasis exists:
+\[
+A=Q\Lambda Q^T=\sum_{i=1}^n\lambda_iq_iq_i^T,\qquad Q^TQ=I
+\]
+Eigenvectors for distinct eigenvalues are orthogonal; within a repeated
+eigenspace they can be chosen orthonormal.
+
+\sub{Geometric action:} \(Q^Tx\) resolves \(x\) into eigen-coordinates,
+\(\Lambda\) scales each coordinate, and \(Q\) reconstructs. Thus a
+symmetric map has orthogonal input/output principal directions.
+
+\sub{Quadratic forms:} \(f(x)=x^TAx\) depends only on
+\[
+A_s=\tfrac12(A+A^T),\qquad x^TAx=x^TA_sx
+\]
+For symmetric \(A\), \(\|x\|=1\), and
+\(\lambda_1\ge\cdots\ge\lambda_n\),
+\[
+\lambda_n\le x^TAx\le\lambda_1
+\]
+More generally,
+\[
+\lambda_{\min}\|x\|^2\le x^TAx\le\lambda_{\max}\|x\|^2
+\]
+The extrema are attained at corresponding eigenvectors.
+
+\sub{PSD / PD:}
+\[
+\begin{array}{c|c|c}
+ &x^TAx&\text{eigenvalues}\\ \hline
+A\succeq0&\ge0\ \forall x&\lambda_i\ge0\\
+A\succ0&>0\ \forall x\ne0&\lambda_i>0
+\end{array}
+\]
+\(A\succ0\Rightarrow A\) invertible and \(A^{-1}\succ0\).
+\(A\succeq0\) iff \(A=F^TF\) for some \(F\). The minimum number of rows
+of \(F\) is \(\rank(A)\).
+
+\sub{Indefinite forms / inertia:} split the spectral decomposition into
+positive and negative eigenvalues:
+\[
+A=Q_+\Lambda_+Q_+^T-Q_-\Lambda_-Q_-^T
+\]
+Then
+\[
+x^TAx=\|\Lambda_+^{1/2}Q_+^Tx\|^2-
+\|\Lambda_-^{1/2}Q_-^Tx\|^2
+\]
+The minimum row counts are the numbers \(n_+(A)\), \(n_-(A)\) of positive
+and negative eigenvalues.
+
+\sub{Matrix inequalities:} \(A\succeq B\) means \(A-B\succeq0\), or
+\(x^TAx\ge x^TBx\) for all \(x\). Useful rules:
+\[
+\begin{gathered}
+A\succeq B\Rightarrow -A\preceq-B,\\
+A\succeq B\Rightarrow C^TAC\succeq C^TBC,\\
+A\succeq B\succ0\Rightarrow A^{-1}\preceq B^{-1}
+\end{gathered}
+\]
+The order is partial. In general \(A\succeq B\) does not imply
+\(A^2\succeq B^2\).
+
+\sub{Symmetric square root:} if \(A\succeq0\),
+\[
+A^{1/2}=Q\diag(\sqrt{\lambda_i})Q^T,\qquad
+A^{1/2}A^{1/2}=A
+\]
+For \(A\succ0\), \(A^{-1/2}\) exists.
+
+\sect{Ellipsoids (Lecture 15)}
+\sub{Quadratic representation:} \(c\in\R^n\) is the center; for
+\(S=S^T\succ0\),
+\[
+\mathcal E=\{x:(x-c)^TS(x-c)\le1\}
+\]
+If \(Sq_i=\lambda_iq_i\), principal directions are \(q_i\) and semiaxis
+lengths are \(1/\sqrt{\lambda_i}\). Large \(\lambda_i\) means a short,
+thin direction. Boundary parametrization:
+\[
+x=c+Q\Lambda^{-1/2}u,\qquad \|u\|=1
+\]
+
+\sub{Scaled / covariance ellipsoid:}
+\[
+(x-c)^T\Sigma^{-1}(x-c)\le\alpha
+\]
+has semiaxis lengths \(\sqrt{\alpha\lambda_i(\Sigma)}\). Multiplying
+\(\alpha\) by four doubles all lengths.
+
+\sub{Image-of-ball representation:}
+\[
+\mathcal E=\{c+Bz:\|z\|\le1\},\qquad B\text{ invertible}
+\]
+is equivalent to \(S=(BB^T)^{-1}\). Given \(S\), all valid maps are
+\[
+B=S^{-1/2}R,\qquad R\in\R^{n\times n},\quad R^TR=I
+\]
+\(R\) is any rotation or reflection of the unit ball, explaining why
+the quadratic matrix \(S\) is unique while \(B\) is not.
+
+\sub{Sensors:} if \(y=B^Tx\), then
+\[
+\|y\|^2\le1\quad\Longleftrightarrow\quad x^TBB^Tx\le1
+\]
+This is a bounded ellipsoid iff \(BB^T\succ0\), i.e. the sensor vectors
+span the state space.
+
+\sub{Fitting an ellipsoid:} \(x_k^TSx_k\approx1\) is linear in the unique
+symmetric entries of \(S\). A design row contains \(x_i^2\) on diagonal
+terms and \(2x_ix_j\) on off-diagonal terms. Solve
+\[
+\Phi\theta\approx\one
+\]
+then reconstruct \(S\), verify \(S\succ0\), and assess
+\((x_k^TSx_k-1)\) using RMS and maximum absolute error.
+
+\sect{Matrix Norm and Gain (Lecture 16)}
+\sub{Maximum gain / induced \(2\)-norm:}
+\[
+\begin{gathered}
+\|A\|=\max_{x\ne0}\frac{\|Ax\|_2}{\|x\|_2}
+=\max_{\|x\|_2=1}\|Ax\|_2,\\
+\|A\|=\sqrt{\lambda_{\max}(A^TA)}=\sigma_{\max}(A)
+\end{gathered}
+\]
+The maximizing input is the top eigenvector of \(A^TA\); its output
+direction is the corresponding left singular vector.
+
+\sub{Minimum gain:}
+\[
+\sigma_{\min}(A)=\min_{\|x\|=1}\|Ax\|
+=\sqrt{\lambda_{\min}(A^TA)}
+\]
+It is zero iff \(\nullsp(A)\ne\{0\}\). For a square invertible matrix it
+is the smallest singular value and
+\(\|A^{-1}\|=1/\sigma_{\min}(A)\).
+
+\sub{Gain bounds / norm properties:} for \(x\ne0\),
+\[
+\begin{gathered}
+\sigma_{\min}(A)\le\frac{\|Ax\|}{\|x\|}
+\le\sigma_{\max}(A)=\|A\|,\\
+\|AB\|\le\|A\|\,\|B\|,\quad \|A^T\|=\|A\|,\\
+\|\alpha A\|=|\alpha|\|A\|,\quad
+\|A+B\|\le\|A\|+\|B\|
+\end{gathered}
+\]
+For square \(X,Y\),
+\[
+\begin{gathered}
+\sigma_{\max}(XY)\le\sigma_{\max}(X)\sigma_{\max}(Y),\\
+\sigma_{\min}(XY)\ge\sigma_{\min}(X)\sigma_{\min}(Y),\\
+\sigma_{\min}(X+Y)\ge\sigma_{\min}(X)-\sigma_{\max}(Y)
+\end{gathered}
+\]
+
+\sub{Frobenius norm:}
+\[
+\|A\|_F=\sqrt{\sum_{ij}A_{ij}^2}
+=\sqrt{\tr(A^TA)}
+=\sqrt{\sum_i\sigma_i^2}
+\]
+It is the Euclidean norm of all entries, not the maximum gain.
+\[
+\|A\|\le\|A\|_F\le\sqrt{\rank(A)}\,\|A\|
+\]
+
+\sub{Norm invertibility test:} \(\|E\|<1\) implies
+\[
+(I-E)^{-1}=\sum_{k\ge0}E^k,\qquad
+\|(I-E)^{-1}\|\le(1-\|E\|)^{-1}
+\]
+Thus \(A+\Delta A\) is invertible if \(\|A^{-1}\Delta A\|<1\).
+
+\sect{SVD (Lecture 17)}
+\sub{Thin SVD:} if \(A\in\R^{m\times n}\) has rank \(r\),
+\[
+A=U_r\Sigma_rV_r^T=\sum_{i=1}^r\sigma_i u_iv_i^T
+\]
+\[
+\begin{gathered}
+U_r\in\R^{m\times r},\quad V_r\in\R^{n\times r},\\
+\Sigma_r=\diag(\sigma_1,\ldots,\sigma_r),\quad
+\sigma_1\ge\cdots\ge\sigma_r>0
+\end{gathered}
+\]
+Columns of \(U_r,V_r\) are orthonormal, and
+\[
+Av_i=\sigma_i u_i,\qquad A^Tu_i=\sigma_i v_i
+\]
+
+\sub{SVD and four spaces:}
+\[
+\begin{array}{c|c}
+\range(A)&\spn\{u_1,\ldots,u_r\}\\
+\range(A^T)&\spn\{v_1,\ldots,v_r\}\\
+\nullsp(A^T)&\spn\{\text{remaining left }u_i\}\\
+\nullsp(A)&\spn\{\text{remaining right }v_i\}
+\end{array}
+\]
+\(A^TA=V_r\Sigma_r^2V_r^T\) and
+\(AA^T=U_r\Sigma_r^2U_r^T\): nonzero eigenvalues are \(\sigma_i^2\).
+
+\sub{Full SVD:}
+\[
+A=U\Sigma V^T,\qquad U\in\R^{m\times m},\quad
+V\in\R^{n\times n}
+\]
+with orthogonal \(U,V\) and rectangular diagonal \(\Sigma\), whose first
+\(r\) entries are positive and the rest zero. It means: rotate by \(V^T\),
+scale/truncate/zero-pad by \(\Sigma\), then rotate by \(U\).
+
+\sub{Symmetric case:} if \(A=A^T\), its singular values are the absolute
+eigenvalues, sorted by magnitude:
+\[
+\{\sigma_i(A)\}=\{|\lambda_i(A)|\}
+\]
+For \(\lambda_i\ne0\), one choice is
+\(v_i=q_i,\ u_i=\operatorname{sign}(\lambda_i)q_i\).
+
+\sub{Moore--Penrose pseudoinverse:}
+\[
+A^\dagger=V_r\Sigma_r^{-1}U_r^T
+\]
+For every \(A,y\), \(A^\dagger y\) is the minimum-norm vector among all
+least-squares minimizers. All LS minimizers are
+\[
+x=A^\dagger y+z,\qquad z\in\nullsp(A)
+\]
+The four identities are
+\[
+\begin{gathered}
+AA^\dagger A=A,\qquad A^\dagger AA^\dagger=A^\dagger,\\
+(AA^\dagger)^T=AA^\dagger,\qquad(A^\dagger A)^T=A^\dagger A
+\end{gathered}
+\]
+Thus
+\[
+AA^\dagger=P_{\range(A)},\qquad
+A^\dagger A=P_{\range(A^T)}
+\]
+and \(I-AA^\dagger=P_{\nullsp(A^T)}\),
+\(I-A^\dagger A=P_{\nullsp(A)}\).
+
+\sub{Regularization limit / filters:}
+\[
+A^\dagger=\lim_{\mu\downarrow0}(A^TA+\mu I)^{-1}A^T
+\]
+in the action on data. In singular coordinates,
+\[
+x_\mu=\sum_{i=1}^r
+\frac{\sigma_i}{\sigma_i^2+\mu}(u_i^Ty)v_i
+\]
+Ordinary LS uses gain \(1/\sigma_i\); Tikhonov multiplies it by
+\(\sigma_i^2/(\sigma_i^2+\mu)\), strongly damping small-\(\sigma_i\)
+directions.
+
+\sub{Sensitivity / condition number:} for invertible \(A\),
+\[
+\kappa(A)=\|A\|\|A^{-1}\|
+=\frac{\sigma_{\max}}{\sigma_{\min}}\ge1
+\]
+If \(Ax=y\) and only \(y\) is perturbed,
+\[
+\frac{\|\delta x\|}{\|x\|}
+\le\kappa(A)\frac{\|\delta y\|}{\|y\|}
+\]
+A small \(\sigma_{\min}\) means large noise amplification and proximity
+to singularity.
+
+\sub{Best low-rank approximation:} truncate after \(k<r\):
+\[
+A_k=\sum_{i=1}^k\sigma_i u_iv_i^T
+\]
+Eckart--Young:
+\[
+\begin{gathered}
+\min_{\rank(B)\le k}\|A-B\|=\sigma_{k+1},\\
+\min_{\rank(B)\le k}\|A-B\|_F=\sqrt{\sum_{i>k}\sigma_i^2}
+\end{gathered}
+\]
+\(\sigma_r\) is the operator-norm distance to rank \(<r\); for invertible
+square \(A\), \(\sigma_{\min}\) is distance to singularity.
+
+\sub{Truncated-SVD inverse:}
+\[
+x_{\rm TSVD}^{(k)}
+=\sum_{i=1}^k\frac{u_i^Ty}{\sigma_i}v_i
+\]
+Small \(k\) causes bias/oversmoothing; large \(k\) admits
+noise-amplifying directions. Choose \(k\) by the error/validation
+tradeoff, not just numerical rank.
+
+\sect{PCA (Lecture 18)}
+\sub{Center first:} with data as columns \(X=[x_1\cdots x_N]\),
+\[
+\begin{gathered}
+\bar x=\frac1N\sum_i x_i,\qquad
+X_c=[x_1-\bar x\ \cdots\ x_N-\bar x],\\
+S=\frac1N X_cX_c^T
+\end{gathered}
+\]
+\(S=S^T\succeq0\). If data are stored as rows, use
+\(S=X_c^TX_c/N\) and transpose the singular-vector roles.
+
+\sub{Variance direction:} for unit \(v\),
+\[
+\Var(v^Tx_i)=v^TSv
+\]
+This is maximized by the top eigenvector \(u_1\) of \(S\), with value
+\(\lambda_1\). Subsequent PCs maximize variance subject to orthogonality.
+Total variance is
+\[
+\tr(S)=\sum_i\lambda_i=\frac1N\|X_c\|_F^2
+\]
+
+\sub{SVD connection:} if \(X_c=U\Sigma V^T\), then
+\[
+S=U\frac{\Sigma\Sigma^T}{N}U^T,\qquad
+\lambda_i=\frac{\sigma_i^2}{N}
+\]
+For column-stored data the principal directions are left singular vectors
+\(u_i\).
+
+\sub{Projection / reconstruction:} with
+\(U_k=[u_1\cdots u_k]\),
+\[
+z_i=U_k^T(x_i-\bar x),\qquad
+\hat x_i=\bar x+U_kz_i
+\]
+The optimal \(k\)-dimensional affine subspace passes through \(\bar x\)
+and uses the top PCs. Its mean-square reconstruction error is
+\[
+E_k=\frac1N\sum_i\|x_i-\hat x_i\|^2
+=\sum_{i>k}\lambda_i
+=\frac1N\sum_{i>k}\sigma_i^2
+\]
+Fraction of variance captured:
+\[
+\rho_k=\frac{\sum_{i=1}^k\lambda_i}{\sum_i\lambda_i}
+=\frac{\sum_{i=1}^k\sigma_i^2}{\sum_i\sigma_i^2}
+\]
+
+\sub{Covariance ellipsoid / whitening:} for \(S\succ0\),
+\[
+(x-\bar x)^TS^{-1}(x-\bar x)\le\alpha
+\]
+has axes \(u_i\) and lengths \(\sqrt{\alpha\lambda_i}\). The whitened
+coordinate \(z=S^{-1/2}(x-\bar x)\) has identity covariance.
+
+\sub{Small singular values:} for
+\(Y=[y_1\cdots y_N]\in\R^{m\times N}\), \(N\ge m\),
+\[
+\min_{\|q\|=1}\frac{\|q^TY\|}{\|Y\|_F}
+=\frac{\sigma_{\min}(Y)}{\|Y\|_F}
+\]
+The minimizing \(q\) is the bottom left singular vector; a small value
+reveals \(q^Ty_i\approx0\). Center for affine relations. Spectral gaps
+above the noise floor reveal effective dimension/source count.
+
+\sect{Homework 6--7 Patterns}
+\sub{Ellipsoid fitting check:} positivity of the fitted eigenvalues proves
+the quadratic surface is a bounded ellipsoid. Mean residual near zero can
+hide cancellation; report RMS
+\(\|r-\one\|/\sqrt N\) and \(\|r-\one\|_\infty\).
+
+\sub{Singular-value proof tools:} for the square matrices in HW7, use
+\[
+\sigma_{\max}(A)=\max_{\|x\|=1}\|Ax\|,\qquad
+\sigma_{\min}(A)=\min_{\|x\|=1}\|Ax\|
+\]
+then apply ordinary/reverse triangle inequalities. A row norm is
+\(\|A^Te_i\|\le\sigma_{\max}(A)\); no analogous lower bound holds for
+every row.
+
+\sub{Deconvolution:} smoothing operators have smooth, low-frequency
+right singular vectors at large \(\sigma_i\), while high-frequency
+directions often have tiny \(\sigma_i\). Direct inversion amplifies noise.
+TSVD discards those directions; Tikhonov damps them continuously.
+
+\sub{Tikhonov estimator as a matrix:} for
+\[
+B_\mu=(A^TA+\mu I)^{-1}A^T
+\]
+its singular-direction gains are
+\[
+g_i=\frac{\sigma_i}{\sigma_i^2+\mu},\qquad
+\|B_\mu\|=\max_i g_i
+\]
+The \(g_i\) need not remain sorted in the order of \(\sigma_i\). Also
+\[
+AB_\mu-I=-U\diag\left(\frac{\mu}{\sigma_i^2+\mu}\right)U^T
+\]
+for square full SVD, so worst reconstruction bias is governed by the
+smallest singular value.
+
+\sect{Probability Basics (Lecture 19)}
+\sub{Events / axioms:} sample space \(\Omega\), outcome
+\(\omega\in\Omega\), event \(A\subseteq\Omega\). Probability satisfies
+\[
+\Prob(A)\ge0,\qquad \Prob(\Omega)=1,\qquad
+\Prob(A\cup B)=\Prob(A)+\Prob(B)
+\]
+for disjoint \(A,B\). Hence
+\[
+\Prob(A^c)=1-\Prob(A),\quad
+\Prob(A\cup B)=\Prob(A)+\Prob(B)-\Prob(A\cap B)
+\]
+
+\sub{Conditioning / Bayes:}
+\[
+\Prob(A\mid B)=\frac{\Prob(A\cap B)}{\Prob(B)},\qquad
+\Prob(A\mid B)=\frac{\Prob(B\mid A)\Prob(A)}{\Prob(B)}
+\]
+\(A,B\) are independent iff
+\(\Prob(A\cap B)=\Prob(A)\Prob(B)\), equivalently
+\(\Prob(A\mid B)=\Prob(A)\).
+
+\sub{Distributions:} discrete PMF \(p(x)=\Prob(X=x)\),
+\(\sum_xp(x)=1\). Continuous PDF \(f(x)\ge0\),
+\[
+\Prob(a\le X\le b)=\int_a^b f(x)\,dx,\qquad \int f=1
+\]
+CDF \(F(t)=\Prob(X\le t)\) works in both cases; for a continuous variable,
+\(F'(t)=f(t)\) where differentiable.
+
+\sub{Common distributions:}
+\[
+\begin{array}{c|c|c}
+X&\E X&\Var X\\ \hline
+\operatorname{Bern}(p)&p&p(1-p)\\
+\operatorname{Bin}(n,p)&np&np(1-p)\\
+\operatorname{Unif}[a,b]&(a+b)/2&(b-a)^2/12\\
+\operatorname{Exp}(\lambda)&1/\lambda&1/\lambda^2\\
+\mathcal N(\mu,\sigma^2)&\mu&\sigma^2
+\end{array}
+\]
+Also Poisson\((\lambda)\) has mean and variance \(\lambda\).
+
+\sub{Expectation / moments:}
+\[
+\E[g(X)]=\sum_xg(x)p(x)\quad\text{or}\quad
+\int g(x)f(x)\,dx
+\]
+\[
+\E[aX+bY+c]=a\E X+b\E Y+c
+\]
+Linearity never requires independence. The \(k\)th moment is \(\E X^k\);
+the \(k\)th central moment is \(\E[(X-\E X)^k]\).
+
+\sub{Variance:}
+\[
+\begin{gathered}
+\Var X=\E[(X-\mu)^2]=\E[X^2]-\mu^2,\\
+\Var(aX+b)=a^2\Var X
+\end{gathered}
+\]
+\[
+\Var(X+Y)=\Var X+\Var Y+2\Cov(X,Y)
+\]
+For independent variables the covariance term is zero.
+
+\sub{Covariance / correlation:}
+\[
+\Cov(X,Y)=\E[(X-\mu_X)(Y-\mu_Y)]
+=\E[XY]-\mu_X\mu_Y
+\]
+\[
+\rho_{XY}=\frac{\Cov(X,Y)}{\sigma_X\sigma_Y}\in[-1,1]
+\]
+Independence implies zero covariance; zero covariance generally does not
+imply independence.
+
+\sub{Random vectors:} for \(x\in\R^n\),
+\[
+\mu=\E x,\qquad
+\Sigma=\Cov(x)=\E[(x-\mu)(x-\mu)^T]\succeq0
+\]
+Diagonal entries are variances; off-diagonal entries are covariances.
+For deterministic \(A,b\),
+\[
+\E[Ax+b]=A\mu+b,\qquad
+\Cov(Ax+b)=A\Sigma A^T
+\]
+If independent \(x,w\), then
+\(\Cov(Ax+w)=A\Sigma_xA^T+\Sigma_w\).
+
+\sub{Sample mean / limit theorems:} for independent identically
+distributed \(X_i\) with mean \(\mu\), variance \(\sigma^2\),
+\[
+\bar X_N=\frac1N\sum_iX_i,\qquad
+\E\bar X_N=\mu,\qquad
+\Var(\bar X_N)=\frac{\sigma^2}{N}
+\]
+LLN: \(\bar X_N\to\mu\). CLT: for large \(N\),
+\(\bar X_N\approx\mathcal N(\mu,\sigma^2/N)\).
+
+\sub{Gaussian facts:} \(X\sim\mathcal N(\mu,\sigma^2)\) has density
+\[
+f(x)=\frac1{\sqrt{2\pi\sigma^2}}
+\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+\]
+About \(68\%,95\%,99.7\%\) lies within \(1,2,3\) standard deviations.
+Affine transformations of jointly Gaussian vectors are jointly Gaussian.
+For jointly Gaussian variables, zero covariance implies independence.
+
+\sect{Gaussian Conditioning / Practice Final}
+\sub{Joint Gaussian conditioning:} if
+\[
+\begin{bmatrix}x\\y\end{bmatrix}\sim\mathcal N\left(
+\begin{bmatrix}\mu_x\\\mu_y\end{bmatrix},
+\begin{bmatrix}\Sigma_{xx}&\Sigma_{xy}\\
+\Sigma_{yx}&\Sigma_{yy}\end{bmatrix}\right)
+\]
+then
+\[
+\E[x\mid y]=\mu_x+\Sigma_{xy}\Sigma_{yy}^{-1}(y-\mu_y)
+\]
+\[
+\Cov(x\mid y)=
+\Sigma_{xx}-\Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}
+\]
+The conditional covariance does not depend on the observed value \(y\).
+
+\sub{Linear Gaussian model:} if
+\[
+x\sim\mathcal N(0,\tau^2I),\quad y=Ax+w,\quad
+w\sim\mathcal N(0,\sigma^2I),\quad x\perp w
+\]
+then
+\[
+\Cov\begin{bmatrix}x\\y\end{bmatrix}
+=
+\begin{bmatrix}
+\tau^2I&\tau^2A^T\\
+\tau^2A&\tau^2AA^T+\sigma^2I
+\end{bmatrix}
+\]
+and the MMSE estimator is
+\[
+\hat x_{\rm MMSE}
+=\tau^2A^T(\tau^2AA^T+\sigma^2I)^{-1}y
+\]
+
+\sub{MMSE equals regularized LS:}
+\[
+\hat x_{\rm reg}=(A^TA+\lambda I)^{-1}A^Ty,\qquad
+\boxed{\lambda=\sigma^2/\tau^2}
+\]
+Use \(B(I+CB)^{-1}=(I+BC)^{-1}B\) or the push-through identity.
+
+\sub{MMSE shrinkage in SVD:} for \(A=U\Sigma V^T\),
+\[
+\hat x_{\rm MMSE}
+=\sum_i\frac{\tau^2\sigma_i}{\tau^2\sigma_i^2+\sigma^2}
+(u_i^Ty)v_i
+\]
+Relative to \(x_{\rm ls}\), component \(i\) is multiplied by
+\[
+\gamma_i=\frac{\tau^2\sigma_i^2}
+{\tau^2\sigma_i^2+\sigma^2}\in(0,1)
+\]
+Large gain/low noise/weak prior shrinkage gives \(\gamma_i\approx1\);
+small gain/high noise/strong small-\(x\) prior gives \(\gamma_i\approx0\).
+
+\sub{Scalar posterior MSE:} for \(y=sx+w\) with \(s>0\),
+\[
+\E[(x-\hat x_{\rm MMSE})^2\mid y]
+=\frac{\tau^2\sigma^2}{\sigma^2+s^2\tau^2}
+\]
+It tends to \(0\) as \(\sigma\to0\) and to \(\tau^2\) as
+\(\sigma\to\infty\).
+
+\sect{Practice Final Problem Patterns}
+\sub{Warehouse stacking:} for two warehouses,
+\[
+A_{\rm ship}=
+\begin{bmatrix}I&0\\I&0\\0&I\\0&I\end{bmatrix},\quad
+y=\begin{bmatrix}c_1\\c_2\\c_3\\c_4\end{bmatrix},\quad
+A_{\rm pen}=[I\ -I]
+\]
+Use \(\hat A=[A_{\rm ship};\sqrt\mu A_{\rm pen}]\),
+\(\hat y=[y;0]\). Uniqueness holds because \(A_{\rm ship}\) has full
+column rank. At \(\mu=0\), each warehouse is its pair's midpoint; as
+\(\mu\to\infty\), both approach the centroid of all cities. In the
+practice-final diagonalization, varying \(\mu\) traces the line segment
+between these endpoint solutions.
+
+\sub{Separate regressions:} fitting nonorthogonal feature columns one at a
+time generally double-counts shared directions and gives a worse residual
+than joint LS. With orthonormal feature columns \(U\), coefficients decouple:
+\[
+\min_\beta\left\|y-\sum_j\beta_ju_j\right\|^2
+\quad\Rightarrow\quad \beta_j=u_j^Ty
+\]
+The fitted vector matches joint LS, although coordinates differ from those
+in the original feature basis.
+
+\sub{Rank-deficient regression:} zero singular values make \(X^TX\)
+singular. Use \(X^\dagger y\); it gives the minimum-norm coefficient among
+all LS minimizers, while \(XX^\dagger y\) is the unique fitted response.
+
+\sub{Graph Laplacian:} for an undirected weighted graph,
+\[
+L=D-W,\qquad
+x^TLx=\frac12\sum_{i,j}w_{ij}(x_i-x_j)^2\ge0
+\]
+Thus \(L\succeq0\), \(L\one=0\), and the multiplicity of eigenvalue zero
+equals the number of connected components. The graph is connected iff
+\(\nullsp(L)=\spn\{\one\}\), equivalently \(\lambda_2(L)>0\).
+
+\end{multicols*}
+\end{document}

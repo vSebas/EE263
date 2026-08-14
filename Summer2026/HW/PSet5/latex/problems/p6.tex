@@ -1,0 +1,66 @@
+\section{Invertibility of Certain Matrices}
+
+\textbf{(a)}
+Assume \(\mu>0\), and suppose
+\[
+(A^TA+\mu I)z=0
+\]
+Multiply on the left by \(z^T\):
+\[
+z^T(A^TA+\mu I)z=0
+\]
+This gives
+\[
+z^TA^TAz+\mu z^Tz=0
+\]
+or
+\[
+\|Az\|_2^2+\mu\|z\|_2^2=0
+\]
+Both terms are nonnegative, and \(\mu>0\). Therefore \(\|z\|_2^2=0\), so
+\[
+z=0
+\]
+Thus the nullspace of \(A^TA+\mu I\) is zero. Since \(A^TA+\mu I\) is square, it is invertible. The same argument with \(A^T\) in place of \(A\) shows that
+\[
+AA^T+\mu I
+\]
+is also invertible.
+
+\textbf{(b)}
+First,
+\[
+A^T(AA^T+\mu I)=A^TAA^T+\mu A^T
+\]
+and
+\[
+(A^TA+\mu I)A^T=A^TAA^T+\mu A^T
+\]
+so
+\[
+A^T(AA^T+\mu I)=(A^TA+\mu I)A^T
+\]
+Multiplying on the left by \((A^TA+\mu I)^{-1}\) and on the right by \((AA^T+\mu I)^{-1}\) gives
+\[
+(A^TA+\mu I)^{-1}A^T
+=
+A^T(AA^T+\mu I)^{-1}
+\]
+
+\textbf{(c)}
+Assume \(A\) is fat and full rank. Then \(AA^T\) is square and invertible. From part (b),
+\[
+(A^TA+\mu I)^{-1}A^T
+=
+A^T(AA^T+\mu I)^{-1}
+\]
+Taking \(\mu\to 0^+\), and using continuity of matrix inversion at the invertible matrix \(AA^T\),
+\[
+(AA^T+\mu I)^{-1}\to (AA^T)^{-1}
+\]
+Therefore
+\[
+(A^TA+\mu I)^{-1}A^T
+\to
+A^T(AA^T)^{-1}
+\]

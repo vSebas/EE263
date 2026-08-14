@@ -1,0 +1,83 @@
+\section{Two Representations of an Ellipsoid}
+
+% Since \(A\) is invertible, every \(y\in E_2\) has \(x=A^{-1}y\). Therefore
+% \[
+% \|x\|_2\leq1
+% \quad\Longleftrightarrow\quad
+% \|A^{-1}y\|_2^2\leq1
+% \]
+% and
+% \[
+% \|A^{-1}y\|_2^2
+% =y^TA^{-T}A^{-1}y
+% =y^T(AA^T)^{-1}y
+% \]
+
+\textbf{(a)}
+Given \(S=S^T>0\),
+\[
+x^TSx=\|S^{1/2}x\|_2^2
+\]
+Therefore
+\[
+\mathcal{E}_1
+=\{x\mid x^TSx\leq1\}
+=\{x\mid\|S^{1/2}x\|_2\leq1\}
+\]
+Define \(z=S^{1/2}x\). Since \(S^{1/2}\) is invertible,
+\(x=S^{-1/2}z\), and hence
+\[
+\mathcal{E}_1=\{S^{-1/2}z\mid\|z\|_2\leq1\}
+\]
+Comparing with \(\mathcal{E}_2\),
+\[
+\boxed{A=S^{-1/2}}
+\]
+
+\textbf{(b)}
+
+Since \(\det(A)\neq 0\), \(A\) is invertible. From \(y=Ax\), we have
+\(x=A^{-1}y\), so
+\[
+\mathcal{E}_2
+=\{y\mid \|A^{-1}y\|_2^2\leq1\}
+=\{y\mid y^TA^{-T}A^{-1}y\leq1\}
+\]
+Comparing with \(\mathcal{E}_1\),
+\[
+\boxed{S=A^{-T}A^{-1}=(AA^T)^{-1}}
+\]
+This \(S\) is symmetric positive definite since, for \(y\neq0\),
+\[
+y^TSy=\|A^{-1}y\|_2^2>0
+\]
+
+\textbf{(c)}
+
+Given S:
+
+Equality of the two representations requires
+\[
+AA^T=S^{-1}
+\]
+Let
+\[
+R=S^{1/2}A
+\]
+Then \(RR^T=I\), so \(R\) is orthogonal. Consequently, all possible matrices
+\(A\) are
+\[
+\boxed{A=S^{-1/2}R,\qquad R^TR=RR^T=I}
+\]
+Since \(R\) is orthogonal, it rotates or reflects the unit ball onto itself.
+Therefore \(S^{-1/2}R\) produces the same ellipsoid for every orthogonal \(R\).
+
+Then, given A:
+
+Conversely, every such \(A\) satisfies \(AA^T=S^{-1}\), so this describes all
+choices.
+
+For a fixed invertible \(A\), the matrix \(S\) is unique:
+\[
+\boxed{S=(AA^T)^{-1}}
+\]

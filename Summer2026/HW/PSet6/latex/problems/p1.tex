@@ -1,0 +1,196 @@
+\section{Norm Expressions for Quadratic Forms}
+
+% Let
+% \[
+% f(x)=x^T A x,\qquad A=A^T\in\mathbb{R}^{n\times n}
+% \]
+
+% \textbf{(a)}
+% Suppose first that
+% \[
+% f(x)=\|Fx\|_2^2
+% \]
+% for some \(F\in\mathbb{R}^{k\times n}\). Then
+% \[
+% f(x)=(Fx)^T(Fx)=x^T F^T F x
+% \]
+% so \(A=F^T F\), after replacing \(A\) by the symmetric matrix defining the same quadratic form. Therefore, for every \(x\),
+% \[
+% x^T A x=x^T F^T F x=\|Fx\|_2^2\ge 0
+% \]
+% Thus \(A\ge 0\).
+
+% Conversely, assume \(A\ge 0\). By the spectral theorem,
+% \[
+% A=Q\Lambda Q^T
+% \]
+% where \(Q\) is orthogonal and
+% \[
+% \Lambda=\mathrm{diag}(\lambda_1,\ldots,\lambda_n),\qquad \lambda_i\ge 0
+% \]
+% Let \(r=\mathrm{rank}(A)\), and keep only the positive eigenvalues. Write
+% \[
+% \Lambda_r=\mathrm{diag}(\lambda_i:\lambda_i>0),
+% \qquad
+% Q_r=
+% \begin{bmatrix}
+% \text{eigenvectors for positive }\lambda_i
+% \end{bmatrix}
+% \]
+% Then
+% \[
+% A=Q_r\Lambda_r Q_r^T
+% \]
+% and we can choose
+% \[
+% F=\Lambda_r^{1/2}Q_r^T
+% \]
+% This gives
+% \[
+% F^TF=Q_r\Lambda_r Q_r^T=A
+% \]
+% and therefore
+% \[
+% f(x)=x^T A x=\|Fx\|_2^2
+% \]
+% The smallest possible number of rows of \(F\) is
+% \[
+% k=\mathrm{rank}(A)
+% \]
+% because \(\mathrm{rank}(F^TF)\le \mathrm{rank}(F)\le k\).
+
+\textbf{(a)}
+First, if
+\[
+f(x)=\|Fx\|_2^2
+\]
+then
+\[
+x^TAx=\|Fx\|_2^2\geq 0
+\]
+for all \(x\), so \(A\succeq0\).
+
+Conversely, suppose \(A\succeq0\). Since \(A\) is symmetric, by the spectral
+theorem,
+\[
+A=Q\Lambda Q^T
+\]
+where all eigenvalues are nonnegative. Let \(r=\operatorname{rank}(A)\), and
+write
+\[
+A=Q_r\Lambda_rQ_r^T
+\]
+where \(\Lambda_r\) contains only the positive eigenvalues. Define
+\[
+F=\Lambda_r^{1/2}Q_r^T
+\]
+Then
+\[
+F^TF=Q_r\Lambda_rQ_r^T=A
+\]
+and therefore
+\[
+x^TAx=x^TF^TFx=\|Fx\|_2^2
+\]
+
+Finally, for any such \(F\),
+\[
+\operatorname{rank}(A)
+=\operatorname{rank}(F^TF)
+=\operatorname{rank}(F)
+\leq k
+\]
+Our construction has \(k=r\), so the smallest possible size is
+\[
+\boxed{k_{\min}=\operatorname{rank}(A)}
+\]
+
+% \textbf{(b)}
+% Now \(A\) is any symmetric matrix. Again use the spectral decomposition
+% \[
+% A=Q\Lambda Q^T
+% \]
+% Separate the positive and negative eigenvalues. Let \(Q_+\) contain the eigenvectors for the positive eigenvalues, and let \(Q_-\) contain the eigenvectors for the negative eigenvalues. Define
+% \[
+% \Lambda_+=\mathrm{diag}(\lambda_i:\lambda_i>0),
+% \qquad
+% \Lambda_-=\mathrm{diag}(-\lambda_i:\lambda_i<0)
+% \]
+% Then
+% \[
+% A=Q_+\Lambda_+Q_+^T-Q_-\Lambda_-Q_-^T
+% \]
+% Choose
+% \[
+% F=\Lambda_+^{1/2}Q_+^T,
+% \qquad
+% G=\Lambda_-^{1/2}Q_-^T
+% \]
+% Then
+% \[
+% x^T A x
+% =
+% \|Fx\|_2^2-\|Gx\|_2^2
+% \]
+% The smallest possible number of rows of \(F\) is the number of positive eigenvalues of \(A\), and the smallest possible number of rows of \(G\) is the number of negative eigenvalues of \(A\). Zero eigenvalues do not need to appear in either matrix.
+
+% To see that these sizes are minimal, let \(n_+(A)\) and \(n_-(A)\) denote the numbers of positive and negative eigenvalues, including multiplicity. Suppose \(F\) has \(k_F<n_+(A)\) rows. The positive eigenspace of \(A\) has dimension \(n_+(A)\), while
+% \[
+% \dim\mathop{\rm null}(F)\ge n-k_F
+% \]
+% Therefore, the positive eigenspace and \(\mathop{\rm null}(F)\) have a nonzero vector \(x\) in common. On one hand, \(x^TAx>0\) because \(x\) lies in the positive eigenspace. On the other hand,
+% \[
+% x^TAx=\|Fx\|_2^2-\|Gx\|_2^2=-\|Gx\|_2^2\le 0
+% \]
+% which is a contradiction. Thus \(k_F\ge n_+(A)\). Applying the same argument to \(-A=G^TG-F^TF\) gives \(k_G\ge n_-(A)\). Hence the construction above uses the smallest possible matrices:
+% \[
+% k_F=n_+(A),\qquad k_G=n_-(A)
+% \]
+
+\textbf{(b)}
+Since \(A\) is symmetric, by the spectral theorem
+\[
+A=Q\Lambda Q^T
+\]
+Separate the positive and negative eigenvalues:
+\[
+A=Q_+\Lambda_+Q_+^T-Q_-\Lambda_-Q_-^T
+\]
+where \(\Lambda_+\) contains the positive eigenvalues of \(A\), and
+\(\Lambda_-\) contains the absolute values of the negative eigenvalues.
+
+Define
+\[
+F=\Lambda_+^{1/2}Q_+^T,
+\qquad
+G=\Lambda_-^{1/2}Q_-^T
+\]
+Then
+\[
+F^TF=Q_+\Lambda_+Q_+^T,
+\qquad
+G^TG=Q_-\Lambda_-Q_-^T
+\]
+so
+\[
+x^TAx
+=x^T(F^TF-G^TG)x
+=\|Fx\|_2^2-\|Gx\|_2^2
+\]
+
+The smallest possible numbers of rows are
+\[
+\boxed{k_F=n_+(A),\qquad k_G=n_-(A)}
+\]
+where \(n_+(A)\) and \(n_-(A)\) are the numbers of positive and negative
+eigenvalues of \(A\), counting multiplicity. Zero eigenvalues require no rows
+in either \(F\) or \(G\).
+
+% To see these are minimal, if \(F\) had fewer than \(n_+(A)\) rows, then its
+% nullspace would contain a nonzero vector in the positive eigenspace of \(A\).
+% For such an \(x\), \(x^TAx>0\), but
+% \[
+% x^TAx=-\|Gx\|_2^2\le0,
+% \]
+% a contradiction. The same argument applied to \(-A\) gives
+% \(k_G\ge n_-(A)\).

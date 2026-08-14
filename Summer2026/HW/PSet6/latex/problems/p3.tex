@@ -1,0 +1,167 @@
+\section{Squareroot and Logarithm of a Diagonalizable Matrix}
+
+% Suppose
+% \[
+% A=T\Lambda T^{-1},
+% \qquad
+% \Lambda=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)
+% \]
+% where \(T\) is invertible and \(\Lambda\) is diagonal.
+
+% \textbf{(a)}
+% Let
+% \[
+% D=\mathrm{diag}(\mu_1,\ldots,\mu_n),
+% \qquad
+% \mu_i^2=\lambda_i
+% \]
+% and define
+% \[
+% B=TDT^{-1}
+% \]
+% Then
+% \[
+% B^2
+% =
+% (TDT^{-1})(TDT^{-1})
+% =
+% TD^2T^{-1}
+% \]
+% Since
+% \[
+% D^2=\mathrm{diag}(\mu_1^2,\ldots,\mu_n^2)
+% =
+% \mathrm{diag}(\lambda_1,\ldots,\lambda_n)
+% =
+% \Lambda
+% \]
+% we get
+% \[
+% B^2=T\Lambda T^{-1}=A
+% \]
+% Thus \(B\) is a squareroot of \(A\) over \(\mathbb{C}\). The squareroot is not unique in general, because each nonzero \(\lambda_i\) has two scalar squareroot choices.
+
+% Since the problem defines a squareroot to be real, the choices of eigenvectors and \(\mu_i\) must also make \(B\) real. As for every real matrix, nonreal eigenvalues and eigenvectors occur in conjugate pairs. Choosing conjugate squareroots for each such pair makes their combined contribution to \(B\) real. A negative real eigenvalue has the two imaginary squareroots
+% \[
+% \mu_i=\pm \mathbf{i}\sqrt{|\lambda_i|}
+% \]
+% so these choices must also occur in conjugate pairs. For a real diagonalizable matrix, this is possible exactly when every distinct negative real eigenvalue has even multiplicity. For example, \(A=[-1]\) has the complex squareroots \([\mathbf{i}]\) and \([-\mathbf{i}]\), but it has no real squareroot.
+
+% When all \(\lambda_i\) are real and nonnegative, we can choose a real eigenvector basis and use the conventional choice
+% \[
+% \mu_i=\sqrt{\lambda_i}
+% \]
+% This gives the real principal squareroot.
+
+\textbf{(a)}
+Let
+\[
+D=\operatorname{diag}(\mu_1,\ldots,\mu_n),
+\qquad
+\mu_i^2=\lambda_i
+\]
+and define
+\[
+B=TDT^{-1}
+\]
+Then
+\[
+B^2
+=(TDT^{-1})(TDT^{-1})
+=TD^2T^{-1}
+\]
+Since
+\[
+D^2
+=\operatorname{diag}(\mu_1^2,\ldots,\mu_n^2)
+=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)
+=\Lambda
+\]
+we obtain
+\[
+\boxed{B^2=T\Lambda T^{-1}=A}
+\]
+Thus \(B\) is a square root of \(A\).
+
+In general this construction may give a complex square root. When the
+eigenvalues and square-root choices are paired so that \(B\) is real, it gives
+a real square root. In particular, if all \(\lambda_i\) are real and
+nonnegative, we can take
+\[
+\mu_i=\sqrt{\lambda_i}
+\]
+which gives the conventional square root \(A^{1/2}\).
+
+% \textbf{(b)}
+% Assume \(A\) is invertible, so \(\lambda_i\ne 0\). Choose numbers \(\nu_i\) such that
+% \[
+% e^{\nu_i}=\lambda_i
+% \]
+% For example, over the complex numbers we can take
+% \[
+% \nu_i=\log(\lambda_i)+2\pi \mathbf{i} k_i,\qquad k_i\in\mathbb{Z}
+% \]
+% where \(\log\) denotes any chosen complex logarithm branch. Define
+% \[
+% D_{\log}=\mathrm{diag}(\nu_1,\ldots,\nu_n),
+% \qquad
+% B=TD_{\log}T^{-1}
+% \]
+% Then
+% \[
+% e^B
+% =
+% T e^{D_{\log}}T^{-1}
+% =
+% T\mathrm{diag}(e^{\nu_1},\ldots,e^{\nu_n})T^{-1}
+% =
+% T\Lambda T^{-1}
+% =A
+% \]
+% Therefore one logarithm of \(A\) is
+% \[
+% \log A=T\mathrm{diag}(\nu_1,\ldots,\nu_n)T^{-1}
+% \]
+
+% The logarithm is not unique, because the scalar complex logarithm is not unique. If we insist that \(B\) be real, the logarithm choices for every nonreal conjugate eigenvalue pair must also be conjugates. For a negative real eigenvalue \(\lambda_i\), the logarithms include
+% \[
+% \log|\lambda_i|+\mathbf{i}(2k+1)\pi,\qquad k\in\mathbb{Z}
+% \]
+% and therefore must occur in conjugate pairs. Consequently, a real diagonalizable invertible matrix has a real logarithm exactly when every distinct negative real eigenvalue has even multiplicity. In particular, \(A=[-1]\) has no real logarithm, since \(e^b>0\) for every real scalar \(b\). If all eigenvalues are positive and the diagonalization is real, choosing the ordinary real logarithms immediately gives a real logarithm.
+\textbf{(b)}
+Since \(A\) is invertible, \(\lambda_i\neq 0\). Choose \(\nu_i\) such that
+\[
+e^{\nu_i}=\lambda_i
+\]
+and define
+\[
+B=T\operatorname{diag}(\nu_1,\ldots,\nu_n)T^{-1}
+\]
+Then
+\[
+e^B
+=
+T\operatorname{diag}(e^{\nu_1},\ldots,e^{\nu_n})T^{-1}
+=
+T\Lambda T^{-1}
+=
+A
+\]
+Therefore,
+\[
+\boxed{\log A
+=
+T\operatorname{diag}(\nu_1,\ldots,\nu_n)T^{-1}}
+\]
+
+The logarithm is not unique, since each nonzero \(\lambda_i\) has complex
+logarithms differing by multiples of \(2\pi i\).
+
+If \(B\) is required to be real, a real logarithm does not always exist.
+For a real diagonalizable \(A\), it exists iff each negative real eigenvalue
+has even multiplicity. In particular, if all eigenvalues are positive, we can
+choose
+\[
+\nu_i=\ln \lambda_i
+\]
+which gives a real logarithm.

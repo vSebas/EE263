@@ -1,0 +1,41 @@
+\section{Eigenvalues and Singular Values of a Symmetric Matrix}
+
+Since \(A=A^T\), A has an orthonormal set of vectors and
+\[
+A=Q\Lambda Q^T
+\]
+where \(Q\) is orthogonal ($Q^{-1}=Q^T$) and
+\[
+\Lambda=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)
+\]
+In general, singular values satisfy
+\[
+\sigma_i = \sqrt{\lambda_i(A^T A)}
+\]
+Therefore, as $A$ is symmetric:
+\[
+A^TA=A^2=Q\Lambda Q^TQ\Lambda Q^T=Q\Lambda^2Q^T
+\]
+The eigenvalues of \(A^TA\) are \(\lambda_i^2\), so the singular values of
+\(A\) are
+\[
+\sqrt{\lambda_i^2}=|\lambda_i|
+\]
+Thus
+\[
+\boxed{\{\sigma_1,\ldots,\sigma_n\}
+=\{|\lambda_1|,\ldots,|\lambda_n|\}}
+\]
+The singular values are the absolute eigenvalues sorted in decreasing order.
+% Since the eigenvalues are sorted by value rather than magnitude, it is not
+% necessarily true that \(\sigma_i=|\lambda_i|\) for the same index \(i\).
+
+% For an eigenvector \(q_i\) with \(\lambda_i\neq0\), one possible choice of
+% right and left singular vectors is
+% \[
+% v_i=q_i,\qquad u_i=\operatorname{sign}(\lambda_i)q_i
+% \]
+% because
+% \[
+% Av_i=|\lambda_i|u_i
+% \]

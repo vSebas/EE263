@@ -1,0 +1,49 @@
+\section{Modifying Measurements to Satisfy Known Conservation Laws}
+
+Let
+\[
+A=
+\begin{bmatrix}
+a_1&\cdots&a_m
+\end{bmatrix}
+\in\mathbb{R}^{n\times m},
+\qquad
+b=
+\begin{bmatrix}
+b_1\\ \vdots\\ b_m
+\end{bmatrix}
+\]
+The conservation laws are
+\[
+A^T x=b
+\]
+We want the smallest correction \(c\) such that
+\[
+A^T(y+c)=b
+\]
+Equivalently,
+\[
+A^T c=b-A^T y
+\]
+The minimum-norm solution of this linear equation is
+\[
+c=A(A^TA)^{-1}(b-A^T y)
+\]
+The inverse exists because \(a_1,\ldots,a_m\) are independent, so \(A\) has linearly independent columns. Therefore \(A^TA\) is invertible.
+
+The adjusted measurement is
+\[
+y_{\mathrm{adj}}=y+A(A^TA)^{-1}(b-A^T y)
+\]
+Now verify the conservation laws:
+\[
+A^T y_{\mathrm{adj}}
+=
+A^T y+A^TA(A^TA)^{-1}(b-A^T y)
+\]
+\[
+A^T y_{\mathrm{adj}}
+=
+A^T y+b-A^T y=b
+\]
+So the adjusted vector satisfies all known conservation laws exactly.
