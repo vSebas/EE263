@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1786686252.17218 "ee263_final_cheatsheet.tex" "ee263_final_cheatsheet.pdf" "ee263_final_cheatsheet" 1786686252.80573 0
+["pdflatex"] 1786744435.26882 "ee263_final_cheatsheet.tex" "ee263_final_cheatsheet.pdf" "ee263_final_cheatsheet" 1786744435.95325 0
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1775415801 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1775415801 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1775415801 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -10,6 +10,7 @@
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm" 1775415801 928 2dc8d444221b7a635bb58038579b861a ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm" 1775415801 940 75ac932a52f80982a9f8ea75d03a34cf ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm" 1775415801 940 228d6584342e91276bf566bcf9716b83 ""
+  "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbx5.tfm" 1775415801 12036 f4da809d8425d0bc7356fb79ff6b7dc2 ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbx6.tfm" 1775415801 12060 e1421116ee46f156304f311f9d8331aa ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbx7.tfm" 1775415801 12072 feea2d4511ce6b67cf0049876d122c6b ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmr10.tfm" 1775415801 12056 7e13df7fe4cbce21b072ba7c4f4deb6e ""
@@ -77,8 +78,8 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1775415801 43569 fd570f2fa160877d211e859f687312ba ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1783836604 325717 59a65e600f662ceace641c3ea8b5d4af ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1783836588 2328187 4c994c4cf0fc990667380c94cf7fcbde ""
-  "ee263_final_cheatsheet.aux" 1786686252.66854 32 c81c40425fbb5e93b90fba65da0b5e61 "pdflatex"
-  "ee263_final_cheatsheet.tex" 1786686247.60349 40265 34e527ee95d97bc604188cc426f04e6f ""
+  "ee263_final_cheatsheet.aux" 1786744435.85078 32 c81c40425fbb5e93b90fba65da0b5e61 "pdflatex"
+  "ee263_final_cheatsheet.tex" 1786744429.13475 54706 1d474fb2025ac91c0c2a7cbccebb8bc3 ""
   (generated)
   "ee263_final_cheatsheet.aux"
   "ee263_final_cheatsheet.log"

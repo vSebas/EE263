@@ -91,12 +91,9 @@ measurement is large when \(x\) aligns with that row.
 \sect{Linear Algebra Review}
 \sub{Norms:} $\|x\|\ge0$, equality iff $x=0$; $\|\alpha x\|=|\alpha|\|x\|$; $\|u+v\|\le\|u\|+\|v\|$. Common norms: \(\|x\|_2=(x^Tx)^{1/2}\), \(\|x\|_1=\sum_i|x_i|\), \(\|x\|_p=(\sum_i |x_i|^p)^{1/p}\), \(\|x\|_\infty=\max_i|x_i|\).
 
-\sub{Unit balls / losses:} unit ball \(B=\{x\mid \|x\|\le1\}\). In
-\(\R^2\), \(\ell_1\) ball is a diamond, \(\ell_2\) is round,
-\(\ell_\infty\) is a square. Least-squares/MSE uses \(\ell_2^2\);
-least-absolute-error uses \(\ell_1\). Ridge uses \(\ell_2^2\)
-regularization; lasso uses \(\ell_1\), whose corners tend to give sparse
-solutions.
+\sub{Unit balls:} \(B=\{x\mid \|x\|\le1\}\). In \(\R^2\), the
+\(\ell_1\) ball is a diamond, the \(\ell_2\) ball is round, and the
+\(\ell_\infty\) ball is a square.
 
 \sub{Inner product:} standard $\langle u,v\rangle=u^Tv$; weighted $\langle u,v\rangle_W=u^TWv$ for $W=W^T\succ0$. Properties: symmetry \(\langle u,v\rangle=\langle v,u\rangle\); linearity \(\langle \alpha u+\beta z,v\rangle=\alpha\langle u,v\rangle+\beta\langle z,v\rangle\); positive definite \(\langle u,u\rangle\ge0\), equality iff \(u=0\). Induced norm $\|u\|=\sqrt{\langle u,u\rangle}$. Orthogonal iff $u^Tv=0$. Pythagoras: if $u^Tv=0$, then $\|u+v\|^2=\|u\|^2+\|v\|^2$.
 
@@ -114,7 +111,9 @@ solutions.
 and \(\alpha u+\beta v\in S\) for all \(u,v\in S\). Examples:
 \(\R^n\), \(\{0\}\), and \(\operatorname{span}(v_1,\ldots,v_k)\).
 \(\operatorname{span}(v_1,\ldots,v_k)=\{\alpha_1v_1+\cdots+\alpha_kv_k\}\).
-Sum \(U+V=\{u+v\mid u\in U,\ v\in V\}\) is a subspace. Orthogonal
+Sum \(U+V=\{u+v\mid u\in U,\ v\in V\}\) and intersection \(U\cap V\)
+are subspaces. \(U\cup V\) is a subspace iff \(U\subseteq V\) or
+\(V\subseteq U\). Orthogonal
 subspaces: \(u^Tv=0\) for every \(u\in U,v\in V\). Orthogonal complement
 \(S^\perp=\{x\mid x^Ts=0\ \forall s\in S\}\).
 
@@ -154,7 +153,8 @@ to standard coordinates; \(B^{-1}\) maps standard coordinates to
 \sub{Similarity transformation:} for linear transformation \(y=Ax\), if
 \(x=B\tilde x\) and \(y=B\tilde y\), then
 \(\tilde y=B^{-1}AB\tilde x\). \(B^{-1}AB\) expresses the same linear
-transformation in \(B\)-coordinates.
+transformation in \(B\)-coordinates. Similar matrices have the same rank
+and invertibility; \(B^{-1}AB=I\) implies \(A=I\).
 
 \sub{Optimization geometry:} minimizing distance to a subspace gives residual orthogonal to the subspace. If $z$ is closest point to $x$ in $V$, then $(x-z)^Tv=0$ for all $v\in V$.
 
@@ -237,20 +237,20 @@ The \(r\) numbers in \(z\) mediate every input-output pair.
 \sub{Product rank facts:} \(\rank(BC)\le\rank(B)\) since
 \(\range(BC)\subseteq\range(B)\). Also
 \(\rank(BC)=\rank((BC)^T)=\rank(C^TB^T)\le\rank(C^T)=\rank(C)\). Thus
-\(\rank(BC)\le\min(\rank B,\rank C)\). Invertible pre/post
-multiplication preserves rank.
+for \(B\in\R^{m\times p}\), \(C\in\R^{p\times n}\),
+\[
+\begin{gathered}
+\rank(B)+\rank(C)-p\le\rank(BC),\\
+\rank(BC)\le\min\{\rank(B),\rank(C)\}.
+\end{gathered}
+\]
+This is Sylvester's inequality. Invertible pre/post multiplication
+preserves rank.
 
 \sub{Low-rank computation / storage:} store a rank-\(r\) factorization
 using \(r(m+n)\) numbers instead of \(mn\). Direct \(Ax\) costs about
 \(mn\); factored \(B(Cx)\) costs about \(rn+mr\), useful when
 \(r\ll\min(m,n)\).
-
-\sub{Latent factors / compression:} ratings \(\approx UV^T\): rows of
-\(U\) are user tastes, rows of \(V\) are item/movie factors; hidden
-factors fill missing ratings. LoRA freezes large \(W\) and learns a
-low-rank update \(BA\). Rank measures redundancy; rank-\(r\)
-approximation of images/tables needs about \(r(m+n)\) numbers (best via
-SVD later).
 
 \sub{Full rank by shape:} full rank means \(\rank(A)=\min(m,n)\).
 Skinny/tall \(m\ge n\): columns independent, one-to-one, left invertible.
@@ -317,24 +317,31 @@ Each subspace is the orthogonal complement of the other:
 \(w\perp\range(U_1)\), then \(U_1^Tw=0\), so
 \(w=U_2U_2^Tw\in\range(U_2)\).
 
+For any subspaces \(S,T\subseteq\R^n\),
+\[
+\begin{gathered}
+\dim(S+T)=\dim S+\dim T-\dim(S\cap T),\\
+(S+T)^\perp=S^\perp\cap T^\perp,\qquad
+(S\cap T)^\perp=S^\perp+T^\perp.
+\end{gathered}
+\]
+The decomposition \(x=s+t\) is unique iff \(S\cap T=\{0\}\), written
+\(S\oplus T\).
+
 \sub{Geometry preservation:} if \(U^TU=I\), then
 \((Ua)^T(Ub)=a^Tb\), \(\|Ua\|=\|a\|\), and distances/angles are
-preserved; \(U\) is isometric. Square orthogonal maps are
-rotations/reflections. Uses: stable orthogonal initialization, RoPE-style
-rotations that preserve query/key norms, and random projections.
+preserved. Square orthogonal maps are rotations or reflections.
 
 \sub{Projection principle:} the closest point \(z\in V\) to \(x\) is
 characterized by \(x-z\in V^\perp\). Projection onto nonzero \(q\):
 \(\proj_qx=(q^Tx/q^Tq)q\), or \((q^Tx)q\) if \(\|q\|=1\). For full
 column rank \(A\), projection onto \(\range(A)\) is
-\(P=A(A^TA)^{-1}A^T\), with \(P^2=P\), \(P^T=P\).
-
-\sub{Near orthogonality:} random unit vectors in high dimension usually
-have small inner product. High-dimensional representations can store many
-more than \(n\) nearly-orthogonal features; they barely interfere, so each
-can be read out almost independently. Random projections can cut
-dimension while approximately preserving distances (Johnson--Lindenstrauss
-intuition).
+\(P=A(A^TA)^{-1}A^T\). An orthogonal projector satisfies
+\(P=P^T=P^2\), \(\range(I-P)=\range(P)^\perp=\nullsp(P)\), and
+\(x=Px+(I-P)x\) orthogonally. Hence \(\|Px\|\le\|x\|\), with equality iff
+\(x\in\range(P)\), while \(Px=0\) iff \(x\in\range(P)^\perp\). If \(P,Q\)
+are orthogonal projectors, \(PQ\) is an orthogonal projector iff
+\(PQ=QP\); then it projects onto \(\range(P)\cap\range(Q)\).
 
 \sect{QR Factorization}
 \sub{Gram-Schmidt procedure:} start with independent
@@ -373,10 +380,9 @@ One G-S run also gives QR factorizations for all leading column blocks.
 \(\range(A)\) and shows which columns were dependent on earlier ones. To
 remove a direction, \(x_\perp=x-(q^Tx)q=(I-qq^T)x\); with subspace basis
 \(Q\), the removed component is \(QQ^Tx\) and the remainder is
-\((I-QQ^T)x\). G-S on data columns decorrelates features; nearly dependent
-features make fitting ill-conditioned. At scale, randomized SVD sketches
-\(Y=A\Omega\), then QR-factorizes \(Y\). Orthogonal initialization uses
-\(Q\) from QR of a random matrix.
+\((I-QQ^T)x\). G-S depends on column order. Replacing
+\((a_1,a_2,\ldots)\) by \((a_1,a_1+a_2,\ldots,a_1+\cdots+a_n)\) preserves
+every leading span, so \(Q\) is unchanged up to signs, but \(R\) changes.
 
 \sub{Full QR:} if \(A=Q_1R\) is thin QR, extend \(Q_1\) to a full
 orthogonal basis \(Q=[Q_1\ Q_2]\) by applying general G-S to
@@ -425,7 +431,7 @@ x=x_p+z,\quad z\in\nullsp(A).
 
 \sub{Homogeneous systems:} $Ax=0$ always has $x=0$. Nonzero solution iff columns dependent iff $\rank(A)<n$. Wide $m<n$ always has nontrivial nullspace.
 
-\sub{Independence:} columns independent iff $Ax=0\Rightarrow x=0$. Nonnegative independence: if $u_i^Tu_j\ge0$ for all $i,j$, then $\sum_i\alpha_i u_i=0$, $\alpha_i\ge0$ implies all $\alpha_i=0$ because norm squared is sum of nonnegative terms.
+\sub{Independence:} columns independent iff $Ax=0\Rightarrow x=0$. Nonnegative independence: if every $u_i\ne0$ and $u_i^Tu_j\ge0$ for all $i,j$, then $\sum_i\alpha_i u_i=0$, $\alpha_i\ge0$ implies all $\alpha_i=0$ because norm squared is a sum of nonnegative terms.
 
 \sub{Orthogonal ranges:} if $A^TB=0$ and $A,B$ are skinny full rank, then $[A\ B]$ is full rank: $Au+Bv=0\Rightarrow \|Au\|^2+\|Bv\|^2=0$.
 
@@ -558,7 +564,8 @@ neither, \(A\Rightarrow B\). For true/false, test \(0\), \(I\), \(2I\),
 rank-one \(uv^T\), tall/skinny, wide/fat, and two lines in \(\R^2\).
 
 \sub{Fast traps:} \(A^TA\) is PSD and \(A^TA=0\Rightarrow A=0\); if
-\(A^TA\) is diagonal, columns are orthogonal, not necessarily unit. Wide
+\(A^TA\) is upper triangular, symmetry makes it diagonal, so columns are
+orthogonal, not necessarily unit. Wide
 \(A\in\R^{m\times n}\), \(m<n\): either no solution or infinitely many.
 \(\range(A)\subseteq\range(B)\iff\rank([A\ B])=\rank(B)\). Infinitely
 many solutions imply \(\nullsp(A)\ne\{0\}\); converse needs consistency.
@@ -569,7 +576,8 @@ nonzero columns are scalar multiples of \(u\); G-S returns
 \(\pm u/\|u\|\). \(\rank(FG)\le\rank(F),\rank(G)\); full-rank square
 factors preserve rank. A nonzero nilpotent can have \(F^2=0\).
 
-\sub{Counterexamples:} union not subspace: two lines through origin.
+\sub{Counterexamples:} \(S\cup T\) is a subspace only when one subspace
+contains the other; two distinct lines through the origin disprove it.
 Halfspace not span: lacks negatives/origin. Null product trap: \(Bx\) can
 land in \(\nullsp(A)\). \(A^TA\) diagonal but not orthogonal: \(A=2I\).
 Nonnegative onto sum can fail:

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.7.11)  16 JUL 2026 09:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.7.11)  12 AUG 2026 14:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -444,7 +444,7 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 27.
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 6364) in paragraph at lines 237--242
+Underfull \hbox (badness 6364) in paragraph at lines 237--241
 []\OT1/lmr/m/n/6.35 (\OML/lmm/m/it/6.35 BC\OT1/lmr/m/n/6.35 ) \OMS/lmsy/m/n/6.3
 5 ^^R []\OT1/lmr/m/n/6.35 (\OML/lmm/m/it/6.35 B\OT1/lmr/m/n/6.35 )$\T1/lmr/m/n/
 6.35 . Also $[]\OT1/lmr/m/n/6.35 (\OML/lmm/m/it/6.35 BC\OT1/lmr/m/n/6.35 ) =
@@ -457,18 +457,18 @@ Underfull \hbox (badness 6364) in paragraph at lines 237--242
 }{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf-dist/fon
 ts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-math
 ex.enc}]
-Underfull \hbox (badness 5592) in paragraph at lines 407--410
+Underfull \hbox (badness 5592) in paragraph at lines 413--416
 \T1/lmr/m/n/6.35 uniquely. This gives $[]\OT1/lmr/m/n/6.35 (\OML/lmm/m/it/6.35 
 A\OT1/lmr/m/n/6.35 ) = [](\OML/lmm/m/it/6.35 A[]\OT1/lmr/m/n/6.35 )[]$\T1/lmr/m
 /n/6.35 ,
  []
 
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4
-49.
+55.
 (/usr/share/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Underfull \hbox (badness 10000) in paragraph at lines 457--458
+Underfull \hbox (badness 10000) in paragraph at lines 463--464
 []\T1/lmr/bx/n/6.35 Signal pro-cess-ing ma-tri-ces: \T1/lmr/m/n/6.35 up-sam-
  []
 
@@ -482,7 +482,7 @@ L3 programming layer <2026-01-19>
 Here is how much of TeX's memory you used:
  4698 strings out of 469515
  71563 string characters out of 5470807
- 559039 words of memory out of 5000000
+ 560286 words of memory out of 5000000
  33285 multiletter control sequences out of 15000+600000
  670807 words of font info for 68 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -495,7 +495,7 @@ lic/lm/lmr5.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/sha
 re/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/share/texmf-dist/fonts/type
 1/public/lm/lmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbol
 s/msbm7.pfb>
-Output written on ee263_midterm_cheatsheet.pdf (2 pages, 208003 bytes).
+Output written on ee263_midterm_cheatsheet.pdf (2 pages, 207909 bytes).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
  48 compressed objects within 1 object stream

@@ -27,6 +27,11 @@
 \newcommand{\one}{\mathbf{1}}
 \begin{document}
 \fontsize{6.25}{6.63}\selectfont
+\setlength{\abovedisplayskip}{1.4pt}
+\setlength{\belowdisplayskip}{1.4pt}
+\setlength{\abovedisplayshortskip}{0.5pt}
+\setlength{\belowdisplayshortskip}{0.8pt}
+\setlength{\jot}{1.2pt}
 \begin{multicols*}{3}
 
 \sect{Linear Maps and Models (Lectures 1--4)}
@@ -292,24 +297,68 @@ iff \(U^TU=I_k\). Then
 \]
 If \(U\) is square, \(UU^T=I\) and \(U^{-1}=U^T\). If \(U\) is tall,
 \(UU^T\ne I\) in general.
+\[
+\|U^Ty\|^2=\sum_i(u_i^Ty)^2\le\|y\|^2
+\]
+This is Bessel's inequality; equality holds iff \(y\in\range(U)\).
+For square \(U\), equality for every \(y\) is Parseval's identity.
 
 \sub{\(2\times2\) orthogonal maps:} \(\det U=+1\) means a rotation;
 \(\det U=-1\) means a reflection. Orthogonal products and inverses are
 orthogonal.
 
-\sub{Projection:} \(P=UU^T\) projects orthogonally onto \(\range(U)\):
+\sub{Orthogonal projection of a target:} let
+\(S=\range(U)\), \(U^TU=I\). For target \(y\), the unique closest
+point \(p\in S\) and perpendicular residual \(e\in S^\perp\) are
 \[
 \begin{gathered}
-P=P^T=P^2,\qquad y=Py+(I-P)y,\\
-Py\perp(I-P)y
+p=P_Sy=UU^Ty,\qquad e=y-p=(I-P_S)y,\\
+U^Te=0,\qquad y=p+e,\qquad p\perp e
 \end{gathered}
 \]
+\(P_S=P_S^T=P_S^2\). If \(A\) is any full-column-rank basis for \(S\),
 \[
-\range(I-P)=\nullsp(P)=\range(P)^\perp
+P_S=A(A^TA)^{-1}A^T=AA^\dagger
 \]
-\(\|Py\|\le\|y\|\), with equality iff \(y\in\range(P)\). If orthogonal
+Thus \(P_Sy=y\iff y\in S\), and \(P_Sy=0\iff y\in S^\perp\).
+\[
+\range(I-P_S)=\nullsp(P_S)=S^\perp
+\]
+\(\|P_Sy\|\le\|y\|\), with equality iff \(y\in S\). If orthogonal
 projectors \(P,Q\) commute, \(PQ\) projects onto
 \(\range(P)\cap\range(Q)\).
+
+\sub{Projector recognition / complements:} \(P^2=P\) means projection
+(possibly oblique); adding \(P^T=P\) makes it orthogonal. Orthogonal
+projectors have eigenvalues \(0,1\), so
+\[
+\rank(P)=\tr(P),\qquad P_{S^\perp}=I-P_S,\qquad
+P_SP_{S^\perp}=0
+\]
+For a unit direction \(q\),
+\[
+P_{\spn(q)}=qq^T,\quad P_{q^\perp}=I-qq^T,\quad
+H=I-2qq^T
+\]
+\(H\) reflects through \(q^\perp\): the \(q\)-component changes sign and
+all perpendicular components stay fixed.
+
+\sub{Projection dictionary:} LS projects output target \(y\) onto
+\(\range(A)\); least norm projects \(0\) onto the affine solution set
+\(\{x:Ax=y\}\); PCA projects centered data onto a top-PC subspace. For
+full-row-rank \(C\), projection of target \(x_0\) onto \(\{x:Cx=d\}\) is
+\[
+x^\star=x_0-C^T(CC^T)^{-1}(Cx_0-d)
+\]
+With metric \(\|z\|_W^2=z^TWz\), \(W\succ0\), replace this by
+\[
+x^\star=x_0-W^{-1}C^T(CW^{-1}C^T)^{-1}(Cx_0-d)
+\]
+For one hyperplane \(a^Tx=b\),
+\[
+x^\star=x_0-\frac{a^Tx_0-b}{\|a\|^2}a,\qquad
+\operatorname{dist}(x_0,H)=\frac{|a^Tx_0-b|}{\|a\|}
+\]
 
 \sub{Gram--Schmidt:} for independent columns \(a_j\),
 \[
@@ -433,6 +482,8 @@ P_A=A(A^TA)^{-1}A^T,\qquad \hat y=P_Ay,\qquad r=(P_A-I)y
 \[
 y=P_Ay+(I-P_A)y,\qquad P_Ay\perp(I-P_A)y
 \]
+For arbitrary rank, \(P_A=AA^\dagger\) and \(x=A^\dagger y\) selects the
+minimum-norm coefficient vector producing the same closest fit.
 
 \sub{Completion of squares:} for any \(x\),
 \[
@@ -466,6 +517,13 @@ x=(A^TWA)^{-1}A^TWy
 \]
 when \(A^TWA\) is invertible. Equivalently apply ordinary LS to
 \(W^{1/2}A,W^{1/2}y\).
+The weighted fitted-output map is
+\[
+P_W=A(A^TWA)^{-1}A^TW
+\]
+\(P_W^2=P_W\), \(A^TW(P_Wy-y)=0\), and \(P_W^TW=WP_W\). It is
+orthogonal in the \(W\)-inner product, though generally
+\(P_W^T\ne P_W\) in the Euclidean one.
 
 \sub{Unknown interference:} for \(y=Ax+Bv+w\), set
 \(P^\perp=I-BB^\dagger\). Joint LS over \(x,v\) eliminates \(v\):
@@ -535,6 +593,8 @@ For any solution \(x=x_{\rm ln}+z\), \(z\in\nullsp(A)\), so
 \[
 \|x\|^2=\|x_{\rm ln}\|^2+\|z\|^2\ge\|x_{\rm ln}\|^2
 \]
+\(x_{\rm ln}\) is therefore the orthogonal projection of the origin onto
+the affine solution set \(\{x:Ax=y\}\).
 Also \(A^\dagger\) is a right inverse and
 \[
 \begin{gathered}
@@ -688,11 +748,19 @@ Av=\lambda v,\quad v\ne0
 \]
 \(v\) is a right eigenvector. A left eigenvector satisfies
 \(w^*A=\lambda w^*\). Eigenvectors may be scaled by any nonzero scalar.
+The eigenspace is \(\nullsp(A-\lambda I)\). Its dimension (geometric
+multiplicity) is at most the root multiplicity of \(\lambda\) in the
+characteristic polynomial (algebraic multiplicity).
 
 \sub{Action / dynamics:} along \(v\), \(A\) only scales by \(\lambda\).
 For \(x_{k+1}=Ax_k\), the mode \(v\) evolves as \(\lambda^kv\). If
 \(\lambda=re^{i\theta}\), \(r\) controls growth/decay and \(\theta\)
-controls rotation/oscillation.
+controls rotation/oscillation. The spectral radius is
+\(\rho(A)=\max_i|\lambda_i|\); for diagonalizable \(A\),
+\(A^k\to0\) iff \(\rho(A)<1\).
+For real \(A\), a conjugate pair \(re^{\pm i\theta}\) produces a real
+invariant plane spanned by the real and imaginary parts of its
+eigenvector; on that plane \(A\) acts as scaling by \(r\) plus rotation.
 
 \sub{Diagonalization:} \(A\in\C^{n\times n}\) is diagonalizable iff it has
 \(n\) independent eigenvectors. With
@@ -706,6 +774,14 @@ Distinct eigenvalues imply independent eigenvectors and diagonalizability;
 the converse is false. A matrix lacking a full eigenbasis is defective.
 Rows of \(V^{-1}\) are dual left eigenvectors:
 \(w_i^*v_j=\delta_{ij}\).
+For \(x=Vc=\sum_i c_iv_i\), \(c=V^{-1}x\), so
+\[
+Ax=\sum_i\lambda_i c_iv_i,\qquad c_i=w_i^*x
+\]
+The coefficients are not generally \(v_i^*x\); that simplification
+requires an orthonormal eigenbasis.
+Diagonalizability is equivalent to having enough eigenvectors across all
+eigenspaces: the geometric multiplicities sum to \(n\).
 
 \sub{Useful consequences:}
 \[
@@ -721,10 +797,27 @@ Av=\lambda v\quad\Rightarrow\quad f(A)v=f(\lambda)v
 \]
 Also \(\tr A=\sum_i\lambda_i\), \(\det A=\prod_i\lambda_i\), counting
 algebraic multiplicity.
+\[
+\begin{gathered}
+\lambda_i(\alpha A+\beta I)=\alpha\lambda_i(A)+\beta,\\
+\lambda_i(A^{-1})=\lambda_i(A)^{-1},\qquad
+\lambda(A^T)=\lambda(A)
+\end{gathered}
+\]
+The inverse rule requires \(A\) invertible. Similarity changes
+coordinates, not eigenvalues.
 
 \(AB\) and \(BA\) have the same nonzero eigenvalues:
 \(ABv=\lambda v,\lambda\ne0\Rightarrow Bv\ne0\) and
 \(BA(Bv)=\lambda Bv\).
+
+\sub{Nonnormal caution:} for diagonalizable \(A=V\Lambda V^{-1}\),
+\[
+\|A^k\|\le\|V\|\,\|V^{-1}\|\,\max_i|\lambda_i|^k
+\]
+Nearly dependent eigenvectors make \(V\) ill-conditioned, so substantial
+transient amplification can occur even when all \(|\lambda_i|<1\).
+Symmetric matrices avoid this because \(V=Q\) is orthogonal.
 
 \sub{Matrix roots / logarithms:} for diagonalizable
 \(A=V\Lambda V^{-1}\), choose scalar values \(\mu_i^2=\lambda_i\) or
@@ -749,7 +842,12 @@ eigenspace they can be chosen orthonormal.
 
 \sub{Geometric action:} \(Q^Tx\) resolves \(x\) into eigen-coordinates,
 \(\Lambda\) scales each coordinate, and \(Q\) reconstructs. Thus a
-symmetric map has orthogonal input/output principal directions.
+symmetric map has orthogonal input/output principal directions:
+\[
+Ax=\sum_i\lambda_iq_i(q_i^Tx)
+\]
+Each \(q_iq_i^T\) is the one-dimensional orthogonal projector onto
+\(\spn\{q_i\}\).
 
 \sub{Quadratic forms:} \(f(x)=x^TAx\) depends only on
 \[
@@ -764,7 +862,12 @@ More generally,
 \[
 \lambda_{\min}\|x\|^2\le x^TAx\le\lambda_{\max}\|x\|^2
 \]
-The extrema are attained at corresponding eigenvectors.
+Indeed, with \(c=Q^Tx\),
+\[
+\frac{x^TAx}{x^Tx}=\frac{\sum_i\lambda_i c_i^2}{\sum_i c_i^2}
+\]
+is a weighted average of eigenvalues; the extrema are attained at
+corresponding eigenvectors.
 
 \sub{PSD / PD:}
 \[
@@ -777,6 +880,14 @@ A\succ0&>0\ \forall x\ne0&\lambda_i>0
 \(A\succ0\Rightarrow A\) invertible and \(A^{-1}\succ0\).
 \(A\succeq0\) iff \(A=F^TF\) for some \(F\). The minimum number of rows
 of \(F\) is \(\rank(A)\).
+For a Gram matrix \(G=X^TX\), with \(x_i\) the columns of \(X\),
+\[
+\begin{gathered}
+G_{ij}=x_i^Tx_j,\qquad z^TGz=\|Xz\|^2,\\
+\nullsp(G)=\nullsp(X),\qquad\rank(G)=\rank(X)
+\end{gathered}
+\]
+For any PSD \(A\), \(x^TAx=0\iff Ax=0\).
 
 \sub{Indefinite forms / inertia:} split the spectral decomposition into
 positive and negative eigenvalues:
@@ -822,6 +933,10 @@ thin direction. Boundary parametrization:
 \[
 x=c+Q\Lambda^{-1/2}u,\qquad \|u\|=1
 \]
+\(S\succ0\) means all \(\lambda_i>0\), so \(S^{-1}\) exists and the set
+is bounded. Singular \(S\succeq0\) instead gives an unbounded elliptical
+cylinder along \(\nullsp(S)\). The longest-to-shortest semiaxis ratio is
+\(\sqrt{\lambda_{\max}(S)/\lambda_{\min}(S)}\).
 
 \sub{Scaled / covariance ellipsoid:}
 \[
@@ -840,6 +955,18 @@ B=S^{-1/2}R,\qquad R\in\R^{n\times n},\quad R^TR=I
 \]
 \(R\) is any rotation or reflection of the unit ball, explaining why
 the quadratic matrix \(S\) is unique while \(B\) is not.
+The left singular vectors of \(B\) give the ellipsoid axes and
+\(\sigma_i(B)\) give their semiaxis lengths. Also
+\[
+\operatorname{vol}(\mathcal E)
+=\operatorname{vol}(\mathbb B_n)|\det B|
+=\frac{\operatorname{vol}(\mathbb B_n)}{\sqrt{\det S}}
+\]
+Under an invertible affine map \(y=Mx+d\), the center and quadratic
+matrix transform as
+\[
+c_y=Mc+d,\qquad S_y=M^{-T}SM^{-1}
+\]
 
 \sub{Sensors:} if \(y=B^Tx\), then
 \[
@@ -868,6 +995,12 @@ then reconstruct \(S\), verify \(S\succ0\), and assess
 \]
 The maximizing input is the top eigenvector of \(A^TA\); its output
 direction is the corresponding left singular vector.
+\[
+\|A\|=\max_{\|u\|=\|v\|=1}|u^TAv|
+\]
+Consequently every entry, row norm, and column norm is at most \(\|A\|\):
+\(|A_{ij}|\le\|A\|\), \(\|A^Te_i\|\le\|A\|\),
+\(\|Ae_j\|\le\|A\|\).
 
 \sub{Minimum gain:}
 \[
@@ -877,6 +1010,8 @@ direction is the corresponding left singular vector.
 It is zero iff \(\nullsp(A)\ne\{0\}\). For a square invertible matrix it
 is the smallest singular value and
 \(\|A^{-1}\|=1/\sigma_{\min}(A)\).
+Equality in the maximum/minimum gain bounds occurs at the corresponding
+right singular vectors.
 
 \sub{Gain bounds / norm properties:} for \(x\ne0\),
 \[
@@ -916,7 +1051,8 @@ It is the Euclidean norm of all entries, not the maximum gain.
 Thus \(A+\Delta A\) is invertible if \(\|A^{-1}\Delta A\|<1\).
 
 \sect{SVD (Lecture 17)}
-\sub{Thin SVD:} if \(A\in\R^{m\times n}\) has rank \(r\),
+\sub{Thin SVD:} every real matrix has an SVD. If
+\(A\in\R^{m\times n}\) has rank \(r\),
 \[
 A=U_r\Sigma_rV_r^T=\sum_{i=1}^r\sigma_i u_iv_i^T
 \]
@@ -931,6 +1067,26 @@ Columns of \(U_r,V_r\) are orthonormal, and
 \[
 Av_i=\sigma_i u_i,\qquad A^Tu_i=\sigma_i v_i
 \]
+For any input,
+\[
+Ax=\sum_{i=1}^r\sigma_i(v_i^Tx)u_i
+\]
+Thus \(v_i\) is an input direction, \(u_i\) its output direction, and
+\(\sigma_i\) its gain. The unit ball maps to an ellipsoid with semiaxes
+\(\sigma_i u_i\); right-nullspace directions collapse to zero.
+\[
+\|Ax\|^2=\sum_{i=1}^r\sigma_i^2(v_i^Tx)^2
+\]
+
+\sub{How to construct / recognize it:}
+\[
+A^TAv_i=\sigma_i^2v_i,\qquad
+u_i=\frac{Av_i}{\sigma_i}\quad(\sigma_i>0)
+\]
+Thus SVD comes from the symmetric EVD of \(A^TA\), but avoids squaring
+the matrix numerically in actual computation. Orthogonal changes of
+basis do not change singular values:
+\(\sigma_i(Q_1AQ_2)=\sigma_i(A)\).
 
 \sub{SVD and four spaces:}
 \[
@@ -952,6 +1108,14 @@ V\in\R^{n\times n}
 with orthogonal \(U,V\) and rectangular diagonal \(\Sigma\), whose first
 \(r\) entries are positive and the rest zero. It means: rotate by \(V^T\),
 scale/truncate/zero-pad by \(\Sigma\), then rotate by \(U\).
+\[
+\rank(A)=\#\{\sigma_i>0\},\quad
+\|A\|=\sigma_1,\quad \|A\|_F^2=\sum_i\sigma_i^2
+\]
+For square \(A\), \(|\det A|=\prod_i\sigma_i\).
+Tall full-column-rank means \(r=n\), every input direction has positive
+gain, and \(A\) is one-to-one. Wide full-row-rank means \(r=m\), every
+output is attainable, but \(n-m\) input directions lie in \(\nullsp(A)\).
 
 \sub{Symmetric case:} if \(A=A^T\), its singular values are the absolute
 eigenvalues, sorted by magnitude:
@@ -961,9 +1125,24 @@ eigenvalues, sorted by magnitude:
 For \(\lambda_i\ne0\), one choice is
 \(v_i=q_i,\ u_i=\operatorname{sign}(\lambda_i)q_i\).
 
+\sub{EVD versus SVD:} EVD applies to square \(A\), can require complex
+vectors, and can fail to diagonalize; it maps each eigenvector back onto
+itself with signed/complex factor \(\lambda_i\). SVD always exists,
+uses orthonormal input/output bases, and has nonnegative gains
+\(\sigma_i\). For symmetric \(A\succeq0\), they coincide:
+\(U=V=Q,\ \Sigma=\Lambda\).
+
 \sub{Moore--Penrose pseudoinverse:}
 \[
 A^\dagger=V_r\Sigma_r^{-1}U_r^T
+\]
+Special cases:
+\[
+\begin{gathered}
+\text{full column rank: }A^\dagger=(A^TA)^{-1}A^T,\\
+\text{full row rank: }A^\dagger=A^T(AA^T)^{-1},\\
+\text{invertible: }A^\dagger=A^{-1}
+\end{gathered}
 \]
 For every \(A,y\), \(A^\dagger y\) is the minimum-norm vector among all
 least-squares minimizers. All LS minimizers are
@@ -998,7 +1177,9 @@ Ordinary LS uses gain \(1/\sigma_i\); Tikhonov multiplies it by
 \(\sigma_i^2/(\sigma_i^2+\mu)\), strongly damping small-\(\sigma_i\)
 directions.
 
-\sub{Sensitivity / condition number:} for invertible \(A\),
+\sub{Sensitivity / condition number:} on the nonzero singular spectrum,
+\(\kappa=\sigma_1/\sigma_r\); rank deficiency gives
+\(\kappa=\infty\). For invertible \(A\),
 \[
 \kappa(A)=\|A\|\|A^{-1}\|
 =\frac{\sigma_{\max}}{\sigma_{\min}}\ge1
@@ -1009,7 +1190,9 @@ If \(Ax=y\) and only \(y\) is perturbed,
 \le\kappa(A)\frac{\|\delta y\|}{\|y\|}
 \]
 A small \(\sigma_{\min}\) means large noise amplification and proximity
-to singularity.
+to singularity. The bound is worst-case and is attained by aligned
+singular directions; roughly \(\log_{10}\kappa\) decimal digits can be
+lost.
 
 \sub{Best low-rank approximation:} truncate after \(k<r\):
 \[
@@ -1024,6 +1207,9 @@ Eckart--Young:
 \]
 \(\sigma_r\) is the operator-norm distance to rank \(<r\); for invertible
 square \(A\), \(\sigma_{\min}\) is distance to singularity.
+Singular values below the modeling/noise scale are not reliably
+distinguishable from zero; retaining only values above that floor gives
+an effective rank and a simpler model.
 
 \sub{Truncated-SVD inverse:}
 \[
@@ -1045,6 +1231,9 @@ S=\frac1N X_cX_c^T
 \]
 \(S=S^T\succeq0\). If data are stored as rows, use
 \(S=X_c^TX_c/N\) and transpose the singular-vector roles.
+Since centered columns sum to zero,
+\(\rank(X_c)\le\min(n,N-1)\). Without centering, the first component can
+mostly describe the mean rather than variation.
 
 \sub{Variance direction:} for unit \(v\),
 \[
@@ -1052,7 +1241,8 @@ S=\frac1N X_cX_c^T
 \]
 This is maximized by the top eigenvector \(u_1\) of \(S\), with value
 \(\lambda_1\). Subsequent PCs maximize variance subject to orthogonality.
-Total variance is
+The coordinate \(u_j^T(x_i-\bar x)\) is the score of sample \(i\) on
+component \(j\). Total variance is split among the PCs:
 \[
 \tr(S)=\sum_i\lambda_i=\frac1N\|X_c\|_F^2
 \]
@@ -1071,6 +1261,15 @@ For column-stored data the principal directions are left singular vectors
 z_i=U_k^T(x_i-\bar x),\qquad
 \hat x_i=\bar x+U_kz_i
 \]
+In matrix form,
+\[
+Z=U_k^TX_c=\Sigma_kV_k^T,\qquad
+\widehat X_c=U_kZ=U_kU_k^TX_c
+\]
+The score coordinates are centered and mutually uncorrelated:
+\[
+\frac1NZZ^T=\diag(\lambda_1,\ldots,\lambda_k)
+\]
 The optimal \(k\)-dimensional affine subspace passes through \(\bar x\)
 and uses the top PCs. Its mean-square reconstruction error is
 \[
@@ -1083,13 +1282,34 @@ Fraction of variance captured:
 \rho_k=\frac{\sum_{i=1}^k\lambda_i}{\sum_i\lambda_i}
 =\frac{\sum_{i=1}^k\sigma_i^2}{\sum_i\sigma_i^2}
 \]
+Pythagoras gives, sample by sample,
+\[
+\|x_c\|^2=\|U_kU_k^Tx_c\|^2+\|(I-U_kU_k^T)x_c\|^2
+\]
+so maximizing captured variance and minimizing perpendicular
+reconstruction error are the same problem. Equivalently,
+\(\widehat X_c=U_k\Sigma_kV_k^T\) is the best rank-\(k\) approximation.
+Reconstruction is exact once \(k\ge\rank(X_c)\).
+
+\sub{Choosing / interpreting \(k\):} use a target \(\rho_k\), a scree-plot
+elbow or spectral gap, and preferably validation for downstream error.
+Standardize coordinates first when incompatible units/scales should have
+equal importance; PCA itself is not scale invariant.
+PC signs are arbitrary. With repeated eigenvalues, the principal
+subspace is determined but an individual orthonormal basis inside it is
+not.
 
 \sub{Covariance ellipsoid / whitening:} for \(S\succ0\),
 \[
 (x-\bar x)^TS^{-1}(x-\bar x)\le\alpha
 \]
 has axes \(u_i\) and lengths \(\sqrt{\alpha\lambda_i}\). The whitened
-coordinate \(z=S^{-1/2}(x-\bar x)\) has identity covariance.
+coordinate \(z=S^{-1/2}(x-\bar x)\) has identity covariance, and
+\[
+\sqrt{(x-\bar x)^TS^{-1}(x-\bar x)}=\|z\|
+\]
+is Mahalanobis distance: distance from the mean measured in standard
+deviations rather than raw units.
 
 \sub{Small singular values:} for
 \(Y=[y_1\cdots y_N]\in\R^{m\times N}\), \(N\ge m\),
@@ -1100,6 +1320,35 @@ coordinate \(z=S^{-1/2}(x-\bar x)\) has identity covariance.
 The minimizing \(q\) is the bottom left singular vector; a small value
 reveals \(q^Ty_i\approx0\). Center for affine relations. Spectral gaps
 above the noise floor reveal effective dimension/source count.
+
+\sect{Projection--EVD--SVD--PCA Connections}
+\sub{One recurring operation:} resolve into coordinates, weight selected
+coordinates, then reconstitute:
+\[
+\begin{array}{c|c}
+\text{orthogonal projection}&P_Sx=\sum_i(u_i^Tx)u_i\\
+\text{symmetric EVD}&Ax=\sum_i\lambda_i(q_i^Tx)q_i\\
+\text{SVD}&Ax=\sum_i\sigma_i(v_i^Tx)u_i\\
+\text{PCA reconstruction}&\hat x=\bar x+\sum_{i=1}^k
+u_iu_i^T(x-\bar x)
+\end{array}
+\]
+A projector is a symmetric matrix whose EVD has only \(0\)'s and \(1\)'s.
+Symmetric EVD permits signed weights \(\lambda_i\); SVD uses nonnegative
+gains and different input/output directions. PCA applies symmetric EVD
+to covariance, equivalently SVD to centered data, then keeps the
+high-variance projectors.
+
+\sub{Which target is closest?}
+\[
+\begin{aligned}
+\text{LS output target }y &: AA^\dagger y\\
+\text{least-norm target }0 &: A^\dagger y\\
+\text{PCA centered target }x-\bar x &: U_kU_k^T(x-\bar x)
+\end{aligned}
+\]
+Always identify the ambient space first: \(AA^\dagger\in\R^{m\times m}\)
+projects outputs, while \(A^\dagger A\in\R^{n\times n}\) projects inputs.
 
 \sect{Homework 6--7 Patterns}
 \sub{Ellipsoid fitting check:} positivity of the fitted eigenvalues proves
@@ -1158,6 +1407,10 @@ for disjoint \(A,B\). Hence
 \(A,B\) are independent iff
 \(\Prob(A\cap B)=\Prob(A)\Prob(B)\), equivalently
 \(\Prob(A\mid B)=\Prob(A)\).
+For a disjoint exhaustive partition \(\{A_i\}\),
+\[
+\Prob(B)=\sum_i\Prob(B\mid A_i)\Prob(A_i)
+\]
 
 \sub{Distributions:} discrete PMF \(p(x)=\Prob(X=x)\),
 \(\sum_xp(x)=1\). Continuous PDF \(f(x)\ge0\),
@@ -1166,6 +1419,9 @@ for disjoint \(A,B\). Hence
 \]
 CDF \(F(t)=\Prob(X\le t)\) works in both cases; for a continuous variable,
 \(F'(t)=f(t)\) where differentiable.
+For a joint density \(f_{X,Y}\), marginalize via
+\(f_X(x)=\int f_{X,Y}(x,y)\,dy\), and
+\(f_{X\mid Y}(x\mid y)=f_{X,Y}(x,y)/f_Y(y)\).
 
 \sub{Common distributions:}
 \[
@@ -1190,6 +1446,7 @@ Also Poisson\((\lambda)\) has mean and variance \(\lambda\).
 \]
 Linearity never requires independence. The \(k\)th moment is \(\E X^k\);
 the \(k\)th central moment is \(\E[(X-\E X)^k]\).
+Tower property: \(\E X=\E[\E(X\mid Y)]\).
 
 \sub{Variance:}
 \[
@@ -1202,6 +1459,10 @@ the \(k\)th central moment is \(\E[(X-\E X)^k]\).
 \Var(X+Y)=\Var X+\Var Y+2\Cov(X,Y)
 \]
 For independent variables the covariance term is zero.
+Law of total variance:
+\[
+\Var(X)=\E[\Var(X\mid Y)]+\Var(\E[X\mid Y])
+\]
 
 \sub{Covariance / correlation:}
 \[
@@ -1220,13 +1481,27 @@ imply independence.
 \Sigma=\Cov(x)=\E[(x-\mu)(x-\mu)^T]\succeq0
 \]
 Diagonal entries are variances; off-diagonal entries are covariances.
+For every deterministic \(a\),
+\[
+a^T\Sigma a=\Var(a^Tx)\ge0
+\]
+which proves \(\Sigma\succeq0\) and links covariance eigenvectors to PCA.
 For deterministic \(A,b\),
 \[
 \E[Ax+b]=A\mu+b,\qquad
 \Cov(Ax+b)=A\Sigma A^T
 \]
+For cross-covariance
+\(\Sigma_{xy}=\E[(x-\mu_x)(y-\mu_y)^T]\),
+\(\Cov(Ax,By)=A\Sigma_{xy}B^T\).
 If independent \(x,w\), then
 \(\Cov(Ax+w)=A\Sigma_xA^T+\Sigma_w\).
+Useful quadratic expectations:
+\[
+\E\|x\|^2=\tr\Sigma+\|\mu\|^2,\qquad
+\E[x^TAx]=\tr(A\Sigma)+\mu^TA\mu
+\]
+for symmetric \(A\).
 
 \sub{Sample mean / limit theorems:} for independent identically
 distributed \(X_i\) with mean \(\mu\), variance \(\sigma^2\),
@@ -1244,10 +1519,29 @@ f(x)=\frac1{\sqrt{2\pi\sigma^2}}
 \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
 \]
 About \(68\%,95\%,99.7\%\) lies within \(1,2,3\) standard deviations.
+Standardizing gives \(Z=(X-\mu)/\sigma\sim\mathcal N(0,1)\).
 Affine transformations of jointly Gaussian vectors are jointly Gaussian.
 For jointly Gaussian variables, zero covariance implies independence.
 
+\sub{Multivariate Gaussian:} for \(\Sigma\succ0\),
+\[
+f(x)=\frac{\exp\!\left(-\tfrac12
+(x-\mu)^T\Sigma^{-1}(x-\mu)\right)}
+{(2\pi)^{n/2}\sqrt{\det\Sigma}}
+\]
+Equal-density contours are covariance ellipsoids. If
+\(z\sim\mathcal N(0,I)\), then
+\(x=\mu+\Sigma^{1/2}z\sim\mathcal N(\mu,\Sigma)\).
+
 \sect{Gaussian Conditioning / Practice Final}
+\sub{MMSE meaning:} among all functions \(g(y)\),
+\[
+\hat x_{\rm MMSE}(y)=\E[x\mid y]
+=\argmin_{g(y)}\E\!\left[\|x-g(y)\|^2\mid y\right]
+\]
+MAP instead maximizes the posterior density. Posterior mean and mode
+coincide for a Gaussian.
+
 \sub{Joint Gaussian conditioning:} if
 \[
 \begin{bmatrix}x\\y\end{bmatrix}\sim\mathcal N\left(
@@ -1264,6 +1558,16 @@ then
 \Sigma_{xx}-\Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{yx}
 \]
 The conditional covariance does not depend on the observed value \(y\).
+Moreover,
+\[
+\E[\|x-\hat x_{\rm MMSE}\|^2\mid y]=\tr(\Cov(x\mid y))
+\]
+For arbitrary variables with finite second moments, the same mean formula
+is the best affine estimator; it equals the full MMSE estimator when
+\((x,y)\) is jointly Gaussian. Its error obeys the orthogonality principle
+\[
+\E[(x-\hat x)(y-\mu_y)^T]=0
+\]
 
 \sub{Linear Gaussian model:} if
 \[
@@ -1284,6 +1588,17 @@ and the MMSE estimator is
 \hat x_{\rm MMSE}
 =\tau^2A^T(\tau^2AA^T+\sigma^2I)^{-1}y
 \]
+Its posterior covariance is
+\[
+\Sigma_{x\mid y}
+=\left(\tau^{-2}I+\sigma^{-2}A^TA\right)^{-1}
+\]
+Along right singular vector \(v_i\), the posterior variance is
+\[
+\Var(v_i^Tx\mid y)=
+\frac{\tau^2\sigma^2}{\sigma^2+\tau^2\sigma_i^2}
+\]
+Measurements reduce uncertainty most in high-gain singular directions.
 
 \sub{MMSE equals regularized LS:}
 \[
@@ -1291,6 +1606,12 @@ and the MMSE estimator is
 \boxed{\lambda=\sigma^2/\tau^2}
 \]
 Use \(B(I+CB)^{-1}=(I+BC)^{-1}B\) or the push-through identity.
+More generally, Gaussian \(x\sim\mathcal N(\mu_x,\Sigma_x)\) and
+\(w\sim\mathcal N(0,\Sigma_w)\) give both MAP and MMSE as the minimizer of
+\[
+(y-Ax)^T\Sigma_w^{-1}(y-Ax)
++(x-\mu_x)^T\Sigma_x^{-1}(x-\mu_x)
+\]
 
 \sub{MMSE shrinkage in SVD:} for \(A=U\Sigma V^T\),
 \[
@@ -1351,6 +1672,101 @@ x^TLx=\frac12\sum_{i,j}w_{ij}(x_i-x_j)^2\ge0
 Thus \(L\succeq0\), \(L\one=0\), and the multiplicity of eigenvalue zero
 equals the number of connected components. The graph is connected iff
 \(\nullsp(L)=\spn\{\one\}\), equivalently \(\lambda_2(L)>0\).
+
+\sect{Decomposition and Model Dictionaries}
+\sub{Which decomposition?}
+\(\textbf{QR}\) produces an orthonormal basis for \(\range(A)\) plus
+triangular coordinates; use it for stable solves and LS.
+\(\textbf{EVD}\) exposes invariant modes of a square map and simplifies
+\(A^k,f(A)\), but a full eigenbasis may not exist.
+\(\textbf{Symmetric EVD}\) always has an orthonormal basis; use it for
+quadratic forms, PSD tests, covariance, and ellipsoid axes.
+\(\textbf{SVD}\) works for every rectangular matrix and exposes gains,
+rank, four spaces, pseudoinverse, conditioning, and low-rank structure.
+\(\textbf{PCA}\) is not a separate factorization: center the data, then
+use the symmetric EVD of covariance or SVD of the centered matrix.
+
+\sub{Singular-direction filter dictionary:} let \(s_i>0\) be a singular
+value and \(d_i=u_i^Ty\). The coefficient on \(v_i\) is
+\[
+\begin{array}{c|c}
+\text{method}&v_i\text{ coefficient}\\ \hline
+\text{pseudoinverse}&d_i/s_i\\
+\text{TSVD at }k&d_i/s_i\ (i\le k),\ 0\ (i>k)\\
+\text{Tikhonov}&s_i d_i/(s_i^2+\mu)\\
+\text{Gaussian MMSE}&\tau^2s_i d_i/(\tau^2s_i^2+\sigma_w^2)
+\end{array}
+\]
+Relative to direct inversion, the last two shrink by
+\[
+\frac{s_i^2}{s_i^2+\mu},\qquad
+\frac{\tau^2s_i^2}{\tau^2s_i^2+\sigma_w^2}
+\]
+Small-\(s_i\) modes are precisely where inversion amplifies noise and
+regularization suppresses it.
+
+\sub{Ellipsoid dictionary:}
+\[
+\begin{gathered}
+\mathcal E=\{c+Bz:\|z\|\le1\}
+=\{x:(x-c)^TS(x-c)\le1\},\\
+S=(BB^T)^{-1}
+\end{gathered}
+\]
+Axes are the left singular vectors of \(B\), with lengths
+\(\sigma_i(B)\). For the covariance ellipsoid
+\((x-c)^T\Sigma^{-1}(x-c)\le\alpha\), one may take
+\[
+B=\sqrt\alpha\,\Sigma^{1/2},\qquad
+S=\alpha^{-1}\Sigma^{-1}
+\]
+Thus PCA eigenvectors give the axes, covariance eigenvalues give squared
+standard deviations, and Mahalanobis distance measures radius in these
+standardized coordinates.
+
+\sub{Four-space projector dictionary:} for thin
+\(A=U_r\Sigma_rV_r^T\),
+\[
+\begin{array}{c|c}
+\range(A)&AA^\dagger=U_rU_r^T\\
+\nullsp(A^T)&I-AA^\dagger=I-U_rU_r^T\\
+\range(A^T)&A^\dagger A=V_rV_r^T\\
+\nullsp(A)&I-A^\dagger A=I-V_rV_r^T
+\end{array}
+\]
+Hence
+\[
+\min_x\|Ax-y\|=\|(I-AA^\dagger)y\|,\qquad
+\hat y=AA^\dagger y
+\]
+Also
+\[
+(A^\dagger)^T=(A^T)^\dagger,\qquad
+\|A^\dagger\|=\frac1{\sigma_r}
+\]
+where \(\sigma_r\) is the smallest positive singular value.
+
+\sub{Closest-point proof:} verify \(p\in S\) and
+\(e=y-p\in S^\perp\). For every \(z\in S\), Pythagoras gives
+\[
+\|y-z\|^2=\|e+(p-z)\|^2
+=\|e\|^2+\|p-z\|^2\ge\|e\|^2
+\]
+so \(p\) is uniquely closest. For an affine set,
+\(P_{x_0+S}(y)=x_0+P_S(y-x_0)\).
+
+\sub{Singular-value perturbation:}
+\[
+|\sigma_i(A+E)-\sigma_i(A)|\le\|E\|
+\]
+
+\sub{Normal-equation conditioning:}
+\[
+\lambda_i(A^TA)=\sigma_i(A)^2,\qquad
+\kappa(A^TA)=\kappa(A)^2
+\]
+for full-column-rank \(A\). Normal equations square conditioning and can
+lose about twice as many digits; prefer QR or SVD numerically.
 
 \end{multicols*}
 \end{document}

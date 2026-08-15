@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.7.11)  13 AUG 2026 22:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.7.11)  14 AUG 2026 14:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -411,44 +411,44 @@ e
 \Gin@req@height=\dimen259
 \Gin@req@width=\dimen260
 )
-LaTeX Font Info:    Calculating math sizes for size <6.25> on input line 33.
+LaTeX Font Info:    Calculating math sizes for size <6.25> on input line 38.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 3
-3.
+8.
 
 (/usr/share/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 3
-3.
+8.
 
 (/usr/share/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-33.
+38.
 
 (/usr/share/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-33.
+38.
 
 (/usr/share/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6.25> on input line 33.
+(Font)              <6.25> on input line 38.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <4.37497> on input line 33.
+(Font)              <4.37497> on input line 38.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <3.125> on input line 33.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
+(Font)              <3.125> on input line 38.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 38.
 
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 38.
 
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -467,13 +467,13 @@ L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4732 strings out of 469515
- 71550 string characters out of 5470807
- 543693 words of memory out of 5000000
- 33322 multiletter control sequences out of 15000+600000
- 670438 words of font info for 67 fonts, out of 8000000 for 9000
+ 4735 strings out of 469515
+ 71594 string characters out of 5470807
+ 559694 words of memory out of 5000000
+ 33324 multiletter control sequences out of 15000+600000
+ 676408 words of font info for 69 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 63i,9n,70p,242b,265s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 63i,9n,70p,242b,267s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx6.pfb></usr/share/texmf-dist
 /fonts/type1/public/lm/lmbx7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/l
 mex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/share/te
@@ -483,7 +483,7 @@ re/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/share/texmf-dist/fonts/type
 1/public/lm/lmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbol
 s/msam7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pf
 b>
-Output written on ee263_final_cheatsheet.pdf (4 pages, 247827 bytes).
+Output written on ee263_final_cheatsheet.pdf (4 pages, 266507 bytes).
 PDF statistics:
  83 PDF objects out of 1000 (max. 8388607)
  52 compressed objects within 1 object stream
